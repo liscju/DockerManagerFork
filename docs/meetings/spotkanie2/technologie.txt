@@ -1,0 +1,25 @@
+- git
+- maven
+- gerrit?
+- travis/jenkins?
+
+Backend
+- spring
+- spring mvc
+- spring security(autoryzacja,zabezpieczenia moze OAuth)
+- spring jdbc/mybatis
+- mysql?/derby
+
+Testy
+- JUnit
+- Mockito
+- Selenium?
+
+Frontend
+- jsp
+- html
+- css
+- javascript
+
+- Bootstrap - html 
+- jQuery 

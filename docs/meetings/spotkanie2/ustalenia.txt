@@ -1,0 +1,33 @@
+Wirtualizacja:
+Docker
+Baza danych:
+Apache derby
+H2?
+Berkeley?
+Security:
+Spring Sec.
+CI:
+Jenkins?
+Potrzeba serwera
+
+Przypadki u¿ycia:
+
+1) Utworzenie u¿ytkownika.
+W przypadku tworzenia u¿ytkownika bezpoœrednio po instalacji systemu: administrator uruchamia skrypt podaj¹c logi i has³o u¿ytkownika z uprawnieniami administratora. U¿ytkownik jest tworzony bezpoœrednio w bazie danych. Dalsza administracja systemem mo¿e odbywaæ siê z wykorzystaniem danych podanych w skrypcie.
+1.1)Usuniêcie u¿ytkownika - z listy u¿ytkowników administrator wybiera u¿ytkownika oraz opcjê usuñ. Aplikacja usuwa zapisane konfiguracje i œrodowiska nale¿¹ce do danego u¿ytkownika.
+
+W przypadku tworzenia u¿ytkownika w dzia³aj¹cym systemie: zalogowanie siê administratora (u¿ytkownika z odpowiednimi uprawnieniami) do systemu, wejœcie w panel administracyjny, nadanie uprawnieñ, ustawienie loginu i has³a pocz¹tkowego i utworzenie u¿ytkownika.
+
+2)Logowanie do systemu. U¿ytkownicy loguj¹ siê do systemu z podaniem nazwy u¿ytkownika i has³a. Do loginu przypisany jest poziom uprawnieñ oraz zapisana konfiguracja. 
+
+3)Konfiguracja œrodowiska wirt.
+Zalogowany u¿ytkownik przechodzi do panelu konfiguracyjnego dockera. Obraz u¿yty do uruchomienia aplikacji jest jest wybierany na podstawie ustawieñ u¿ytkownika (wersja systemu, wersja serwera http, serwera aplikacyjnego, bazy danych).
+Panel zawiera opcje zapisania konfiguracji, uruchomienia aktualnej konfiguracji oraz wczytania konfiguracji zapisanej w bazie konfiguracji.
+
+4)Konfiguracja kontenera.
+W panelu konfiguracji kontenerów u¿ytkownik mo¿e przegl¹daæ kontenery znajduj¹ce siê na serwerze. Aplikacja mo¿e korzystaæ z Docker Hub do pobierania obrazów.  Panel konfiguracji zawiera zautomatyzowany edytor Dockerfili umo¿liwiaj¹cy tworzenie aplikacji i budowanie kontenerów na podstawie dyrektyw utworzonego Dockerfile. Utworzone kontenery mog¹ byæ wykorzystane przy konfiguracji œrodowiska.
+
+5)Uzyskanie informacji o stanie kontenera.
+U¿ytkownik wchodzi w panel zarz¹dzania dzia³aj¹cymi kontenerami. Aplikacja wyœwietla informacje diagnostyczne na temat dzia³ania kontenera (informacje sieciowe, obci¹¿enie uptime itd)
+
+6)Wy³¹czanie kontenera / œrodowiska. U¿ytkownik wchodzi w panel zarz¹dzania dzia³aj¹cymi kontenerami i wy³¹cza kontener. W wypadku œrodowisk sk³adaj¹cych siê   z wielu kontenerów mo¿liwe jest wy³¹czenie wszystkich kontenerów jednoczeœnie.
