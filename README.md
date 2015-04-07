@@ -8,5 +8,5 @@ and check application in web browser:
 http://localhost:8080/DockerManager/
 
 Default creadential to login:
-login: admin
-password: admin
+> login: admin
+> password: admin
