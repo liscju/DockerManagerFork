@@ -21,4 +21,19 @@ public class HomeController {
         return "home/index";
     }
 
+    @RequestMapping(value="/home/containers",method = RequestMethod.GET)
+    public String containers(ModelMap model) {
+        return "home/containers";
+    }
+
+    @RequestMapping(value="/home/about",method = RequestMethod.GET)
+    public String about(ModelMap model) {
+        return "home/about";
+    }
+
+    @RequestMapping(value="/home/contact",method = RequestMethod.GET)
+    public String contact(ModelMap model) {
+        return "home/contact";
+    }
+
 }
