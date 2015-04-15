@@ -13,7 +13,25 @@
   <div class="starter-template">
     <h1>DockerManager</h1>
 
-    <p class="lead">Containers of the application</p>
+    <p class="lead">Containers</p>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Image</th>
+      </tr>
+      </thead>
+      <tbody>
+        <c:forEach var="container" items="${containers}">
+          <tr>
+            <td>${container.id}</td>
+            <td>${container.image}</td>
+          </tr>
+        </c:forEach>
+      </tbody>
+    </table>
+
   </div>
 </div>
 
