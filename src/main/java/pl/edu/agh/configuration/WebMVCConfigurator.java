@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.web.servlet.ViewResolver;
@@ -18,7 +19,6 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "pl.edu.agh")
-//@Import({ WebSecurityConfigurator.class })
 public class WebMVCConfigurator extends WebMvcConfigurerAdapter {
 
     @Bean
@@ -41,6 +41,16 @@ public class WebMVCConfigurator extends WebMvcConfigurerAdapter {
                 .build();
         return bean;
     }
+    
+    
+// Bean for persistent H2 database
+//    @Bean
+//	public DriverManagerDataSource dataSource() {
+//	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+//	    driverManagerDataSource.setDriverClassName("org.h2.Driver");
+//	    driverManagerDataSource.setUrl("jdbc:h2:file:db/dm_database");
+//	    return driverManagerDataSource;
+//	}
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
