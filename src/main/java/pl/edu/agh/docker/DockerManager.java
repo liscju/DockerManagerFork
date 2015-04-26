@@ -2,6 +2,7 @@ package pl.edu.agh.docker;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import com.github.dockerjava.api.DockerClient;
@@ -46,8 +47,10 @@ public class DockerManager {
 	}
 	
 	public void buildContainer(String dockerfile){
-		InputStream stream = new ByteArrayInputStream(dockerfile.getBytes());
+		InputStream stream = new ByteArrayInputStream(dockerfile.getBytes(Charset.forName("UTF-8")));
 		dockerClient.buildImageCmd(stream).exec();
 	}
+	
+	
 
 }

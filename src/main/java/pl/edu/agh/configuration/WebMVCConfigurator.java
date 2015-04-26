@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "pl.edu.agh")
+//@Import({ WebSecurityConfigurator.class })
 public class WebMVCConfigurator extends WebMvcConfigurerAdapter {
 
     @Bean
