@@ -15,11 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Import({ WebMVCConfigurator.class })
 public class WebSecurityConfigurator extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
-//    }
-    
+
     
 	@Autowired
 	private DataSource dataSource;
@@ -46,7 +42,7 @@ public class WebSecurityConfigurator extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 .defaultSuccessUrl("/home",true)
-                .and()
+                 .and()
             .httpBasic();
     }
 }
