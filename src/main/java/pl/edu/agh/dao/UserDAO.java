@@ -31,4 +31,30 @@ public class UserDAO {
         return user;
     	
     }
+    
+    public void deleteUser(String name){
+    	getTemplate().update("DELETE FROM USERS WHERE NAME=?",name);
+    }
+    
+    public void insertUser(String name,String password,String role,int enabled){
+    	getTemplate().update("INSERT INTO USERS (NAME,PASSWORD,ROLE,ENABLED)  VALUES (?,?,?,?);",name,password,role,enabled);
+    }
+    
+    public void updateUser(String name,String password,String role,int enabled){
+    	getTemplate().update("UPDATE USERS SET password=?,role=?,enabled=?  where name=?;",password,role,enabled,name);
+    }
+    
+    public void updateUserPassword(String name,String password){
+    	getTemplate().update("UPDATE USERS SET password=? where name=?;",password,name);
+    }
+    
+    public void updateUserRole(String name,String role){
+    	getTemplate().update("UPDATE USERS SET role=? where name=?;",role,name);
+    }
+    public void updateUserEnabled(String name,int enabled){
+    	getTemplate().update("UPDATE USERS SET enabled=? where name=?;",enabled,name);
+    }
+    
+    
+    
 }
