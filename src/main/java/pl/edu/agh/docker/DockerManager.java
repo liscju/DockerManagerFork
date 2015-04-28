@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 
+
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.api.model.SearchItem;
@@ -12,11 +13,18 @@ import com.github.dockerjava.api.model.Volume;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 
+
+
 public class DockerManager {
 	
 	private DockerClient dockerClient;
 	private String instanceAddress;
 	private List<CreateContainerResponse> containers;
+	
+
+	public DockerManager(){
+		
+	}
 	
 	public DockerManager(String address){
 		instanceAddress=address;

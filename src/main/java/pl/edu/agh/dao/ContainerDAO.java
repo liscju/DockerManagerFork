@@ -39,8 +39,8 @@ public class ContainerDAO {
     	getTemplate().update("DELETE FROM CONTAINERS WHERE CONTAINER_ID=?",container_id);
     }
     
-    public void insertContainer(int container_id,String image){
-    	getTemplate().update("INSERT INTO CONTAINERS (CONTAINER_ID, CONTAINER_IMAGE)  VALUES (?,?);",container_id,image);
+    public void insertContainer(String image){
+    	getTemplate().update("INSERT INTO CONTAINERS (CONTAINER_IMAGE)  VALUES (?);",image);
     }
     
     public void updateContainer(int container_id,String image){
