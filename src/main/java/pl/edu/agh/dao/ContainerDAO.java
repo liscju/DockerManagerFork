@@ -8,6 +8,7 @@ import pl.edu.agh.mapper.ContainerMapper;
 import pl.edu.agh.model.Container;
 
 import javax.sql.DataSource;
+
 import java.util.List;
 
 @Repository
@@ -27,6 +28,25 @@ public class ContainerDAO {
     }
     
     
+    public Container getContainer(int container_id){
+        Container container = getTemplate().queryForObject("SELECT CONTAINER_ID,CONTAINER_IMAGE FROM CONTAINERS WHERE CONTAINER_ID=?",
+        		new Object[]{container_id},
+                new ContainerMapper());
+        return container;
+    }
+    
+    public void deleteContainer(int container_id){
+    	getTemplate().update("DELETE FROM CONTAINERS WHERE CONTAINER_ID=?",container_id);
+    }
+    
+    public void insertContainer(int container_id,String image){
+    	getTemplate().update("INSERT INTO CONTAINERS (CONTAINER_ID, CONTAINER_IMAGE)  VALUES (?,?);",container_id,image);
+    }
+    
+    public void updateContainer(int container_id,String image){
+    	getTemplate().update("UPDATE CONTAINERS SET CONTAINER_IMAGE=?  where CONTAINER_ID=?;",image,container_id);
+    }
+
     
     
 }
