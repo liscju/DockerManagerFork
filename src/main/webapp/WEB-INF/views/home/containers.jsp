@@ -5,6 +5,7 @@
   <title>DockerManager Containers</title>
   <%@ include file="/resources/html/includes.html" %>
   <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet"/>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/containers_main.js"></script>
 </head>
 <body>
 <%@ include file="/resources/html/menu.html" %>
@@ -33,6 +34,15 @@
     </table>
 
   </div>
+
+  <button id="show_hide_add_container" class="btn btn-default">Show/Hide</button>
+  <form role="form" id="add_container" method="post">
+    <div class="form-group">
+      <label for="container_image">Image:</label>
+      <input type="text" class="form-control" id="containerImage" name="containerImage" placeholder="Enter image">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
 </div>
 
 </body>

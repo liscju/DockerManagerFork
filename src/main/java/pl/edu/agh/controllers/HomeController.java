@@ -29,13 +29,6 @@ public class HomeController {
         return "home/index";
     }
 
-    @RequestMapping(value="/home/containers",method = RequestMethod.GET)
-    public String containers(ModelMap model) {
-        List<Container> containers = containerDAO.getUserContainers();
-        model.addAttribute("containers",containers);
-        return "home/containers";
-    }
-
     @RequestMapping(value="/home/about",method = RequestMethod.GET)
     public String about(ModelMap model) {
         return "home/about";
