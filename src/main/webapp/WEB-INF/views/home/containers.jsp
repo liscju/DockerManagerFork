@@ -28,6 +28,7 @@
           <tr>
             <td>${container.id}</td>
             <td>${container.image}</td>
+            <td><a href="${pageContext.request.contextPath}/home/containers/${container.id}">Show details</a></td>
           </tr>
         </c:forEach>
       </tbody>
