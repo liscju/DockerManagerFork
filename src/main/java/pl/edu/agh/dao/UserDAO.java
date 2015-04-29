@@ -3,13 +3,16 @@ package pl.edu.agh.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 import pl.edu.agh.mapper.UserMapper;
 import pl.edu.agh.model.User;
+
 import javax.sql.DataSource;
+
 import java.util.List;
 
 @Repository
-public class UserDAO {
+public class UserDAO  {
 
     @Autowired
     private DataSource dataSource;
@@ -54,6 +57,8 @@ public class UserDAO {
     public void updateUserEnabled(String name,int enabled){
     	getTemplate().update("UPDATE USERS SET enabled=? where name=?;",enabled,name);
     }
+
+
     
     
     

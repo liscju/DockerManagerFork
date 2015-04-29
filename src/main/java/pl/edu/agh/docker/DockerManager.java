@@ -14,7 +14,6 @@ import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 
 
-
 public class DockerManager {
 	
 	private DockerClient dockerClient;
