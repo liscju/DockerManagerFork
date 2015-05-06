@@ -1,66 +1,58 @@
 package pl.edu.agh.dao;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import pl.edu.agh.mapper.UserMapper;
 import pl.edu.agh.model.User;
 
 import javax.sql.DataSource;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
 public class UserDAO  {
 
     @Autowired
-    private DataSource dataSource;
-
-    private JdbcTemplate getTemplate() {
-        return new JdbcTemplate(dataSource);
-    }
+    private SessionFactory sessionFactory;
 
     public List<User> getUsers() {
-        List<User> users = getTemplate().query("SELECT NAME,PASSWORD,ROLE,ENABLED FROM USERS",
-                new UserMapper());
-        return users;
+        Session currentSession = sessionFactory.openSession();
+        Query query = currentSession.createQuery("from User");
+        List<User> all_users = query.list();
+        currentSession.close();
+        return all_users;
     }
     
     public User getUser(String name){
-        List<User> query = getTemplate().query("SELECT NAME,PASSWORD,ROLE,ENABLED FROM USERS WHERE NAME=?",
-                new UserMapper(),
-                new Object[]{name});
+        Session session = sessionFactory.openSession();
+        List<User> users = new LinkedList<User>();
 
-        if (query.size() > 0)
-            return query.get(0);
-        else
+        users = session
+                .createQuery("from User where name=?")
+                .setParameter(0, name)
+                .list();
+
+        session.close();
+        if (users.size() > 0) {
+            return users.get(0);
+        } else {
             return null;
+        }
     }
     
-    public void deleteUser(String name){
-    	getTemplate().update("DELETE FROM USERS WHERE NAME=?",name);
+    public void insertUser(String name,String password,String role,boolean enabled){
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.save(new User(name, password,role, enabled));
+        tx.commit();
+        session.close();
     }
-    
-    public void insertUser(String name,String password,String role,int enabled){
-    	getTemplate().update("INSERT INTO USERS (NAME,PASSWORD,ROLE,ENABLED)  VALUES (?,?,?,?);",name,password,role,enabled);
-    }
-    
-    public void updateUser(String name,String password,String role,int enabled){
-    	getTemplate().update("UPDATE USERS SET password=?,role=?,enabled=?  where name=?;",password,role,enabled,name);
-    }
-    
-    public void updateUserPassword(String name,String password){
-    	getTemplate().update("UPDATE USERS SET password=? where name=?;",password,name);
-    }
-    
-    public void updateUserRole(String name,String role){
-    	getTemplate().update("UPDATE USERS SET role=? where name=?;",role,name);
-    }
-    public void updateUserEnabled(String name,int enabled){
-    	getTemplate().update("UPDATE USERS SET enabled=? where name=?;",enabled,name);
-    }
-
 
     public boolean existUser(String username) {
         return getUser(username) != null;

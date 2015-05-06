@@ -1,5 +1,6 @@
 package pl.edu.agh.configuration;
 
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -30,27 +31,11 @@ public class WebMVCConfigurator extends WebMvcConfigurerAdapter {
 
         return viewResolver;
     }
-
+    
     @Bean
-    public DataSource dataSource() {
-        DataSource bean = new EmbeddedDatabaseBuilder()
-                .setName("DockerManagerDB")
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript("db/schema.sql")
-                .addScript("db/initial_users.sql")
-                .build();
-        return bean;
+    public SessionFactory sessionFactory() {
+        return HibernateUtil.getSessionFactory();
     }
-    
-    
-// Bean for persistent H2 database
-//    @Bean
-//	public DriverManagerDataSource dataSource() {
-//	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-//	    driverManagerDataSource.setDriverClassName("org.h2.Driver");
-//	    driverManagerDataSource.setUrl("jdbc:h2:file:db/dm_database");
-//	    return driverManagerDataSource;
-//	}
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

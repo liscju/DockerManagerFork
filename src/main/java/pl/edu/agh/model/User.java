@@ -1,15 +1,33 @@
 package pl.edu.agh.model;
 
-public class User {
-    private String name;
-    private String password;
-    private String role;
-    private int enabled;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-    public User(String name, String password, String role, int enabled) {
+@Entity
+@Table(name = "Users")
+public class User {
+
+    @Id
+    private String name;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String role;
+
+    @Column(nullable = false)
+    private boolean enabled;
+
+    public User() {
+    }
+
+    public User(String name, String password,String role,boolean enabled) {
         this.name = name;
         this.password = password;
-        this.role=role;
+        this.role = role;
         this.enabled=enabled;
     }
 
@@ -20,12 +38,29 @@ public class User {
     public String getPassword() {
         return password;
     }
-    
-    public String getRole(){
-    	return role;
+
+    public String getRole() {
+        return role;
     }
-    
-    public int getEnabled(){
+
+    public boolean getEnabled(){
     	return enabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!name.equals(user.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }

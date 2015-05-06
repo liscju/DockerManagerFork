@@ -1,52 +1,59 @@
 package pl.edu.agh.dao;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import pl.edu.agh.mapper.DockerServerMapper;
 import pl.edu.agh.model.DockerServer;
-
+import javax.print.Doc;
 import javax.sql.DataSource;
-
 import java.util.List;
 
 @Repository
 public class DockerServerDAO {
 
     @Autowired
-    private DataSource dataSource;
-
-    private JdbcTemplate getTemplate() {
-        return new JdbcTemplate(dataSource);
-    }
+    private SessionFactory sessionFactory;
 
     public List<DockerServer> getDockerServers() {
-        List<DockerServer> servers = getTemplate().query("SELECT SERVER_ID,SERVER_NAME,SERVER_ADDRESS FROM DOCKER_SERVERS",
-                new DockerServerMapper());
-        return servers;
+        Session currentSession = sessionFactory.openSession();
+        List<DockerServer> docker_servers = currentSession.createCriteria(DockerServer.class).list();
+        currentSession.close();
+
+        return docker_servers;
     }
     
     
     public DockerServer getDockerServer(int id){
-        DockerServer server = getTemplate().queryForObject("SELECT SERVER_ID,SERVER_NAME,SERVER_ADDRESS from DOCKER_SERVERS WHERE SERVER_ID=?",
-        		new Object[]{id},
-                new DockerServerMapper());
-        return server;
+        Session currentSession = sessionFactory.openSession();
+        DockerServer dockerServer = (DockerServer) currentSession.get(DockerServer.class, id);
+        currentSession.close();
+
+        return dockerServer;
     }
     
     public void deleteServer(int id){
-    	getTemplate().update("DELETE FROM DOCKER_SERVERS WHERE SERVER_ID=?",id);
+        Session currentSession = sessionFactory.openSession();
+        Transaction transaction = currentSession.beginTransaction();
+
+        DockerServer serverToDelete = getDockerServer(id);
+        currentSession.delete(serverToDelete);
+
+        transaction.commit();
+        currentSession.close();
     }
     
     public void insertServer(String name,String address){
-    	getTemplate().update("INSERT INTO DOCKER_SERVERS (SERVER_NAME,SERVER_ADDRESS)  VALUES (?,?);",name,address);
-    }
-    
-    public void updateServer(int id ,String name,String address){
-    	getTemplate().update("UPDATE DOCKER_SERVERS SET SERVER_NAME=?,SERVER_ADDRESS=?  where SERVER_ID=?;",name,address,id);
-    }
+        Session currentSession = sessionFactory.openSession();
+        Transaction transaction = currentSession.beginTransaction();
 
-    
+        DockerServer serverToInsert = new DockerServer(0,name,address);
+        currentSession.save(serverToInsert);
+
+        transaction.commit();
+        currentSession.close();
+    }
     
 }

@@ -6,14 +6,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.edu.agh.controllers.api.CustomController;
 import pl.edu.agh.dao.UserDAO;
 
 @Controller
 @RequestMapping("/")
-public class LoginController {
-
-    @Autowired
-    UserDAO userDAO;
+public class LoginController extends CustomController {
 
     @RequestMapping(value="/login",method = RequestMethod.GET)
     public String login(ModelMap model) {
@@ -36,7 +34,7 @@ public class LoginController {
             modelMap.addAttribute("bad_registration_info", "User already exist");
             return "authentication/register";
         } else {
-            userDAO.insertUser(username,password,"user",1);
+            userDAO.insertUser(username,password,"user",true);
             modelMap.addAttribute("login_message", "You have succesfully registered account,you can now login with your credentials");
             return "authentication/login";
         }
