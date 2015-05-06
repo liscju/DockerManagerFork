@@ -9,7 +9,6 @@ import pl.edu.agh.model.User;
 
 public class UserMapper implements RowMapper<User>{
 
-	@Override
     public User mapRow(ResultSet resultSet, int i) throws SQLException {
         String name = resultSet.getString("NAME");
         String password = resultSet.getString("PASSWORD");

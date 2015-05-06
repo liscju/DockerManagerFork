@@ -7,8 +7,10 @@
 </head>
 <body>
 <div class="container">
-
-  <form class="form-signin" method="post">
+  <div class="login_message">
+      ${login_message}
+  </div>
+  <form class="form-signin" action="${pageContext.request.contextPath}/login" method="post">
     <h2 class="form-signin-heading">Please log in</h2>
     <label for="username" class="sr-only">Username</label>
     <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
@@ -17,6 +19,10 @@
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
   </form>
+
+  <div>
+      <a class="register_link" href="${pageContext.request.contextPath}/register">Or register if you dont have an account</a>
+  </div>
 
 </div>
 <!-- /container -->

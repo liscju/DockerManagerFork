@@ -28,11 +28,14 @@ public class UserDAO  {
     }
     
     public User getUser(String name){
-        User user = getTemplate().queryForObject("SELECT NAME,PASSWORD,ROLE,ENABLED FROM USERS WHERE USERNAME=?",
-        		new Object[]{name},
-                new UserMapper());
-        return user;
-    	
+        List<User> query = getTemplate().query("SELECT NAME,PASSWORD,ROLE,ENABLED FROM USERS WHERE NAME=?",
+                new UserMapper(),
+                new Object[]{name});
+
+        if (query.size() > 0)
+            return query.get(0);
+        else
+            return null;
     }
     
     public void deleteUser(String name){
@@ -59,7 +62,7 @@ public class UserDAO  {
     }
 
 
-    
-    
-    
+    public boolean existUser(String username) {
+        return getUser(username) != null;
+    }
 }
