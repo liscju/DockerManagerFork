@@ -13,7 +13,7 @@ public class DockerServer {
 	}
 	
 	
-	public int getID(){
+	public int getServerID(){
 		return serverID;
 	}
 	

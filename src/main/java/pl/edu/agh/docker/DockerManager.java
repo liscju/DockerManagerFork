@@ -3,7 +3,10 @@ package pl.edu.agh.docker;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import pl.edu.agh.docker.InfoItem;
 
 
 import com.github.dockerjava.api.DockerClient;
@@ -20,6 +23,14 @@ public class DockerManager {
 	private String instanceAddress;
 	private List<CreateContainerResponse> containers;
 	
+	
+	
+	public void main(String[] args){
+		DockerManager dm=new DockerManager("http://127.0.0.1:2375");
+		System.out.println(dm.getInfo());
+		
+	}
+	
 
 	public DockerManager(){
 		
@@ -33,6 +44,33 @@ public class DockerManager {
 	
 	public Info getInfo(){
 		return dockerClient.infoCmd().exec();
+	}
+	
+	public List<InfoItem> getInfoAsList(){
+		String tmp;
+		List<String> tmplist;
+		Info info = getInfo();
+		List<InfoItem> items= new ArrayList<InfoItem>();
+		try{
+		items.add(new InfoItem("Containers",Integer.toString(info.getContainers())));
+		items.add(new InfoItem("Images",Integer.toString(info.getImages())));
+		items.add(new InfoItem("IPv4 Forwarding",info.getIPv4Forwarding()));
+		items.add(new InfoItem("Kernel",info.getKernelVersion()));
+
+
+		items.add(new InfoItem("Driver",info.getDriver()));
+
+		Iterator it = info.getDriverStatuses().iterator();
+		while (it.hasNext()){
+			tmplist=(List<String>) it.next();
+			
+			items.add(new InfoItem(tmplist.get(0),tmplist.get(1)));
+		}
+		}catch (Exception e){
+			items.add(new InfoItem("Cannot Retrieve Data","Check connection!"));
+		}
+
+		return items;
 	}
 	
 	public List<SearchItem> searchForImage(String name){
