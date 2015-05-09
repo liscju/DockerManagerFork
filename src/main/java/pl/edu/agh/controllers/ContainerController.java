@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import pl.edu.agh.dao.ContainerDAO;
+import pl.edu.agh.docker.DockerManager;
 import pl.edu.agh.model.Container;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class ContainerController {
 
     @Autowired
     ContainerDAO containerDAO;
+    DockerManager dockerManager;
 
     @RequestMapping(value="/home/containers",method = RequestMethod.GET)
     public String containers(ModelMap model) {
@@ -28,8 +31,11 @@ public class ContainerController {
 
     @RequestMapping(value="/home/containers",method = RequestMethod.POST)
     public String add_container(ModelMap model,@RequestParam("containerImage") String containerImageToAdd) {
-        containerDAO.insertContainer(containerImageToAdd);
-        return "redirect:/home/containers";
+    	dockerManager=new DockerManager("http://127.0.0.1:2375");
+        model.addAttribute("sItems",dockerManager.searchForImage(containerImageToAdd));
+        //containerDAO.insertContainer(containerImageToAdd);
+        //return "redirect:/home/containers";
+        return "/home/containers";
     }
 
     @RequestMapping(value = "/home/containers/{containerId}", method=RequestMethod.GET)

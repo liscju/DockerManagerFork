@@ -35,6 +35,7 @@
     </table>
 
   </div>
+  
 
   <button id="show_hide_add_container" class="btn btn-default">Show/Hide</button>
   <form role="form" id="add_container" method="post">
@@ -45,6 +46,32 @@
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
 </div>
+
+  <div class="search-result">
+
+	<c:if test="${not empty sItems}">
+
+	<table class="table">
+      <thead>
+      <tr>
+        <th>Image</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+        <c:forEach var="item" items="${sItems}">
+          <tr>
+            <td>${item.name}</td>
+            <td>${item.description}</td>
+          </tr>
+        </c:forEach>
+      </tbody>
+    </table>
+    
+    </c:if>
+
+</div>
+
 
 </body>
 </html>

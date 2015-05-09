@@ -76,6 +76,9 @@ public class DockerManager {
 		return dockerClient.searchImagesCmd(name).exec();
 	}
 	
+	
+	
+	
 	public CreateContainerResponse  createContainer(String name,String[] commands,Volume[] volumes){
 		CreateContainerResponse newContainer=dockerClient.createContainerCmd(name).withCmd(commands).withVolumes(volumes).exec();
 		containers.add(newContainer);
