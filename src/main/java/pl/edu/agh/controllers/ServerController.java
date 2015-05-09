@@ -3,6 +3,7 @@ package pl.edu.agh.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,9 +33,19 @@ public class ServerController {
     }
 
     @RequestMapping(value="/home/servers",method = RequestMethod.POST)
-    public String add_container(ModelMap model,@RequestParam("name") String name,@RequestParam("address") String address) {
+    public String add_server(ModelMap model,@RequestParam("name") String name,@RequestParam("address") String address) {
     	dockerServerDAO.insertServer(name, address);
         return "redirect:/home/servers";
+    }
+    
+
+    @RequestMapping(value = "/home/servers/{serverID}",method = RequestMethod.POST)
+    public String perform_action(ModelMap model,@PathVariable String serverID,@RequestParam("action") String action) {
+    	if (action.equals("delete")){
+    		dockerServerDAO.deleteServer(Integer.parseInt(serverID));
+            return "redirect:/home/servers";
+    	}
+        return "/home/server_details";
     }
 
     @RequestMapping(value = "/home/servers/{serverID}", method=RequestMethod.GET)

@@ -16,6 +16,16 @@
 
     <p class="lead">Server id: ${serverID}, name: ${name}, address: ${address}</p>
 	${error}	
+	
+	<form role="form" id="change_server" method="post">
+	  	<select name="action">
+		    <option value="delete">delete server</option>
+		    <option value="2">2</option>
+		    <option value="3">3</option>
+	  	</select>
+	  	<input type="submit" value="Submit">
+	</form>
+	
 	<table class="table">
       <thead>
       <tr>

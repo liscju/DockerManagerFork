@@ -47,7 +47,6 @@ public class DockerManager {
 	}
 	
 	public List<InfoItem> getInfoAsList(){
-		String tmp;
 		List<String> tmplist;
 		Info info = getInfo();
 		List<InfoItem> items= new ArrayList<InfoItem>();

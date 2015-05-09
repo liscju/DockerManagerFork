@@ -35,7 +35,7 @@ public class DockerServerDAO {
         return server;
     }
     
-    public void deleteContainer(int id){
+    public void deleteServer(int id){
     	getTemplate().update("DELETE FROM DOCKER_SERVERS WHERE SERVER_ID=?",id);
     }
     
