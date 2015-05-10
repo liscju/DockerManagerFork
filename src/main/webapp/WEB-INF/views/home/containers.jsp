@@ -61,8 +61,12 @@
       <tbody>
         <c:forEach var="item" items="${sItems}">
           <tr>
-            <td>${item.name}</td>
+            <td>              <form  id="pull_container" method="post">
+			    <input type="submit" class="btn btn-default" value="${item.name}" id="to_pull" name="to_pull">
+			  </form>
+			</td>
             <td>${item.description}</td>
+            
           </tr>
         </c:forEach>
       </tbody>

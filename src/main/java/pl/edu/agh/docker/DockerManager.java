@@ -4,10 +4,21 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import pl.edu.agh.docker.InfoItem;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+import pl.edu.agh.configuration.WebMVCConfigurator;
+import pl.edu.agh.dao.DockerServerDAO;
+import pl.edu.agh.docker.InfoItem;
+import pl.edu.agh.model.DockerServer;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Info;
@@ -17,24 +28,28 @@ import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 
 
+
 public class DockerManager {
+	
+
+	private DockerServerDAO dockerServerDAO;
+
 	
 	private DockerClient dockerClient;
 	private String instanceAddress;
 	private List<CreateContainerResponse> containers;
-	
-	
-	
-	public void main(String[] args){
-		DockerManager dm=new DockerManager("http://127.0.0.1:2375");
-		System.out.println(dm.getInfo());
-		
-	}
+	private HashMap<Integer,DockerClient> dockerServers;
 	
 
-	public DockerManager(){
-		
-	}
+	
+//	public void main(String[] args){
+//		DockerManager dm=new DockerManager("http://127.0.0.1:2375");
+//		System.out.println(dm.getInfo());
+//		
+//	}
+//	
+
+
 	
 	public DockerManager(String address){
 		instanceAddress=address;
@@ -98,6 +113,8 @@ public class DockerManager {
 		dockerClient.buildImageCmd(stream).exec();
 	}
 	
-	
+	public void pullContainer(String container){
+		dockerClient.pullImageCmd(container);
+	}
 
 }
