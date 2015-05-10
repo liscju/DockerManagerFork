@@ -52,6 +52,7 @@ public class ServerController {
     public String getOrder(@PathVariable String serverID,ModelMap model){
     	List<InfoItem> items=null;
         DockerServer server = dockerServerDAO.getDockerServer(Integer.parseInt(serverID));
+                
         model.addAttribute("serverID",server.getServerID());
         model.addAttribute("name", server.getName());
         model.addAttribute("address", server.getAddress());

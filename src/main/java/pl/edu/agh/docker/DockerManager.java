@@ -114,7 +114,7 @@ public class DockerManager {
 	}
 	
 	public void pullContainer(String container){
-		dockerClient.pullImageCmd(container);
+		dockerClient.pullImageCmd(container).exec();
 	}
 
 }
