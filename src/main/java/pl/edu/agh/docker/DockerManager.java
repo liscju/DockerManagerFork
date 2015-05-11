@@ -30,27 +30,13 @@ import com.github.dockerjava.api.command.CreateContainerResponse;
 
 
 public class DockerManager {
-	
-
 	private DockerServerDAO dockerServerDAO;
-
 	
 	private DockerClient dockerClient;
 	private String instanceAddress;
 	private List<CreateContainerResponse> containers;
 	private HashMap<Integer,DockerClient> dockerServers;
-	
 
-	
-//	public void main(String[] args){
-//		DockerManager dm=new DockerManager("http://127.0.0.1:2375");
-//		System.out.println(dm.getInfo());
-//		
-//	}
-//	
-
-
-	
 	public DockerManager(String address){
 		instanceAddress=address;
 		dockerClient=DockerClientBuilder.getInstance(instanceAddress).build();

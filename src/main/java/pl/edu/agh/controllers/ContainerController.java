@@ -1,6 +1,7 @@
 package pl.edu.agh.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,7 +27,9 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("/")
 public class ContainerController extends CustomController {
-    private DockerManager dockerManager;
+
+    @Value("${docker.server.address}")
+    private String dockerServerAddress;
 
     @RequestMapping(value="/home/containers",method = RequestMethod.GET)
     public String containers(ModelMap model) {
@@ -40,7 +43,7 @@ public class ContainerController extends CustomController {
     public String search_container(ModelMap model,@RequestParam(value="containerImage",required=false) String containerImageToAdd, 
     		@RequestParam(value="to_pull",required=false)  String container) {
 
-    	dockerManager=new DockerManager("http://127.0.0.1:2375");
+        DockerManager dockerManager=new DockerManager(dockerServerAddress);
     	if(containerImageToAdd!=null){
 	        model.addAttribute("sItems",dockerManager.searchForImage(containerImageToAdd));
     	}

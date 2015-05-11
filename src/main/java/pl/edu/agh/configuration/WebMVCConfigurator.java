@@ -1,10 +1,13 @@
 package pl.edu.agh.configuration;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -35,6 +38,16 @@ public class WebMVCConfigurator extends WebMvcConfigurerAdapter {
     @Bean
     public SessionFactory sessionFactory() {
         return HibernateUtil.getSessionFactory();
+    }
+
+    @Bean
+    public static PropertyPlaceholderConfigurer properties(){
+        PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
+        ClassPathResource[] resources = new ClassPathResource[ ]
+                { new ClassPathResource( "app.properties" ) };
+        ppc.setLocations( resources );
+        ppc.setIgnoreUnresolvablePlaceholders(true);
+        return ppc;
     }
 
     @Override
