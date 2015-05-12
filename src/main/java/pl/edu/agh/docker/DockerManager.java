@@ -1,6 +1,7 @@
 package pl.edu.agh.docker;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -10,6 +11,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.github.dockerjava.api.command.ExecCreateCmdResponse;
+import com.github.dockerjava.api.command.InspectImageResponse;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -111,6 +115,32 @@ public class DockerManager {
 	public void deleteContainer(String id){
 		dockerClient.removeImageCmd(id).exec();
 	}
-	
 
+	public String runImageCommand(String image, String command) throws IOException {
+
+		// Polecenie ze sleep po to zeby kontener sie nie zamknal i zeby
+		// mozna bylo wydac na nim nastepne polecenie z commands,niestety
+		// ale przy tworzeniu kontenera nie mozna od razu wczytac jego wyjscia
+		// trudno powiedziec dlaczego(?) a ja po tylu godzinach robienia
+		// jestem zdesperowany
+		// Dziala tylko dla niektorych systemow
+		CreateContainerResponse containerResponse = dockerClient
+				.createContainerCmd(image)
+				.withCmd("sh", "-c", "while :; do sleep 1; done")
+				.exec();
+
+		String containerId = containerResponse.getId();
+		dockerClient.startContainerCmd(containerId).exec();
+		ExecCreateCmdResponse checkFileCmdCreateResponse = dockerClient.execCreateCmd(containerId)
+				.withAttachStdout()
+				.withAttachStderr()
+				.withCmd(command.split(" "))
+				.exec();
+
+		InputStream response1 = dockerClient.execStartCmd(containerId)
+				.withExecId(checkFileCmdCreateResponse.getId())
+				.exec();
+
+		return IOUtils.toString(response1);
+	}
 }

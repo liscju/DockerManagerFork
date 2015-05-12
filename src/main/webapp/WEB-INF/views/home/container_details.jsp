@@ -15,7 +15,7 @@
     <h1>DockerManager</h1>
 
     <p class="lead">Container id: ${id}, container name: ${image}</p>
-
+  </div>
 
 	<form role="form" id="manage" method="post">
 	  	<select name="action">
@@ -49,7 +49,14 @@
       </tbody>
     </table>
 
-  </div>
+    <form action="${pageContext.request.contextPath}/home/containers/run" method="POST">
+      <h2>Run command in image</h2>
+      <input type="hidden" name="container_image" value="${image}"/>
+      <input type="text" name="command" placeholder="Place for your command"></input>
+      <br>
+      <input type="submit"/>
+    </form>
+
 </div>
 
 </body>

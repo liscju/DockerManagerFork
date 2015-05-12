@@ -2,7 +2,6 @@ package pl.edu.agh.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,26 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Image;
 
-import pl.edu.agh.configuration.WebMVCConfigurator;
 import pl.edu.agh.dao.ContainerDAO;
-import pl.edu.agh.dao.DockerServerDAO;
 import pl.edu.agh.docker.DockerManager;
-import pl.edu.agh.docker.DockerManagerRepository;
-import pl.edu.agh.docker.InfoItem;
 import pl.edu.agh.model.Container;
-import pl.edu.agh.model.DockerServer;
 import pl.edu.agh.controllers.api.CustomController;
-import pl.edu.agh.model.Container;
 import pl.edu.agh.model.User;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
-
-import javax.annotation.Resource;
 
 @Controller
 @RequestMapping("/")
@@ -51,7 +40,7 @@ public class ContainerController extends CustomController {
     }
 
     @RequestMapping(value="/home/containers",method = RequestMethod.POST)
-    public String search_container(ModelMap model,@RequestParam(value="containerImage",required=false) String containerImageToAdd, 
+    public String search_container(ModelMap model,@RequestParam(value="containerImage",required=false) String containerImageToAdd,
     		@RequestParam(value="to_pull",required=false)  String container) {
         dockerManager=new DockerManager(dockerServerAddress);
         User user = getCurrentUser();
@@ -106,6 +95,23 @@ public class ContainerController extends CustomController {
         model.addAttribute("image", container.getImage());
         return "home/container_details";
     }
-    
+
+    @RequestMapping(value = "/home/containers/run",method = RequestMethod.POST)
+    public String run_container(ModelMap modelMap,
+                                @RequestParam("container_image") String container_image,
+                                @RequestParam("command") String command) {
+
+        DockerManager dockerManager=new DockerManager(dockerServerAddress);
+        String output = null;
+        try {
+            output = dockerManager.runImageCommand(container_image, command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        modelMap.addAttribute("container_image",container_image);
+        modelMap.addAttribute("output", output);
+        return "home/container_run";
+    }
 
 }
