@@ -21,6 +21,7 @@ import pl.edu.agh.docker.InfoItem;
 import pl.edu.agh.model.DockerServer;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.api.model.SearchItem;
 import com.github.dockerjava.api.model.Volume;
@@ -103,8 +104,8 @@ public class DockerManager {
 		dockerClient.pullImageCmd(container).withTag("latest").exec();
 	}
 	
-	public void listImages(){
-		dockerClient.listImagesCmd().exec();
+	public List<Image> listImages(){
+		return dockerClient.listImagesCmd().exec();
 	}
 	
 

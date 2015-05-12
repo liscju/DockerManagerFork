@@ -15,10 +15,31 @@
     <h1>DockerManager</h1>
 
     <p class="lead">Container id: ${id}, image: ${image}</p>
-
   </div>
-
 </div>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td>ID</td>
+            <td>${imageS.id}</td>
+          </tr>
+          <tr>
+            <td>Created</td>
+            <td>${created}</td>
+          </tr>
+          <tr>
+            <td>Size</td>
+            <td>${imageS.size}</td>
+          </tr>
+      </tbody>
+    </table>
 
 </body>
 </html>
