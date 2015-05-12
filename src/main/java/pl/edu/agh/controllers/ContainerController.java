@@ -44,6 +44,9 @@ public class ContainerController extends CustomController {
     		@RequestParam(value="to_pull",required=false)  String container) {
 
         DockerManager dockerManager=new DockerManager(dockerServerAddress);
+        User user = getCurrentUser();
+        List<Container> containers = containerDAO.getUserContainers(user);
+        model.addAttribute("containers",containers);
     	if(containerImageToAdd!=null){
 	        model.addAttribute("sItems",dockerManager.searchForImage(containerImageToAdd));
     	}

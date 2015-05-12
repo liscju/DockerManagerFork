@@ -100,7 +100,12 @@ public class DockerManager {
 	}
 	
 	public void pullContainer(String container){
-		dockerClient.pullImageCmd(container).exec();
+		dockerClient.pullImageCmd(container).withTag("latest").exec();
 	}
+	
+	public void listImages(){
+		dockerClient.listImagesCmd().exec();
+	}
+	
 
 }
