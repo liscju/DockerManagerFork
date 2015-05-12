@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Image;
 
 import pl.edu.agh.configuration.WebMVCConfigurator;
 import pl.edu.agh.dao.ContainerDAO;
+import pl.edu.agh.dao.DockerServerDAO;
 import pl.edu.agh.docker.DockerManager;
 import pl.edu.agh.docker.DockerManagerRepository;
 import pl.edu.agh.docker.InfoItem;
@@ -35,6 +37,10 @@ public class ContainerController extends CustomController {
 
     @Value("${docker.server.address}")
     private String dockerServerAddress;
+    
+    @Autowired
+    ContainerDAO containerDAO;
+    DockerManager dockerManager;
 
     @RequestMapping(value="/home/containers",method = RequestMethod.GET)
     public String containers(ModelMap model) {
@@ -47,7 +53,7 @@ public class ContainerController extends CustomController {
     @RequestMapping(value="/home/containers",method = RequestMethod.POST)
     public String search_container(ModelMap model,@RequestParam(value="containerImage",required=false) String containerImageToAdd, 
     		@RequestParam(value="to_pull",required=false)  String container) {
-        DockerManager dockerManager=new DockerManager(dockerServerAddress);
+        dockerManager=new DockerManager(dockerServerAddress);
         User user = getCurrentUser();
         List<Container> containers = containerDAO.getUserContainers(user);
         model.addAttribute("containers",containers);
@@ -63,6 +69,28 @@ public class ContainerController extends CustomController {
     	}
         return "/home/containers";
     }
+    
+    @RequestMapping(value = "/home/containers/{containerId}", method=RequestMethod.POST)
+    public String manupulateContainer(@PathVariable String containerId,ModelMap model,@RequestParam("action") String action){
+        dockerManager=new DockerManager(dockerServerAddress);
+    	if (action.equals("delete")){
+    		containerDAO.deleteContainer(Integer.parseInt(containerId)-1);
+            dockerManager.deleteContainer(containerId);
+
+            return "redirect:/home/containers";
+    	}
+//            else if (action.equals("create")){
+//    		CreateContainerResponse image = dockerManager.createContainer(containerDAO.getContainer(Integer.parseInt(containerId)-1).getImage(), null, null);
+//    		dockerManager.startContainer(image);
+//    	}
+    	
+    	
+		return "home/container_details";
+
+    }
+
+    
+    
 
     @RequestMapping(value = "/home/containers/{containerId}", method=RequestMethod.GET)
     public String getOrder(@PathVariable String containerId,ModelMap model){

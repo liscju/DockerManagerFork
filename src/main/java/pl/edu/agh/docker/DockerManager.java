@@ -108,5 +108,9 @@ public class DockerManager {
 		return dockerClient.listImagesCmd().exec();
 	}
 	
+	public void deleteContainer(String id){
+		dockerClient.removeImageCmd(id).exec();
+	}
+	
 
 }

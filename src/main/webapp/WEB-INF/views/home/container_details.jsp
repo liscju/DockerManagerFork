@@ -14,9 +14,17 @@
   <div class="starter-template">
     <h1>DockerManager</h1>
 
-    <p class="lead">Container id: ${id}, image: ${image}</p>
-  </div>
-</div>
+    <p class="lead">Container id: ${id}, container name: ${image}</p>
+
+
+	<form role="form" id="manage" method="post">
+	  	<select name="action">
+		    <option value="create">create image from container</option>
+		    <option value="delete">remove container</option>
+	  	</select>
+	  	<input type="submit" value="Submit">
+	</form>
+	
 
     <table class="table">
       <thead>
@@ -40,6 +48,9 @@
           </tr>
       </tbody>
     </table>
+
+  </div>
+</div>
 
 </body>
 </html>
