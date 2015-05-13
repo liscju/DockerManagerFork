@@ -47,11 +47,11 @@ public class ContainerDAO {
             return containers.get(0);
     }
     
-    public void insertContainer(String image,User owner){
+    public void insertContainer(String image,User owner, String onServer){
     	Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        Container containerToInsert = new Container(0,image,owner);
+        Container containerToInsert = new Container(0,image,owner,onServer);
         session.save(containerToInsert);
 
         transaction.commit();

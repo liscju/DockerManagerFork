@@ -65,7 +65,7 @@ public class ContainerController extends CustomController {
     	if(container!=null){
         	dockerManager.pullContainer(container);
 
-        	containerDAO.insertContainer(container,getCurrentUser());
+        	containerDAO.insertContainer(container,getCurrentUser(), saddress);
             return "redirect:/home/containers";
 
     	}
@@ -135,7 +135,7 @@ public class ContainerController extends CustomController {
         DockerManager dockerManager = new DockerManager(dockerServerAddress);
         try {
             dockerManager.createImageFromDockerFile(image_name,dockerfile);
-            containerDAO.insertContainer(image_name,getCurrentUser());
+            containerDAO.insertContainer(image_name,getCurrentUser(),dockerServerAddress);
         } catch (IOException e) {
             e.printStackTrace();
         }

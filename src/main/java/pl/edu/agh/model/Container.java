@@ -12,6 +12,9 @@ public class Container {
 
     @Column
     private String image;
+    
+    @Column
+    private String onServer;
 
     @ManyToOne
     @JoinColumn(name = "owner",referencedColumnName = "name")
@@ -20,10 +23,11 @@ public class Container {
     public Container() {
     }
 
-    public Container(int id, String image,User owner) {
+    public Container(int id, String image,User owner, String onServer) {
         this.id = id;
         this.image = image;
         this.owner = owner;
+        this.onServer=onServer;
     }
 
     public int getId() {
@@ -36,6 +40,10 @@ public class Container {
 
     public User getOwner() {
         return owner;
+    }
+    
+    public String getOnServer(){
+    	return onServer;
     }
 
     @Override
