@@ -35,11 +35,22 @@
     </table>
 
   </div>
-  
+
 
   <button id="show_hide_add_container" class="btn btn-default">Show/Hide</button>
-  <form role="form" id="add_container" method="post">
+  <form role="form" class="add_container" action="${pageContext.request.contextPath}/home/containers/add_image_from_dockerfile" method="post">
+    <h2>Create Image from dockerfile</h2>
+    Name<br>
+    <input type="text" name="image_name"/>
+    <br>
+    File<br>
+    <textarea rows="10" cols="80" name="dockerfile"></textarea>
+    <br>
+    <input type="submit"/>
+  </form>
+  <form role="form" class="add_container" method="post">
     <div class="form-group">
+      <h2>Search Image</h2>
       <label for="container_image">Image:</label>
       <input type="text" class="form-control" id="containerImage" name="containerImage" placeholder="Enter image">
     </div>

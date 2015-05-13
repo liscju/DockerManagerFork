@@ -114,4 +114,18 @@ public class ContainerController extends CustomController {
         return "home/container_run";
     }
 
+    @RequestMapping(value = "/home/containers/add_image_from_dockerfile",method = RequestMethod.POST)
+    public String add_image_from_dockerfile(ModelMap modelMap,
+                                            @RequestParam("image_name") String image_name,
+                                            @RequestParam("dockerfile") String dockerfile) {
+
+        DockerManager dockerManager = new DockerManager(dockerServerAddress);
+        try {
+            dockerManager.createImageFromDockerFile(image_name,dockerfile);
+            containerDAO.insertContainer(image_name,getCurrentUser());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/home/containers";
+    }
 }

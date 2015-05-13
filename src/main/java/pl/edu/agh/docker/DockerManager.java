@@ -1,9 +1,10 @@
 package pl.edu.agh.docker;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,8 +12,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.github.dockerjava.api.command.ExecCreateCmdResponse;
-import com.github.dockerjava.api.command.InspectImageResponse;
+import com.github.dockerjava.api.command.*;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +30,6 @@ import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.api.model.SearchItem;
 import com.github.dockerjava.api.model.Volume;
 import com.github.dockerjava.core.DockerClientBuilder;
-import com.github.dockerjava.api.command.CreateContainerResponse;
-
 
 
 public class DockerManager {
@@ -142,5 +140,32 @@ public class DockerManager {
 				.exec();
 
 		return IOUtils.toString(response1);
+	}
+
+	public void createImageFromDockerFile(String name,String content) throws IOException {
+		// Znowu mega obejscie.... , dockerClient.buildImageCmd oczekuje jako parametru
+		// albo InputStream ktory bedzie spakowany gzipem,zipem
+		// zobacz https://docs.docker.com/reference/api/docker_remote_api_v1.18/
+		// albo katalogu. Z inputstreamem probowalem, nie szlo
+		// nie mam cierpliwosci wiec zrobilem obejscie - ale ale wyglada ze dziala
+		Path dockerManagerDir = Files.createTempDirectory("dockerManagerDir");
+		File dockerFile = new File(dockerManagerDir.toString(),"Dockerfile");
+
+		System.out.println(dockerManagerDir.toString());
+		try {
+			PrintWriter printWriter = new PrintWriter(dockerFile);
+			printWriter.print(content);
+			printWriter.close();
+
+			dockerClient
+					.buildImageCmd(new File(dockerManagerDir.toString() ) )
+					.withNoCache()
+					.withTag(name)
+					.exec()
+					.close();
+		} finally {
+			dockerFile.delete();
+			new File(dockerManagerDir.toString() ).delete();
+		}
 	}
 }

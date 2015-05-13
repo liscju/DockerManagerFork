@@ -24,11 +24,11 @@ var container_view = {
     },
 
     hide_add_container_form : function() {
-        $("#add_container").hide();
+        $(".add_container").hide();
     },
 
     show_add_container_form : function() {
-        $("#add_container").show();
+        $(".add_container").show();
     }
 }
 
