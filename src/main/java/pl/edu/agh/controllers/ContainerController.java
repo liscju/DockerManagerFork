@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Image;
 
 import pl.edu.agh.dao.ContainerDAO;
+import pl.edu.agh.dao.DockerServerDAO;
 import pl.edu.agh.docker.DockerManager;
 import pl.edu.agh.model.Container;
+import pl.edu.agh.model.DockerServer;
 import pl.edu.agh.controllers.api.CustomController;
 import pl.edu.agh.model.User;
 
@@ -29,25 +32,35 @@ public class ContainerController extends CustomController {
     
     @Autowired
     ContainerDAO containerDAO;
+    @Autowired
+    DockerServerDAO dockerServerDAO;
     DockerManager dockerManager;
 
     @RequestMapping(value="/home/containers",method = RequestMethod.GET)
     public String containers(ModelMap model) {
         User user = getCurrentUser();
         List<Container> containers = containerDAO.getUserContainers(user);
+        List<DockerServer> servers = dockerServerDAO.getDockerServers();
+        model.addAttribute("servers",servers);
         model.addAttribute("containers",containers);
         return "home/containers";
     }
 
     @RequestMapping(value="/home/containers",method = RequestMethod.POST)
     public String search_container(ModelMap model,@RequestParam(value="containerImage",required=false) String containerImageToAdd,
-    		@RequestParam(value="to_pull",required=false)  String container) {
-        dockerManager=new DockerManager(dockerServerAddress);
+    		@RequestParam(value="to_pull",required=false)  String container, @RequestParam(value="serverToUse",required=false) String saddress) {
+    	if (saddress!=null){
+    		dockerManager=new DockerManager(saddress);
+    	}else{
+            dockerManager=new DockerManager(dockerServerAddress);
+    	}
         User user = getCurrentUser();
         List<Container> containers = containerDAO.getUserContainers(user);
         model.addAttribute("containers",containers);
     	if(containerImageToAdd!=null){
 	        model.addAttribute("sItems",dockerManager.searchForImage(containerImageToAdd));
+	        model.addAttribute("sToPull",saddress);
+
     	}
     	if(container!=null){
         	dockerManager.pullContainer(container);
@@ -68,10 +81,10 @@ public class ContainerController extends CustomController {
 
             return "redirect:/home/containers";
     	}
-//            else if (action.equals("create")){
-//    		CreateContainerResponse image = dockerManager.createContainer(containerDAO.getContainer(Integer.parseInt(containerId)-1).getImage(), null, null);
-//    		dockerManager.startContainer(image);
-//    	}
+            else if (action.equals("create")){
+    		CreateContainerResponse image = dockerManager.createContainer(containerDAO.getContainer(Integer.parseInt(containerId)-1).getImage(), null, null);
+    		dockerManager.startContainer(image);
+    	}
     	
     	
 		return "home/container_details";

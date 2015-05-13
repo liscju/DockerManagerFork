@@ -13,6 +13,9 @@
 <div class="container">
   <div class="starter-template">
     <h1>DockerManager</h1>
+    	
+
+    
 
     <p class="lead">Containers</p>
 
@@ -51,6 +54,12 @@
   <form role="form" class="add_container" method="post">
     <div class="form-group">
       <h2>Search Image</h2>
+      <label for="container_image">Use server:</label>
+	  <select name="serverToUse">
+		<c:forEach var="server" items="${servers}">
+	   		<option value="${server.address}">${server.address}</option>
+	  	</c:forEach>
+	  </select><br>
       <label for="container_image">Image:</label>
       <input type="text" class="form-control" id="containerImage" name="containerImage" placeholder="Enter image">
     </div>
@@ -72,7 +81,9 @@
       <tbody>
         <c:forEach var="item" items="${sItems}">
           <tr>
-            <td>              <form  id="pull_container" method="post">
+            <td>
+              <form  id="pull_container" method="post">
+                <input type="hidden" id="sToPull" name="serverToUse" value="${sToPull}">
 			    <input type="submit" class="btn btn-default" value="${item.name}" id="to_pull" name="to_pull">
 			  </form>
 			</td>
