@@ -97,7 +97,7 @@ public class ContainerController extends CustomController {
     @RequestMapping(value = "/home/containers/{containerId}", method=RequestMethod.GET)
     public String getOrder(@PathVariable String containerId,ModelMap model){
         Container container = containerDAO.getContainer(Integer.parseInt(containerId));
-        DockerManager dockerManager=new DockerManager(dockerServerAddress);
+        DockerManager dockerManager=new DockerManager(container.getOnServer());
         Image i =dockerManager.listImages().get(Integer.parseInt(containerId)-1);
         model.addAttribute("imageS",i);
         java.util.Date created=new java.util.Date((long)i.getCreated()*1000);
