@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/liscju/DockerManager.png)](https://travis-ci.org/liscju/DockerManager)
+
 Building Project
 > mvn clean install
 
