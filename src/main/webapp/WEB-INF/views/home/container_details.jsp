@@ -22,6 +22,7 @@
 		    <option value="create">create image from container</option>
 		    <option value="delete">remove container</option>
 	  	</select>
+	  	<input type="hidden" name="container_image" value="${image}"/>
 	  	<input type="submit" value="Submit">
 	</form>
 	

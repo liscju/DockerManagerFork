@@ -21,7 +21,7 @@ public class HibernateUtil {
 
     private static final String hibernateDialect = "org.hibernate.dialect.H2Dialect";
     private static final String hibernateShowSql = "true";
-    private static final String hibernateHbm2ddlAuto = "create";
+    private static final String hibernateHbm2ddlAuto = "update";
 
 //    private static DataSource getDataSource() {
 //        DataSource dataSource = new EmbeddedDatabaseBuilder()
