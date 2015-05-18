@@ -89,6 +89,12 @@ public class DockerManager {
 		return newContainer;
 	}
 	
+	public CreateContainerResponse  createContainer(String name){
+		CreateContainerResponse newContainer=dockerClient.createContainerCmd(name).exec();
+		containers.add(newContainer);
+		return newContainer;
+	}
+	
 	public void startContainer(CreateContainerResponse container){
 		dockerClient.startContainerCmd(container.getId()).exec();
 	}

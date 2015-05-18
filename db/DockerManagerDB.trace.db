@@ -1,0 +1,13 @@
+05-18 20:20:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Tabela "CONTAINERS" nie istnieje
+Table "CONTAINERS" not found; SQL statement:
+alter table Containers drop constraint FK_7dusmxe6wak03csa7tk4rvjlm [42102-186]
+05-18 20:20:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Obiekt jest zamknięty
+The object is already closed [90007-186]
+05-18 20:20:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Obiekt jest zamknięty
+The object is already closed [90007-186]
+05-18 20:20:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Obiekt jest zamknięty
+The object is already closed [90007-186]

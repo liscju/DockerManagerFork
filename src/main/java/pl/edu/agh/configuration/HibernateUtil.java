@@ -7,11 +7,13 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 import javax.sql.DataSource;
+
 import java.util.Properties;
 
 public class HibernateUtil {
@@ -21,12 +23,19 @@ public class HibernateUtil {
     private static final String hibernateShowSql = "true";
     private static final String hibernateHbm2ddlAuto = "create";
 
-    private static DataSource getDataSource() {
-        DataSource dataSource = new EmbeddedDatabaseBuilder()
-                .setName("DockerManagerDB")
-                .setType(EmbeddedDatabaseType.H2)
-                .build();
-        return dataSource;
+//    private static DataSource getDataSource() {
+//        DataSource dataSource = new EmbeddedDatabaseBuilder()
+//                .setName("DockerManagerDB")
+//                .setType(EmbeddedDatabaseType.H2)
+//                .build();
+//        return dataSource;
+//    }
+    
+    private static DriverManagerDataSource getDataSource() {
+    	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+    	    driverManagerDataSource.setDriverClassName("org.h2.Driver");
+    	    driverManagerDataSource.setUrl("jdbc:h2:file:./db/DockerManagerDB");
+    	    return driverManagerDataSource;
     }
 
 
