@@ -33,7 +33,9 @@ public class ImageController {
 
     @RequestMapping(value = "/home/images/{imageId}", method=RequestMethod.GET)
     public String getImage(@PathVariable String imageId, ModelMap model){
-        model.addAttribute("imageId",imageId);
+        Image image = imageDAO.getImage(imageId);
+
+        model.addAttribute("image",image);
         return "home/image_details";
     }
 

@@ -44,4 +44,10 @@ public class ImageDAO {
         }
         return null;
     }
+
+    public Image getImage(String imageId) {
+        com.github.dockerjava.api.model.Image image = dockerConnector.getImage(imageId);
+        return new Image(image.getId(),Joiner.on(":").join(image.getRepoTags()) );
+    }
+
 }

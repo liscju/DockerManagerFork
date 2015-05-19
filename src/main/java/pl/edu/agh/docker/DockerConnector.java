@@ -4,6 +4,7 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
 import com.github.dockerjava.api.model.Image;
+import com.github.dockerjava.api.model.SearchItem;
 import com.github.dockerjava.core.DockerClientBuilder;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class DockerConnector {
     private DockerClient dockerClient;
@@ -26,6 +28,17 @@ public class DockerConnector {
 
     public List<Image> getAllImages() {
         return dockerClient.listImagesCmd().exec();
+    }
+
+    public Image getImage(final String imageId) {
+        List<Image> allImages = getAllImages();
+        Image foundImage = null;
+        for (Image image : allImages) {
+            if (image.getId().equals(imageId)) {
+                foundImage = image;
+            }
+        }
+        return foundImage;
     }
 
     public void createImageFromDockerFile(String name,String content) throws IOException {
@@ -54,9 +67,9 @@ public class DockerConnector {
         }
     }
 
-    public String runImageCommand(String image, String command) throws IOException {
+    public String runImageCommand(String imageId, String command) throws IOException {
         CreateContainerResponse containerResponse = dockerClient
-                .createContainerCmd(image)
+                .createContainerCmd(imageId)
                 .withAttachStdin(true)
                 .withTty(true)
                 .exec();

@@ -14,7 +14,8 @@
     <div class="starter-template">
       <h1>DockerManager</h1>
 
-      <p class="lead">Image id: ${imageId}</p>
+      <p class="lead">Image id: ${image.id}</p>
+      <p class="lead">Image tags: ${image.tag}</p>
     </div>
 
     <form action="${pageContext.request.contextPath}/home/images/run" method="POST">
