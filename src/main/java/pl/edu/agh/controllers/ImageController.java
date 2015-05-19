@@ -42,7 +42,16 @@ public class ImageController {
                                          @RequestParam("image_name") String image_name,
                                          @RequestParam("dockerfile") String dockerfile) {
 
-        imageDAO.addImageFromDockerfile(image_name,dockerfile);
+        imageDAO.addImageFromDockerfile(image_name, dockerfile);
         return "redirect:/home/images";
+    }
+
+    @RequestMapping(value = "/home/images/run", method=RequestMethod.POST)
+    public String quickImageRun(ModelMap model,
+                                @RequestParam("imageId") String imageId,
+                                @RequestParam("command") String command){
+        model.addAttribute("imageId", imageId);
+        model.addAttribute("command", command);
+        return "home/image_run";
     }
 }
