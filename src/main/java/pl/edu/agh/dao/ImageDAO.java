@@ -35,4 +35,13 @@ public class ImageDAO {
             e.printStackTrace();
         }
     }
+
+    public String runQuickCommandInImage(String imageId, String command) {
+        try {
+            return dockerConnector.runImageCommand(imageId,command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

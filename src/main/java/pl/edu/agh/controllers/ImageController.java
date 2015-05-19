@@ -50,8 +50,10 @@ public class ImageController {
     public String quickImageRun(ModelMap model,
                                 @RequestParam("imageId") String imageId,
                                 @RequestParam("command") String command){
+        String output = imageDAO.runQuickCommandInImage(imageId, command);
         model.addAttribute("imageId", imageId);
         model.addAttribute("command", command);
+        model.addAttribute("output",output);
         return "home/image_run";
     }
 }

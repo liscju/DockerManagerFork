@@ -13,8 +13,9 @@
   <div class="starter-template">
     <h1>DockerManager</h1>
 
-    <p class="lead">${imageId}</p>
-    <p class="lead">${command}</p>
+    <p class="lead">Image:${imageId}</p>
+    <p class="lead">Command:${command}</p>
+    <p class="lead">Output:${output}</p>
   </div>
 </div>
 
