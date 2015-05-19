@@ -9,29 +9,14 @@
 </head>
 <body>
   <%@ include file="/resources/html/menu.html" %>
+
   <div class="container">
     <div class="starter-template">
       <h1>DockerManager</h1>
 
-      <p class="lead">Images</p>
-
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Id</th>
-        </tr>
-        </thead>
-        <tbody>
-          <c:forEach var="image" items="${images}">
-            <tr>
-              <td>${image.id}</td>
-              <td><a href="${pageContext.request.contextPath}/home/images/${image.id}">Show details</a></td>
-            </tr>
-          </c:forEach>
-        </tbody>
-      </table>
-
+      <p class="lead">Image id: ${imageId}</p>
     </div>
+
   </div>
 </body>
 </html>
