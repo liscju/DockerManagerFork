@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Image;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,5 +26,13 @@ public class ImageDAO {
             imagesToReturn.add( new Image(image.getId(), Joiner.on(":").join(image.getRepoTags()) ) );
         }
         return imagesToReturn;
+    }
+
+    public void addImageFromDockerfile(String name,String content) {
+        try {
+            dockerConnector.createImageFromDockerFile(name,content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

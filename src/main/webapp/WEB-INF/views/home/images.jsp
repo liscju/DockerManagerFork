@@ -33,6 +33,17 @@
         </tbody>
       </table>
 
+      <form role="form" action="${pageContext.request.contextPath}/home/images/add_image_from_dockerfile" method="post">
+        <h2>Create Image from dockerfile</h2>
+        Name<br>
+        <input type="text" name="image_name"/>
+        <br>
+        File<br>
+        <textarea rows="10" cols="80" name="dockerfile"></textarea>
+        <br>
+        <input type="submit"/>
+      </form>
+
     </div>
   </div>
 </body>

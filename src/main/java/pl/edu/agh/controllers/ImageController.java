@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.edu.agh.dao.ImageDAO;
 import pl.edu.agh.docker.DockerManager;
 import pl.edu.agh.model.Container;
@@ -13,6 +14,7 @@ import pl.edu.agh.model.DockerServer;
 import pl.edu.agh.model.Image;
 import pl.edu.agh.model.User;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -30,8 +32,17 @@ public class ImageController {
     }
 
     @RequestMapping(value = "/home/images/{imageId}", method=RequestMethod.GET)
-    public String getOrder(@PathVariable String imageId,ModelMap model){
+    public String getImage(@PathVariable String imageId, ModelMap model){
         model.addAttribute("imageId",imageId);
         return "home/image_details";
+    }
+
+    @RequestMapping(value = "/home/images/add_image_from_dockerfile",method = RequestMethod.POST)
+    public String addImageFromDockerfile(ModelMap modelMap,
+                                         @RequestParam("image_name") String image_name,
+                                         @RequestParam("dockerfile") String dockerfile) {
+
+        imageDAO.addImageFromDockerfile(image_name,dockerfile);
+        return "redirect:/home/images";
     }
 }
