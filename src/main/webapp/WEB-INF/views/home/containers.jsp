@@ -51,11 +51,12 @@
     <br>
     <input type="submit"/>
   </form>
-  <form role="form" class="add_container" action="${pageContext.request.contextPath}/home/containers/create_container_for_war" method="post">
+  <form role="form" class="add_container" action="${pageContext.request.contextPath}/home/containers/create_container_for_war"
+        method="post" enctype="multipart/form-data">
     <h2>Create container for WAR</h2>
     Name<br>
     <input type="text" name="container_name"/>
-    <br>
+    <br><br>
     War FILE<br>
     <input type="file" name="war_file"/>
     <br>

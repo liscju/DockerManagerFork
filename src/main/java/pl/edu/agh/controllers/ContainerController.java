@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Image;
 
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.agh.dao.ContainerDAO;
 import pl.edu.agh.dao.DockerServerDAO;
 import pl.edu.agh.docker.DockerManager;
@@ -141,5 +142,19 @@ public class ContainerController extends CustomController {
             e.printStackTrace();
         }
         return "redirect:/home/containers";
+    }
+
+    @RequestMapping(value = "/home/containers/create_container_for_war",method = RequestMethod.POST)
+    public String create_container_for_war(ModelMap modelMap,
+                                           @RequestParam("container_name") String container_name,
+                                           @RequestParam("war_file") MultipartFile war_file) {
+        try {
+            byte[] bytes = war_file.getBytes();
+            System.out.println("Name: " + container_name);
+            System.out.println("War: " + new String(bytes, "UTF-8") );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "home/containers";
     }
 }
