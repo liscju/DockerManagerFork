@@ -19,7 +19,7 @@ public class DockerConnectorTest {
     public void runQuickCommand() throws Exception {
         DockerConnector dockerConnector = new DockerConnector("http://192.168.0.2:2375");
         String output = dockerConnector.runImageCommand("b1ecabaa04e0dae5ebb8f00e5bde3abab67f2f0357301bc18cbba845466a8e8e",
-                "echo $IMIE");
+                "echo $PATH");
         System.out.println(output);
     }
 }
