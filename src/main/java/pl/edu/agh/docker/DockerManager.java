@@ -61,7 +61,7 @@ public class DockerManager {
 		try{
 		items.add(new InfoItem("Containers",Integer.toString(info.getContainers())));
 		items.add(new InfoItem("Images",Integer.toString(info.getImages())));
-		items.add(new InfoItem("IPv4 Forwarding",info.getIPv4Forwarding()));
+		items.add(new InfoItem("IPv4 Forwarding",Boolean.toString(info.getIPv4Forwarding())) );
 		items.add(new InfoItem("Kernel",info.getKernelVersion()));
 
 
@@ -182,9 +182,12 @@ public class DockerManager {
 		}
 	}
 
-	public void createContainerForWar(String name, byte[] war) throws IOException{
+	public void createContainerForWar(String name, byte[] war_content) throws IOException{
 		Path dockerManagerDir = Files.createTempDirectory("dockerManagerDir");
 		File dockerFile = new File(dockerManagerDir.toString(),"Dockerfile");
+		File webapps_dir = new File(dockerManagerDir.toString(), "webapps");
+		webapps_dir.mkdir();
+		File war_file = new File(webapps_dir.toString(),"file.war");
 
 		String docker_content =
 						"FROM ubuntu:14.04\n" +
@@ -200,9 +203,23 @@ public class DockerManager {
 						"ADD [\"webapps\",\"/var/lib/tomcat7/webapps/\"]\n" +
 						"EXPOSE 8080\n" +
 						"ENTRYPOINT [\"/usr/share/tomcat7/bin/catalina.sh\",\"run\"]";
-		
+
 		PrintWriter printWriter = new PrintWriter(dockerFile);
 		printWriter.print(docker_content);
 		printWriter.close();
+
+		BufferedOutputStream stream =
+				new BufferedOutputStream(new FileOutputStream(war_file));
+		stream.write(war_content);
+		stream.close();
+
+		dockerClient
+				.buildImageCmd(new File(dockerManagerDir.toString() ) )
+				.withNoCache()
+				.withTag(name)
+				.exec()
+				.close();
+
+		new File(dockerManagerDir.toString() ).delete();
 	}
 }
