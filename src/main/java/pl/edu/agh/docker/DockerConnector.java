@@ -40,6 +40,10 @@ public class DockerConnector {
         return foundImage;
     }
 
+    public void pullImage(String imageName){
+        dockerClient.pullImageCmd(imageName).exec();
+    }
+
     public List<SearchItem> searchForImageByName(String name){
         return dockerClient.searchImagesCmd(name).exec();
     }

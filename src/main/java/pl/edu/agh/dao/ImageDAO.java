@@ -70,4 +70,8 @@ public class ImageDAO {
         return foundImages;
     }
 
+    public void pullImage(String imageName) {
+        dockerConnector.pullImage(imageName);
+    }
+
 }

@@ -83,4 +83,12 @@ public class ImageController {
         model.addAttribute("found_images",foundImages);
         return "home/images";
     }
+
+    @RequestMapping(value = "/home/images/pull_image", method=RequestMethod.POST)
+    public String pullImage(ModelMap model,
+                            @RequestParam("image_to_pull") String imageToPull){
+
+        imageDAO.pullImage(imageToPull);
+        return "redirect:home/images";
+    }
 }

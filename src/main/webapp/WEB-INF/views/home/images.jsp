@@ -80,8 +80,8 @@
             <c:forEach var="image" items="${found_images}">
               <tr>
                 <td>
-                  <form  id="pull_container" method="post">
-                    <input type="submit" class="btn btn-default" value="${image.key}" id="to_pull" name="to_pull">
+                  <form action="${pageContext.request.contextPath}/home/images/pull_image" method="post">
+                    <input type="submit" class="btn btn-default" value="${image.key}" id="image_to_pull" name="image_to_pull">
                   </form>
                 </td>
                 <td>${image.value}</td>
