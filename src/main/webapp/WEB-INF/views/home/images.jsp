@@ -44,6 +44,18 @@
         <input type="submit"/>
       </form>
 
+      <form role="form" action="${pageContext.request.contextPath}/home/images/create_image_for_war"
+            method="post" enctype="multipart/form-data">
+        <h2>Create image for given WAR</h2>
+        Name<br>
+        <input type="text" name="image_name"/>
+        <br><br>
+        War FILE<br>
+        <input type="file" name="war_file"/>
+        <br>
+        <input type="submit"/>
+      </form>
+
     </div>
   </div>
 </body>

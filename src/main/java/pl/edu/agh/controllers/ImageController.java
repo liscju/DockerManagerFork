@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.agh.dao.ImageDAO;
 import pl.edu.agh.docker.DockerManager;
 import pl.edu.agh.model.Container;
@@ -55,7 +56,19 @@ public class ImageController {
         String output = imageDAO.runQuickCommandInImage(imageId, command);
         model.addAttribute("imageId", imageId);
         model.addAttribute("command", command);
-        model.addAttribute("output",output);
+        model.addAttribute("output", output);
         return "home/image_run";
+    }
+
+    @RequestMapping(value = "/home/images/create_image_for_war",method = RequestMethod.POST)
+    public String create_container_for_war(ModelMap modelMap,
+                                           @RequestParam("image_name") String image_name,
+                                           @RequestParam("war_file") MultipartFile war_file) {
+        try {
+            imageDAO.createImageForWar(image_name,war_file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "home/containers";
     }
 }
