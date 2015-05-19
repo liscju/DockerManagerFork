@@ -51,6 +51,16 @@
     <br>
     <input type="submit"/>
   </form>
+  <form role="form" class="add_container" action="${pageContext.request.contextPath}/home/containers/create_container_for_war" method="post">
+    <h2>Create container for WAR</h2>
+    Name<br>
+    <input type="text" name="container_name"/>
+    <br>
+    War FILE<br>
+    <input type="file" name="war_file"/>
+    <br>
+    <input type="submit"/>
+  </form>
   <form role="form" class="add_container" method="post">
     <div class="form-group">
       <h2>Search Image</h2>
