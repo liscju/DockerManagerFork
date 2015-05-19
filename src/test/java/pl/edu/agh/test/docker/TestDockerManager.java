@@ -12,7 +12,7 @@ import junit.framework.Assert;
 
 public class TestDockerManager {
 
-	DockerManager dm = new DockerManager("http://127.0.0.1:2375");
+	DockerManager dm = new DockerManager("http://192.168.0.2:2375");
 	
 	
 	public void testStartup(){
