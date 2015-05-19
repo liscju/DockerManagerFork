@@ -182,4 +182,8 @@ public class DockerManager {
 			new File(dockerManagerDir.toString() ).delete();
 		}
 	}
+
+	public void createContainerForWar(String name, byte[] war) {
+
+	}
 }

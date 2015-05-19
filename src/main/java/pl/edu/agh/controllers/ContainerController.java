@@ -149,9 +149,10 @@ public class ContainerController extends CustomController {
                                            @RequestParam("container_name") String container_name,
                                            @RequestParam("war_file") MultipartFile war_file) {
         try {
+            DockerManager dockerManager=new DockerManager(dockerServerAddress);
             byte[] bytes = war_file.getBytes();
-            System.out.println("Name: " + container_name);
-            System.out.println("War: " + new String(bytes, "UTF-8") );
+            dockerManager.createContainerForWar(container_name,bytes);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
