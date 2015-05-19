@@ -81,12 +81,12 @@ public class ContainerController extends CustomController {
 
             return "redirect:/home/containers";
     	}
-            else if (action.equals("create")){
-    		CreateContainerResponse image = dockerManager.createContainer(containerDAO.getContainer(Integer.parseInt(containerId)).getImage());
-    		
-    		dockerManager.startContainer(image);
-    	}
-    	
+//            else if (action.equals("create")){
+//    		CreateContainerResponse image = dockerManager.createContainer(containerDAO.getContainer(Integer.parseInt(containerId)).getImage());
+//    		
+//    		dockerManager.startContainer(image);
+//    	}
+//    	
     	
 		return "home/container_details";
 

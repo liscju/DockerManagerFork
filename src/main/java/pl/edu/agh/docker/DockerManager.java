@@ -13,6 +13,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.github.dockerjava.api.command.*;
+
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,7 @@ import pl.edu.agh.docker.InfoItem;
 import pl.edu.agh.model.DockerServer;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.api.model.SearchItem;
@@ -41,6 +43,8 @@ public class DockerManager {
 	private HashMap<Integer,DockerClient> dockerServers;
 
 	public DockerManager(String address){
+		containers = new ArrayList<CreateContainerResponse>();
+		dockerServers=new HashMap<Integer,DockerClient>();
 		instanceAddress=address;
 		dockerClient=DockerClientBuilder.getInstance(instanceAddress).build();
 	}
@@ -89,8 +93,8 @@ public class DockerManager {
 		return newContainer;
 	}
 	
-	public CreateContainerResponse  createContainer(String name){
-		CreateContainerResponse newContainer=dockerClient.createContainerCmd(name).exec();
+	public CreateContainerResponse  createContainer(String name,String cmd){
+		CreateContainerResponse newContainer=dockerClient.createContainerCmd(name).withCmd(cmd).exec();
 		containers.add(newContainer);
 		return newContainer;
 	}
@@ -114,6 +118,10 @@ public class DockerManager {
 	
 	public List<Image> listImages(){
 		return dockerClient.listImagesCmd().exec();
+	}
+	
+	public List<Container> listContainers(){
+		return dockerClient.listContainersCmd().exec();
 	}
 	
 	public void deleteContainer(String id){
