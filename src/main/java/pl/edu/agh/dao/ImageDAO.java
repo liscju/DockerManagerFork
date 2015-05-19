@@ -1,5 +1,6 @@
 package pl.edu.agh.dao;
 
+import com.google.common.base.Joiner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.docker.DockerConnector;
@@ -21,7 +22,7 @@ public class ImageDAO {
         List<com.github.dockerjava.api.model.Image> allImages = dockerConnector.getAllImages();
         List<Image> imagesToReturn = new LinkedList<Image>();
         for (com.github.dockerjava.api.model.Image image : allImages) {
-            imagesToReturn.add( new Image(image.getId() ) );
+            imagesToReturn.add( new Image(image.getId(), Joiner.on(":").join(image.getRepoTags()) ) );
         }
         return imagesToReturn;
     }

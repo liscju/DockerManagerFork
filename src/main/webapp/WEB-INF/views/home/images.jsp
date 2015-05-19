@@ -19,12 +19,14 @@
         <thead>
         <tr>
           <th>Id</th>
+          <th>Tag</th>
         </tr>
         </thead>
         <tbody>
           <c:forEach var="image" items="${images}">
             <tr>
               <td>${image.id}</td>
+              <td>${image.tag}</td>
               <td><a href="${pageContext.request.contextPath}/home/images/${image.id}">Show details</a></td>
             </tr>
           </c:forEach>
