@@ -5,10 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javax.sql.DataSource;
 
@@ -213,8 +210,14 @@ public class DockerManager {
 		stream.write(war_content);
 		stream.close();
 
+		Map<String, String> mapping = new HashMap<String, String>();
+		mapping.put(dockerFile.getAbsolutePath(),"Dockerfile");
+		mapping.put(war_file.getAbsolutePath(), "webapps\\file.war");
+		File tarFile = File.createTempFile("dockermanagerdir",".tar");
+		CompressTarGz.compress(tarFile.getAbsolutePath(), mapping);
+
 		dockerClient
-				.buildImageCmd(new File(dockerManagerDir.toString() ) )
+				.buildImageCmd(new FileInputStream(tarFile))
 				.withNoCache()
 				.withTag(name)
 				.exec()
