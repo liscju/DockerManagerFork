@@ -17,6 +17,7 @@ import pl.edu.agh.model.User;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -61,14 +62,25 @@ public class ImageController {
     }
 
     @RequestMapping(value = "/home/images/create_image_for_war",method = RequestMethod.POST)
-    public String create_container_for_war(ModelMap modelMap,
-                                           @RequestParam("image_name") String image_name,
-                                           @RequestParam("war_file") MultipartFile war_file) {
+    public String createImageForWar(ModelMap modelMap,
+                                    @RequestParam("image_name") String image_name,
+                                    @RequestParam("war_file") MultipartFile war_file) {
         try {
             imageDAO.createImageForWar(image_name,war_file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return "home/containers";
+    }
+
+    @RequestMapping(value = "/home/images/find_image", method=RequestMethod.POST)
+    public String findImage(ModelMap model,
+                            @RequestParam("image_to_find") String imageToFind){
+
+        List<Image> allImages = imageDAO.getAllImages();
+        Map<String, String> foundImages = imageDAO.searchForImageByName(imageToFind);
+        model.addAttribute("images",allImages);
+        model.addAttribute("found_images",foundImages);
+        return "home/images";
     }
 }

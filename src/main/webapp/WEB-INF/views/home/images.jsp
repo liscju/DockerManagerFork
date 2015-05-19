@@ -56,6 +56,45 @@
         <input type="submit"/>
       </form>
 
+      <form role="form" action="${pageContext.request.contextPath}/home/images/find_image" method="post">
+        <div class="form-group">
+          <h2>Search Image</h2>
+          <label for="image_to_find">Image:</label>
+          <input type="text" class="form-control" id="image_to_find" name="image_to_find" placeholder="Enter image">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+
+      <div class="search-result">
+
+        <c:if test="${not empty found_images}">
+
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Image</th>
+              <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="image" items="${found_images}">
+              <tr>
+                <td>
+                  <form  id="pull_container" method="post">
+                    <input type="submit" class="btn btn-default" value="${image.key}" id="to_pull" name="to_pull">
+                  </form>
+                </td>
+                <td>${image.value}</td>
+
+              </tr>
+            </c:forEach>
+            </tbody>
+          </table>
+
+        </c:if>
+
+      </div>
+
     </div>
   </div>
 </body>

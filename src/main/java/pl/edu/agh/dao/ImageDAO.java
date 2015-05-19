@@ -1,5 +1,6 @@
 package pl.edu.agh.dao;
 
+import com.github.dockerjava.api.model.SearchItem;
 import com.google.common.base.Joiner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,8 +8,10 @@ import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Image;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ImageDAO {
@@ -56,6 +59,15 @@ public class ImageDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Map<String,String> searchForImageByName(String name){
+        List<SearchItem> searchItems = dockerConnector.searchForImageByName(name);
+        Map<String,String> foundImages = new HashMap<String, String>();
+        for (SearchItem searchItem : searchItems) {
+            foundImages.put(searchItem.getName(),searchItem.getDescription());
+        }
+        return foundImages;
     }
 
 }

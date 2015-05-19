@@ -40,6 +40,10 @@ public class DockerConnector {
         return foundImage;
     }
 
+    public List<SearchItem> searchForImageByName(String name){
+        return dockerClient.searchImagesCmd(name).exec();
+    }
+
     public void createImageFromDockerFile(String name,String content) throws IOException {
         // Znowu mega obejscie.... , dockerClient.buildImageCmd oczekuje jako parametru
         // albo InputStream ktory bedzie spakowany gzipem,zipem
