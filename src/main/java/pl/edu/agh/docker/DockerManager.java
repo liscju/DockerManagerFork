@@ -165,7 +165,6 @@ public class DockerManager {
 		Path dockerManagerDir = Files.createTempDirectory("dockerManagerDir");
 		File dockerFile = new File(dockerManagerDir.toString(),"Dockerfile");
 
-		System.out.println(dockerManagerDir.toString());
 		try {
 			PrintWriter printWriter = new PrintWriter(dockerFile);
 			printWriter.print(content);
@@ -183,7 +182,27 @@ public class DockerManager {
 		}
 	}
 
-	public void createContainerForWar(String name, byte[] war) {
+	public void createContainerForWar(String name, byte[] war) throws IOException{
+		Path dockerManagerDir = Files.createTempDirectory("dockerManagerDir");
+		File dockerFile = new File(dockerManagerDir.toString(),"Dockerfile");
 
+		String docker_content =
+						"FROM ubuntu:14.04\n" +
+						"MAINTAINER DockerManager <docker@example.com>\n" +
+						"RUN apt-get -yqq update\n" +
+						"RUN apt-get -yqq install tomcat7 default-jdk\n" +
+						"ENV CATALINA_HOME /usr/share/tomcat7\n" +
+						"ENV CATALINA_BASE /var/lib/tomcat7\n" +
+						"ENV CATALINA_PID /var/run/tomcat7.pid\n" +
+						"ENV CATALINA_SH /usr/share/tomcat7/bin/catalina.sh\n" +
+						"ENV CATALINA_TMPDIR /tmp/tomcat7-tomcat7-tmp\n" +
+						"RUN mkdir -p $CATALINA_TMPDIR\n" +
+						"ADD [\"webapps\",\"/var/lib/tomcat7/webapps/\"]\n" +
+						"EXPOSE 8080\n" +
+						"ENTRYPOINT [\"/usr/share/tomcat7/bin/catalina.sh\",\"run\"]";
+		
+		PrintWriter printWriter = new PrintWriter(dockerFile);
+		printWriter.print(docker_content);
+		printWriter.close();
 	}
 }
