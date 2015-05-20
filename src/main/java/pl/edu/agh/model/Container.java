@@ -1,36 +1,18 @@
 package pl.edu.agh.model;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "Containers")
 public class Container {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    private final String id;
+    private final String image;
+    private final String status;
 
-    @Column
-    private String image;
-    
-    @Column
-    private String onServer;
-
-    @ManyToOne
-    @JoinColumn(name = "owner",referencedColumnName = "name")
-    private User owner;
-
-    public Container() {
-    }
-
-    public Container(int id, String image,User owner, String onServer) {
+    public Container(String id, String image, String status) {
         this.id = id;
         this.image = image;
-        this.owner = owner;
-        this.onServer=onServer;
+        this.status = status;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -38,28 +20,7 @@ public class Container {
         return image;
     }
 
-    public User getOwner() {
-        return owner;
-    }
-    
-    public String getOnServer(){
-    	return onServer;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Container container = (Container) o;
-
-        if (id != container.id) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
+    public String getStatus() {
+        return status;
     }
 }

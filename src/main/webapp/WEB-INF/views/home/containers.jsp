@@ -13,9 +13,6 @@
 <div class="container">
   <div class="starter-template">
     <h1>DockerManager</h1>
-    	
-
-    
 
     <p class="lead">Containers</p>
 
@@ -24,6 +21,7 @@
       <tr>
         <th>Id</th>
         <th>Image</th>
+        <th>Status</th>
       </tr>
       </thead>
       <tbody>
@@ -31,6 +29,7 @@
           <tr>
             <td>${container.id}</td>
             <td>${container.image}</td>
+            <td>${container.status}</td>
             <td><a href="${pageContext.request.contextPath}/home/containers/${container.id}">Show details</a></td>
           </tr>
         </c:forEach>
@@ -39,76 +38,7 @@
 
   </div>
 
-
-  <button id="show_hide_add_container" class="btn btn-default">Show/Hide</button>
-  <form role="form" class="add_container" action="${pageContext.request.contextPath}/home/containers/add_image_from_dockerfile" method="post">
-    <h2>Create Image from dockerfile</h2>
-    Name<br>
-    <input type="text" name="image_name"/>
-    <br>
-    File<br>
-    <textarea rows="10" cols="80" name="dockerfile"></textarea>
-    <br>
-    <input type="submit"/>
-  </form>
-  <form role="form" class="add_container" action="${pageContext.request.contextPath}/home/containers/create_container_for_war"
-        method="post" enctype="multipart/form-data">
-    <h2>Create container for WAR</h2>
-    Name<br>
-    <input type="text" name="container_name"/>
-    <br><br>
-    War FILE<br>
-    <input type="file" name="war_file"/>
-    <br>
-    <input type="submit"/>
-  </form>
-  <form role="form" class="add_container" method="post">
-    <div class="form-group">
-      <h2>Search Image</h2>
-      <label for="container_image">Use server:</label>
-	  <select name="serverToUse">
-		<c:forEach var="server" items="${servers}">
-	   		<option value="${server.address}">${server.address}</option>
-	  	</c:forEach>
-	  </select><br>
-      <label for="container_image">Image:</label>
-      <input type="text" class="form-control" id="containerImage" name="containerImage" placeholder="Enter image">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-  </form>
 </div>
-
-  <div class="search-result">
-
-	<c:if test="${not empty sItems}">
-
-	<table class="table">
-      <thead>
-      <tr>
-        <th>Image</th>
-        <th>Description</th>
-      </tr>
-      </thead>
-      <tbody>
-        <c:forEach var="item" items="${sItems}">
-          <tr>
-            <td>
-              <form  id="pull_container" method="post">
-                <input type="hidden" id="sToPull" name="serverToUse" value="${sToPull}">
-			    <input type="submit" class="btn btn-default" value="${item.name}" id="to_pull" name="to_pull">
-			  </form>
-			</td>
-            <td>${item.description}</td>
-            
-          </tr>
-        </c:forEach>
-      </tbody>
-    </table>
-    
-    </c:if>
-
-</div>
-
 
 </body>
 </html>

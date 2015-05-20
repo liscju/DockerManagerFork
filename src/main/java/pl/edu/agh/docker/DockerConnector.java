@@ -3,6 +3,7 @@ package pl.edu.agh.docker;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
+import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.api.model.SearchItem;
 import com.github.dockerjava.core.DockerClientBuilder;
@@ -141,5 +142,9 @@ public class DockerConnector {
                 .close();
 
         new File(dockerManagerDir.toString() ).delete();
+    }
+
+    public List<Container> getAllContainers() {
+        return dockerClient.listContainersCmd().exec();
     }
 }
