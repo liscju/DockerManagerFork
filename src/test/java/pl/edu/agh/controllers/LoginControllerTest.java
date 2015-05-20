@@ -44,6 +44,6 @@ public class LoginControllerTest {
         String nextView = loginController.tryRegisterUser(username, password, confirm_password, modelMap);
         assertEquals("authentication/register",nextView);
         verify(modelMap).addAttribute("bad_registration_info", "Password and confirmed password not equals");
-        
+
     }
 }
