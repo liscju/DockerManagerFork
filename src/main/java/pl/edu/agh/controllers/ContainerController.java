@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.edu.agh.dao.ContainerDAO;
-import pl.edu.agh.controllers.api.CustomController;
 import pl.edu.agh.model.Container;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/")
-public class ContainerController extends CustomController {
+public class ContainerController{
 
     @Autowired
     ContainerDAO containerDAO;

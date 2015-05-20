@@ -1,17 +1,18 @@
 package pl.edu.agh.controllers.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import pl.edu.agh.dao.UserDAO;
 import pl.edu.agh.model.User;
 
-public class CustomController {
+public class UserAuthorizator {
+    private UserDAO userDAO;
 
-    @Autowired
-    protected UserDAO userDAO;
+    public UserAuthorizator(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
 
-    protected User getCurrentUser() {
+    public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
