@@ -47,3 +47,12 @@ The object is already closed [90007-186]
 05-20 12:27:31 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Obiekt jest zamknięty
 The object is already closed [90007-186]
+05-20 12:47:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Obiekt jest zamknięty
+The object is already closed [90007-186]
+05-20 12:47:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Obiekt jest zamknięty
+The object is already closed [90007-186]
+05-20 12:47:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Obiekt jest zamknięty
+The object is already closed [90007-186]

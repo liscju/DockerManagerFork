@@ -18,10 +18,10 @@ public class HomeController {
     @Autowired
     private UserDAO userDAO;
 
+    @Autowired
     private UserAuthorizator userAuthorizator;
 
     public HomeController() {
-        userAuthorizator = new UserAuthorizator(userDAO);
     }
 
     public HomeController(UserDAO userDAO,UserAuthorizator userAuthorizator) {

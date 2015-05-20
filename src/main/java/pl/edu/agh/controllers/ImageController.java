@@ -22,6 +22,12 @@ public class ImageController {
     @Autowired
     ImageDAO imageDAO;
 
+    public ImageController() {}
+
+    public ImageController(ImageDAO imageDAO) {
+        this.imageDAO = imageDAO;
+    }
+
     @RequestMapping(value="/home/images",method = RequestMethod.GET)
     public String getAllImages(ModelMap model) {
         List<Image> allImages = imageDAO.getAllImages();
