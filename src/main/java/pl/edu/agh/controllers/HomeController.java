@@ -30,28 +30,22 @@ public class HomeController {
     }
 
     @RequestMapping(value="/home",method = RequestMethod.GET)
-    public String home(ModelMap model) {
-        String username = getCurrentUser().getName();
+    public String getHome(ModelMap model) {
+        String username = userAuthorizator.getCurrentUser().getName();
 
         model.addAttribute("username", username);
         model.addAttribute("greeting", "Welcome to DockerManager");
         return "home/index";
     }
 
-    private User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        return userDAO.getUser(username);
-    }
 
     @RequestMapping(value="/home/about",method = RequestMethod.GET)
-    public String about(ModelMap model) {
+    public String getAbout(ModelMap model) {
         return "home/about";
     }
 
     @RequestMapping(value="/home/contact",method = RequestMethod.GET)
-    public String contact(ModelMap model) {
+    public String getContact(ModelMap model) {
         return "home/contact";
     }
 
