@@ -96,7 +96,10 @@ public class DockerConnector {
                 .withExecId(checkFileCmdCreateResponse.getId())
                 .exec();
 
-        return IOUtils.toString(response1);
+        String output = IOUtils.toString(response1);
+        response1.close();
+
+        return output;
     }
 
     public void createImageForWar(String name, String war_name, byte[] war_content) throws IOException{
