@@ -49,7 +49,7 @@ public class ImageController {
         return "redirect:/home/images";
     }
 
-    @RequestMapping(value = "/home/images/run", method=RequestMethod.POST)
+    @RequestMapping(value = "/home/images/quick_command_run", method=RequestMethod.POST)
     public String quickImageRun(ModelMap model,
                                 @RequestParam("imageId") String imageId,
                                 @RequestParam("command") String command){
@@ -58,6 +58,14 @@ public class ImageController {
         model.addAttribute("command", command);
         model.addAttribute("output", output);
         return "home/image_run";
+    }
+
+    @RequestMapping(value = "/home/images/run_image_in_container", method=RequestMethod.POST)
+    public String runImageInContainer(ModelMap model,
+                                      @RequestParam("imageId") String imageId){
+
+        String containerId = imageDAO.runImageInContainer(imageId);
+        return "redirect:/home/containers";
     }
 
     @RequestMapping(value = "/home/images/create_image_for_war",method = RequestMethod.POST)
@@ -69,7 +77,7 @@ public class ImageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "home/containers";
+        return "home/images";
     }
 
     @RequestMapping(value = "/home/images/find_image", method=RequestMethod.POST)

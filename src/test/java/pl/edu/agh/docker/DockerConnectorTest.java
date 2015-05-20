@@ -25,9 +25,8 @@ public class DockerConnectorTest {
     }
 
     @Test
-    public void searchImage() throws Exception {
+    public void runImageInContainerTest() throws Exception {
         DockerConnector dockerConnector = new DockerConnector("http://192.168.0.2:2375");
-        List<SearchItem> searchResult = dockerConnector.getImage("b1ecabaa04e0dae5ebb8f00e5bde3abab67f2f0357301bc18cbba845466a8e8e");
-        System.out.println(searchResult);
+        dockerConnector.runImageInContainer();
     }
 }

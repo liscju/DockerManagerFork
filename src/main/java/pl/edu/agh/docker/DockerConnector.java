@@ -158,4 +158,17 @@ public class DockerConnector {
         }
         return foundContainer;
     }
+
+    public String runImageInContainer(String imageId) {
+        CreateContainerResponse createContainerResponse = dockerClient
+                .createContainerCmd(imageId)
+                .exec();
+
+        dockerClient
+                .startContainerCmd(createContainerResponse.getId())
+                .withPublishAllPorts(true)
+                .exec();
+
+        return createContainerResponse.getId();
+    }
 }

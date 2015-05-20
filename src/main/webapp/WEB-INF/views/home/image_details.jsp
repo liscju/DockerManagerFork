@@ -18,9 +18,16 @@
       <p class="lead">Image tags: ${image.tag}</p>
     </div>
 
-    <form action="${pageContext.request.contextPath}/home/images/run" method="POST">
+    <form action="${pageContext.request.contextPath}/home/images/run_image_in_container" method="POST">
+      <h2>Run image in new container</h2>
+      <br>
+      <input type="hidden" name="imageId" value="${image.id}"/>
+      <input class="btn btn-default" type="submit"/>
+    </form>
+
+    <form action="${pageContext.request.contextPath}/home/images/quick_command_run" method="POST">
       <h2>Run quick command in image</h2>
-      <input type="hidden" name="imageId" value="${imageId}"/>
+      <input type="hidden" name="imageId" value="${image.id}"/>
       <input type="text" name="command" placeholder="Place for your command"></input>
       <br>
       <input type="submit"/>

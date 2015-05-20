@@ -74,4 +74,7 @@ public class ImageDAO {
         dockerConnector.pullImage(imageName);
     }
 
+    public String runImageInContainer(String imageId) {
+        return dockerConnector.runImageInContainer(imageId);
+    }
 }
