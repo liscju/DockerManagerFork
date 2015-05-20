@@ -2,7 +2,6 @@ package pl.edu.agh.dao;
 
 import com.github.dockerjava.api.model.SearchItem;
 import com.google.common.base.Joiner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Image;
@@ -15,11 +14,14 @@ import java.util.Map;
 
 @Service
 public class ImageDAO {
-
+    private final String serverIP;
+    private final String serverPort;
     private final DockerConnector dockerConnector;
 
     public ImageDAO() {
-        dockerConnector = new DockerConnector("http://192.168.0.2:2375");
+        serverIP = "192.168.0.2";
+        serverPort = "2375";
+        dockerConnector = new DockerConnector("http://" + serverIP + ":" + serverPort);
     }
 
     public List<Image> getAllImages() {

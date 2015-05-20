@@ -9,10 +9,14 @@ import java.util.List;
 
 @Service
 public class ContainerDAO {
+    private final String serverIP;
+    private final String serverPort;
     private final DockerConnector dockerConnector;
 
     public ContainerDAO() {
-        dockerConnector = new DockerConnector("http://192.168.0.2:2375");
+        serverIP = "192.168.0.2";
+        serverPort = "2375";
+        dockerConnector = new DockerConnector("http://" + serverIP + ":" + serverPort);
     }
 
     public List<Container> getAllContainers() {
@@ -35,7 +39,7 @@ public class ContainerDAO {
         com.github.dockerjava.api.model.Container.Port[] ports = container.getPorts();
         List<String> exposedInterfaces = new LinkedList<String>();
         for (com.github.dockerjava.api.model.Container.Port port : ports) {
-            exposedInterfaces.add(port.getIp() + ":" + port.getPublicPort() + "->" + port.getPrivatePort() );
+            exposedInterfaces.add(serverIP + ":" + port.getPublicPort() + "->" + port.getPrivatePort() );
         }
         return exposedInterfaces;
     }
