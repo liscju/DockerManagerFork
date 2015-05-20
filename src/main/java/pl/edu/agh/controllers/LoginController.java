@@ -15,19 +15,27 @@ public class LoginController {
     @Autowired
     UserDAO userDAO;
 
+    public LoginController() {}
+
+    public LoginController(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
     @RequestMapping(value="/login",method = RequestMethod.GET)
-    public String login(ModelMap model) {
+    public String showLoginSite(ModelMap model) {
         return "authentication/login";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String show_register(ModelMap modelMap) {
+    public String showRegisterSite(ModelMap modelMap) {
         return "authentication/register";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String do_register(@RequestParam("username") String username, @RequestParam("password") String password,
-                              @RequestParam("password_confirm") String password_confirm, ModelMap modelMap) {
+    public String tryRegisterUser(@RequestParam("username") String username,
+                                  @RequestParam("password") String password,
+                                  @RequestParam("password_confirm") String password_confirm,
+                                  ModelMap modelMap) {
 
         if (!password.equals(password_confirm)) {
             modelMap.addAttribute("bad_registration_info", "Password and confirmed password not equals");
