@@ -19,6 +19,10 @@
       container image: ${container.image} <br>
       container status: ${container.status}
     </p>
+
+    <p class="lead">
+      Exposed Interfaces: ${container.interfaces}
+    </p>
   </div>
 
   <form action="${pageContext.request.contextPath}/home/containers/stop_container" method="POST">

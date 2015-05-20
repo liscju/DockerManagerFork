@@ -25,7 +25,7 @@ public class ContainerController extends CustomController {
     ContainerDAO containerDAO;
 
     @RequestMapping(value="/home/containers",method = RequestMethod.GET)
-    public String containers(ModelMap model) {
+    public String getAllContainers(ModelMap model) {
         List<Container> allContainers = containerDAO.getAllContainers();
         model.addAttribute("containers",allContainers);
         return "home/containers";

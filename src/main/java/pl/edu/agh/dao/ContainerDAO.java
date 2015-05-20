@@ -19,14 +19,25 @@ public class ContainerDAO {
         List<com.github.dockerjava.api.model.Container> downloadContainers = dockerConnector.getAllContainers();
         List<Container> containerList = new LinkedList<Container>();
         for (com.github.dockerjava.api.model.Container container : downloadContainers) {
-            containerList.add(new Container(container.getId(),container.getImage(),container.getStatus()) );
+            List<String> exposedInterfaces = getExposedInterfaces(container);
+            containerList.add(new Container(container.getId(),container.getImage(),container.getStatus(), exposedInterfaces) );
         }
         return containerList;
     }
 
     public Container getContainer(String containerId) {
         com.github.dockerjava.api.model.Container container = dockerConnector.getContainer(containerId);
-        return new Container(container.getId(),container.getImage(),container.getStatus());
+        List<String> exposedInterfaces = getExposedInterfaces(container);
+        return new Container(container.getId(),container.getImage(), container.getStatus(),exposedInterfaces);
+    }
+
+    private List<String> getExposedInterfaces(com.github.dockerjava.api.model.Container container) {
+        com.github.dockerjava.api.model.Container.Port[] ports = container.getPorts();
+        List<String> exposedInterfaces = new LinkedList<String>();
+        for (com.github.dockerjava.api.model.Container.Port port : ports) {
+            exposedInterfaces.add(port.getIp() + ":" + port.getPublicPort() + "->" + port.getPrivatePort() );
+        }
+        return exposedInterfaces;
     }
 
     public void stopContainer(String containerId) {
