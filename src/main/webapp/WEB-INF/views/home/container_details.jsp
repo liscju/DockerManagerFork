@@ -21,6 +21,13 @@
     </p>
   </div>
 
+  <form action="${pageContext.request.contextPath}/home/containers/stop_container" method="POST">
+    <h2>Stop container</h2>
+    <br>
+    <input type="hidden" name="containerId" value="${container.id}"/>
+    <input class="btn btn-default" type="submit"/>
+  </form>
+
 
 </div>
 

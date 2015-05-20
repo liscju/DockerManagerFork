@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.edu.agh.dao.ContainerDAO;
 import pl.edu.agh.docker.DockerManager;
 import pl.edu.agh.controllers.api.CustomController;
@@ -31,11 +32,17 @@ public class ContainerController extends CustomController {
     }
 
     @RequestMapping(value = "/home/containers/{containerId}", method=RequestMethod.GET)
-    public String getImage(@PathVariable String containerId, ModelMap model){
+    public String getContainer(@PathVariable String containerId, ModelMap model){
         Container container = containerDAO.getContainer(containerId);
 
         model.addAttribute("container",container);
         return "home/container_details";
+    }
+
+    @RequestMapping(value = "/home/containers/stop_container", method=RequestMethod.POST)
+    public String getContainer(ModelMap model,@RequestParam("containerId") String containerId){
+        containerDAO.stopContainer(containerId);
+        return "redirect:/home/containers";
     }
 
 }

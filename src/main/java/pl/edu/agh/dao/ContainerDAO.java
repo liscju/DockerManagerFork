@@ -28,4 +28,8 @@ public class ContainerDAO {
         com.github.dockerjava.api.model.Container container = dockerConnector.getContainer(containerId);
         return new Container(container.getId(),container.getImage(),container.getStatus());
     }
+
+    public void stopContainer(String containerId) {
+        dockerConnector.stopContainer(containerId);
+    }
 }

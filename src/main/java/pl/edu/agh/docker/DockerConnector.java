@@ -174,4 +174,10 @@ public class DockerConnector {
 
         return createContainerResponse.getId();
     }
+
+    public void stopContainer(String containerId) {
+        dockerClient
+                .stopContainerCmd(containerId)
+                .exec();
+    }
 }
