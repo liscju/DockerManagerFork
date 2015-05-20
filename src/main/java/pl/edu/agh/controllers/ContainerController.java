@@ -40,8 +40,14 @@ public class ContainerController extends CustomController {
     }
 
     @RequestMapping(value = "/home/containers/stop_container", method=RequestMethod.POST)
-    public String getContainer(ModelMap model,@RequestParam("containerId") String containerId){
+    public String stopContainer(ModelMap model, @RequestParam("containerId") String containerId){
         containerDAO.stopContainer(containerId);
+        return "redirect:/home/containers";
+    }
+
+    @RequestMapping(value = "/home/containers/delete_container", method=RequestMethod.POST)
+    public String deleteContainer(ModelMap model, @RequestParam("containerId") String containerId){
+        containerDAO.deleteContainer(containerId);
         return "redirect:/home/containers";
     }
 

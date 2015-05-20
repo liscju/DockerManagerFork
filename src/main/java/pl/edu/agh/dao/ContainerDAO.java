@@ -32,4 +32,8 @@ public class ContainerDAO {
     public void stopContainer(String containerId) {
         dockerConnector.stopContainer(containerId);
     }
+
+    public void deleteContainer(String containerId) {
+        dockerConnector.deleteContainer(containerId);
+    }
 }

@@ -180,4 +180,10 @@ public class DockerConnector {
                 .stopContainerCmd(containerId)
                 .exec();
     }
+
+    public void deleteContainer(String containerId) {
+        dockerClient
+                .removeContainerCmd(containerId)
+                .exec();
+    }
 }
