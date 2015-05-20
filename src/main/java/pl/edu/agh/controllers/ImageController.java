@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.agh.dao.ImageDAO;
-import pl.edu.agh.docker.DockerManager;
-import pl.edu.agh.model.DockerServer;
 import pl.edu.agh.model.Image;
-import pl.edu.agh.model.User;
 
 import java.io.IOException;
 import java.util.List;

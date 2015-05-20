@@ -1,7 +1,6 @@
 package pl.edu.agh.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.edu.agh.dao.ContainerDAO;
-import pl.edu.agh.docker.DockerManager;
 import pl.edu.agh.controllers.api.CustomController;
 import pl.edu.agh.model.Container;
-import pl.edu.agh.model.Image;
 
 import java.util.List;
 
