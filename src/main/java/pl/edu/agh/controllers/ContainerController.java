@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -11,6 +12,7 @@ import pl.edu.agh.dao.ContainerDAO;
 import pl.edu.agh.docker.DockerManager;
 import pl.edu.agh.controllers.api.CustomController;
 import pl.edu.agh.model.Container;
+import pl.edu.agh.model.Image;
 
 import java.util.List;
 
@@ -26,6 +28,14 @@ public class ContainerController extends CustomController {
         List<Container> allContainers = containerDAO.getAllContainers();
         model.addAttribute("containers",allContainers);
         return "home/containers";
+    }
+
+    @RequestMapping(value = "/home/containers/{containerId}", method=RequestMethod.GET)
+    public String getImage(@PathVariable String containerId, ModelMap model){
+        Container container = containerDAO.getContainer(containerId);
+
+        model.addAttribute("container",container);
+        return "home/container_details";
     }
 
 }

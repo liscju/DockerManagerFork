@@ -147,4 +147,15 @@ public class DockerConnector {
     public List<Container> getAllContainers() {
         return dockerClient.listContainersCmd().exec();
     }
+
+    public Container getContainer(String containerId) {
+        List<Container> allContainers = getAllContainers();
+        Container foundContainer = null;
+        for (Container container : allContainers) {
+            if (container.getId().equals(containerId)) {
+                foundContainer = container;
+            }
+        }
+        return foundContainer;
+    }
 }

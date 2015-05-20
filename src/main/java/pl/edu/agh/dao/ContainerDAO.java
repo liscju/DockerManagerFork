@@ -23,4 +23,9 @@ public class ContainerDAO {
         }
         return containerList;
     }
+
+    public Container getContainer(String containerId) {
+        com.github.dockerjava.api.model.Container container = dockerConnector.getContainer(containerId);
+        return new Container(container.getId(),container.getImage(),container.getStatus());
+    }
 }
