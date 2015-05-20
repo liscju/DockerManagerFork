@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Container;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ContainerDAO {
         List<Container> containerList = new LinkedList<Container>();
         for (com.github.dockerjava.api.model.Container container : downloadContainers) {
             List<String> exposedInterfaces = getExposedInterfaces(container);
-            containerList.add(new Container(container.getId(),container.getImage(),container.getStatus(), exposedInterfaces) );
+            containerList.add(new Container(container.getId(), Arrays.asList(container.getNames()), container.getImage(),container.getStatus(), exposedInterfaces) );
         }
         return containerList;
     }
@@ -32,7 +33,7 @@ public class ContainerDAO {
     public Container getContainer(String containerId) {
         com.github.dockerjava.api.model.Container container = dockerConnector.getContainer(containerId);
         List<String> exposedInterfaces = getExposedInterfaces(container);
-        return new Container(container.getId(),container.getImage(), container.getStatus(),exposedInterfaces);
+        return new Container(container.getId(),Arrays.asList(container.getNames()),container.getImage(), container.getStatus(),exposedInterfaces);
     }
 
     private List<String> getExposedInterfaces(com.github.dockerjava.api.model.Container container) {

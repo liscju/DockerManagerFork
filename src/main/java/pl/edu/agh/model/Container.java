@@ -5,19 +5,25 @@ import java.util.List;
 public class Container {
 
     private final String id;
+    private final List<String> names;
     private final String image;
     private final String status;
     private final List<String> interfaces;
 
-    public Container(String id, String image, String status, List<String> exposedInterfaces) {
+    public Container(String id, List<String> names, String image, String status, List<String> exposedInterfaces) {
         this.id = id;
         this.image = image;
         this.status = status;
         this.interfaces = exposedInterfaces;
+        this.names = names;
     }
 
     public String getId() {
         return id;
+    }
+
+    public List<String> getNames() {
+        return names;
     }
 
     public String getImage() {

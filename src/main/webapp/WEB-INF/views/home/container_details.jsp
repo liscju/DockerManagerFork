@@ -16,6 +16,7 @@
 
     <p class="lead">
       Container id: ${container.id} <br>
+      Container names: ${container.names} <br>
       container image: ${container.image} <br>
       container status: ${container.status}
     </p>

@@ -20,6 +20,7 @@
       <thead>
       <tr>
         <th>Id</th>
+        <th>Names</th>
         <th>Image</th>
         <th>Status</th>
       </tr>
@@ -28,6 +29,7 @@
         <c:forEach var="container" items="${containers}">
           <tr>
             <td>${container.id}</td>
+            <td>${container.names}</td>
             <td>${container.image}</td>
             <td>${container.status}</td>
             <td><a href="${pageContext.request.contextPath}/home/containers/${container.id}">Show details</a></td>
