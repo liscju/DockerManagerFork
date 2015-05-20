@@ -21,6 +21,13 @@ public class ContainerController extends CustomController {
     @Autowired
     ContainerDAO containerDAO;
 
+    public ContainerController() {
+    }
+
+    public ContainerController(ContainerDAO containerDAO) {
+        this.containerDAO = containerDAO;
+    }
+
     @RequestMapping(value="/home/containers",method = RequestMethod.GET)
     public String getAllContainers(ModelMap model) {
         List<Container> allContainers = containerDAO.getAllContainers();
