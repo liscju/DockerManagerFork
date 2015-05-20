@@ -53,9 +53,9 @@ public class ImageDAO {
         return new Image(image.getId(),Joiner.on(":").join(image.getRepoTags()) );
     }
 
-    public void createImageForWar(String image_name,byte[] war_content) {
+    public void createImageForWar(String image_name, String war_name, byte[] war_content) {
         try {
-            dockerConnector.createImageForWar(image_name,war_content);
+            dockerConnector.createImageForWar(image_name,war_name,war_content);
         } catch (IOException e) {
             e.printStackTrace();
         }

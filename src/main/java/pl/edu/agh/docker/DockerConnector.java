@@ -97,12 +97,12 @@ public class DockerConnector {
         return IOUtils.toString(response1);
     }
 
-    public void createImageForWar(String name, byte[] war_content) throws IOException{
+    public void createImageForWar(String name, String war_name, byte[] war_content) throws IOException{
         Path dockerManagerDir = Files.createTempDirectory("dockerManagerDir");
         File dockerFile = new File(dockerManagerDir.toString(),"Dockerfile");
         File webapps_dir = new File(dockerManagerDir.toString(), "webapps");
         webapps_dir.mkdir();
-        File war_file = new File(webapps_dir.toString(),"file.war");
+        File war_file = new File(webapps_dir.toString(),war_name);
 
         String docker_content =
                 "FROM ubuntu:14.04\n" +
@@ -130,7 +130,7 @@ public class DockerConnector {
 
         Map<String, String> mapping = new HashMap<String, String>();
         mapping.put(dockerFile.getAbsolutePath(),"Dockerfile");
-        mapping.put(war_file.getAbsolutePath(), "webapps\\file.war");
+        mapping.put(war_file.getAbsolutePath(), "webapps\\" + war_name);
         File tarFile = File.createTempFile("dockermanagerdir",".tar");
         CompressTarGz.compress(tarFile.getAbsolutePath(), mapping);
 

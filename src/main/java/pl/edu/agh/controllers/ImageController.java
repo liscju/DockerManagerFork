@@ -65,7 +65,7 @@ public class ImageController {
                                     @RequestParam("image_name") String image_name,
                                     @RequestParam("war_file") MultipartFile war_file) {
         try {
-            imageDAO.createImageForWar(image_name,war_file.getBytes());
+            imageDAO.createImageForWar(image_name,war_file.getOriginalFilename(),war_file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
