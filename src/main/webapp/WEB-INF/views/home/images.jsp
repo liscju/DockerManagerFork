@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -25,7 +26,7 @@
         <tbody>
           <c:forEach var="image" items="${images}">
             <tr>
-              <td>${image.id}</td>
+              <td>${fn:substring(image.id,0,10)}...</td>
               <td>${image.tag}</td>
               <td><a href="${pageContext.request.contextPath}/home/images/${image.id}">Show details</a></td>
             </tr>
