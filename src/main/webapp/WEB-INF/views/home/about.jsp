@@ -14,6 +14,11 @@
     <h1>DockerManager</h1>
 
     <p class="lead">Application to easily manage docker container</p>
+
+    <p class="lead">
+      Contact:<br>
+      Best way is with github site: <a href="https://github.com/liscju/DockerManager" target="_blank">DockerManager</a>
+    </p>
   </div>
 </div>
 

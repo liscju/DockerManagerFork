@@ -41,9 +41,4 @@ public class HomeController {
         return "home/about";
     }
 
-    @RequestMapping(value="/home/contact",method = RequestMethod.GET)
-    public String getContact(ModelMap model) {
-        return "home/contact";
-    }
-
 }
