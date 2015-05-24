@@ -1,6 +1,8 @@
 package pl.edu.agh.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.configuration.Configurator;
 import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Container;
 
@@ -10,14 +12,16 @@ import java.util.List;
 
 @Service
 public class ContainerDAO {
-    private final String serverIP;
-    private final String serverPort;
-    private final DockerConnector dockerConnector;
+    private DockerConnector dockerConnector;
+
+    @Autowired
+    Configurator configurator;
 
     public ContainerDAO() {
-        serverIP = "192.168.0.2";
-        serverPort = "2375";
-        dockerConnector = new DockerConnector("http://" + serverIP + ":" + serverPort);
+    }
+
+    public void connect(String address) {
+        dockerConnector = new DockerConnector("http://" + address);
     }
 
     public List<Container> getAllContainers() {
@@ -40,7 +44,7 @@ public class ContainerDAO {
         com.github.dockerjava.api.model.Container.Port[] ports = container.getPorts();
         List<String> exposedInterfaces = new LinkedList<String>();
         for (com.github.dockerjava.api.model.Container.Port port : ports) {
-            exposedInterfaces.add(serverIP + ":" + port.getPublicPort() + "->" + port.getPrivatePort() );
+            exposedInterfaces.add(configurator.getAddress() + " with addr:" + port.getPublicPort() + "->" + port.getPrivatePort() );
         }
         return exposedInterfaces;
     }

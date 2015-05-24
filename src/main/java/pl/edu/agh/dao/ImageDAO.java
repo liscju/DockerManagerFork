@@ -14,14 +14,13 @@ import java.util.Map;
 
 @Service
 public class ImageDAO {
-    private final String serverIP;
-    private final String serverPort;
-    private final DockerConnector dockerConnector;
+    private DockerConnector dockerConnector;
 
     public ImageDAO() {
-        serverIP = "192.168.0.2";
-        serverPort = "2375";
-        dockerConnector = new DockerConnector("http://" + serverIP + ":" + serverPort);
+    }
+
+    public void connect(String address) {
+        dockerConnector = new DockerConnector("http://" + address);
     }
 
     public List<Image> getAllImages() {
