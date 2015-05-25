@@ -11,7 +11,7 @@
 }
 
 form {
-    display: inline-block; //Or display: inline;
+    display: inline-block;
 }
 
 .voffset  { margin-top: 2px; }
