@@ -13,7 +13,7 @@ public class TaskRunner {
     @Autowired
     TaskDAO taskDAO;
 
-    public void runSimpleTask(final Task task,final Runnable runnable) {
+    public void runSimpleTask(final Task task,final RunnableTask runnable) {
         Runnable stopJob = new Runnable() {
             public void run() {
                 Task inprogressStopContainerTask = new Task(task.getId(),

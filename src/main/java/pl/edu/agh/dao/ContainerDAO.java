@@ -7,6 +7,7 @@ import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Container;
 import pl.edu.agh.model.Task;
 import pl.edu.agh.model.TaskStatus;
+import pl.edu.agh.util.RunnableTask;
 import pl.edu.agh.util.TaskRunner;
 
 import java.util.Arrays;
@@ -61,8 +62,8 @@ public class ContainerDAO {
     public Task stopContainer(final String containerId) {
         Task stopContainerTask = new Task("StopContainer:"+containerId);
         final Task savedStopContainerTask = taskDAO.saveTask(stopContainerTask);
-        taskRunner.runSimpleTask(savedStopContainerTask, new Runnable() {
-            public void run() {
+        taskRunner.runSimpleTask(savedStopContainerTask, new RunnableTask() {
+            public void run() throws Exception{
                 dockerConnector.stopContainer(containerId);
             }
         });
@@ -73,8 +74,8 @@ public class ContainerDAO {
     public Task deleteContainer(final String containerId) {
         Task deleteContainerTask = new Task("DeleteContainer:"+containerId);
         final Task savedDeleteContainerTask = taskDAO.saveTask(deleteContainerTask);
-        taskRunner.runSimpleTask(savedDeleteContainerTask, new Runnable() {
-            public void run() {
+        taskRunner.runSimpleTask(savedDeleteContainerTask, new RunnableTask() {
+            public void run() throws Exception{
                 dockerConnector.deleteContainer(containerId);
             }
         });
