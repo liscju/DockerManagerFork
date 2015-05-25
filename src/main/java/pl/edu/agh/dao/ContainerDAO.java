@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.configuration.Configurator;
 import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Container;
+import pl.edu.agh.model.Task;
+import pl.edu.agh.model.TaskStatus;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -16,6 +18,9 @@ public class ContainerDAO {
 
     @Autowired
     Configurator configurator;
+
+    @Autowired
+    TaskDAO taskDAO;
 
     public ContainerDAO() {
     }
@@ -49,8 +54,23 @@ public class ContainerDAO {
         return exposedInterfaces;
     }
 
-    public void stopContainer(String containerId) {
-        dockerConnector.stopContainer(containerId);
+    public Task stopContainer(final String containerId) {
+        Task stopContainerTask = new Task("StopContainer:"+containerId, TaskStatus.INQUEUE);
+        final Task savedStopContainerTask = taskDAO.saveTask(stopContainerTask);
+        final TaskDAO lastTaskDAO = taskDAO;
+        Runnable stopJob = new Runnable() {
+            public void run() {
+                dockerConnector.stopContainer(containerId);
+                Task closedStopContainerTask = new Task(savedStopContainerTask.getProperties(),
+                                                        TaskStatus.SUCCESS_END);
+                lastTaskDAO.updateTask(closedStopContainerTask);
+            }
+        };
+
+        Thread commandThread = new Thread(stopJob);
+        commandThread.start();
+
+        return savedStopContainerTask;
     }
 
     public void deleteContainer(String containerId) {

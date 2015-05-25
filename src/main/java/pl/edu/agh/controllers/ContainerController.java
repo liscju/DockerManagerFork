@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.edu.agh.dao.ContainerDAO;
 import pl.edu.agh.model.Container;
+import pl.edu.agh.model.Task;
 
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class ContainerController{
 
     @RequestMapping(value = "/home/containers/stop_container", method=RequestMethod.POST)
     public String stopContainer(ModelMap model, @RequestParam("containerId") String containerId){
-        containerDAO.stopContainer(containerId);
-        return "redirect:/home/containers";
+        Task task = containerDAO.stopContainer(containerId);
+        return "redirect:/home/tasks/" + task.getId();
     }
 
     @RequestMapping(value = "/home/containers/delete_container", method=RequestMethod.POST)

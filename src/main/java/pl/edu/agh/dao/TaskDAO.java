@@ -30,10 +30,18 @@ public class TaskDAO {
         return getTask(id);
     }
 
-    private Task getTask(Integer id) {
+    public Task getTask(Integer id) {
         Session session = sessionFactory.openSession();
         Task task = (Task) session.get(Task.class, id);
         session.close();
         return task;
+    }
+
+    public void updateTask(Task task) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(task);
+        transaction.commit();
+        session.close();
     }
 }
