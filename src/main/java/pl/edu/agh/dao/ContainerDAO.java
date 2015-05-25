@@ -55,15 +55,29 @@ public class ContainerDAO {
     }
 
     public Task stopContainer(final String containerId) {
-        Task stopContainerTask = new Task("StopContainer:"+containerId, TaskStatus.INQUEUE);
+        Task stopContainerTask = new Task("StopContainer:"+containerId, TaskStatus.BEGGINING);
         final Task savedStopContainerTask = taskDAO.saveTask(stopContainerTask);
         final TaskDAO lastTaskDAO = taskDAO;
         Runnable stopJob = new Runnable() {
             public void run() {
-                dockerConnector.stopContainer(containerId);
-                Task closedStopContainerTask = new Task(savedStopContainerTask.getProperties(),
-                                                        TaskStatus.SUCCESS_END);
-                lastTaskDAO.updateTask(closedStopContainerTask);
+                Task inprogressStopContainerTask = new Task(savedStopContainerTask.getId(),
+                                                            savedStopContainerTask.getProperties(),
+                                                            TaskStatus.INPROGRESS);
+                lastTaskDAO.updateTask(inprogressStopContainerTask);
+
+                try {
+                    dockerConnector.stopContainer(containerId);
+
+                    Task closedStopContainerTask = new Task(savedStopContainerTask.getId(),
+                                                            savedStopContainerTask.getProperties(),
+                                                            TaskStatus.SUCCESS_END);
+                    lastTaskDAO.updateTask(closedStopContainerTask);
+                } catch (Exception e) {
+                    Task closedStopContainerTask = new Task(savedStopContainerTask.getId(),
+                            savedStopContainerTask.getProperties(),
+                            TaskStatus.FAILURE_END);
+                    lastTaskDAO.updateTask(closedStopContainerTask);
+                }
             }
         };
 

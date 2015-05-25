@@ -12,8 +12,15 @@
 <div class="container">
   <div class="starter-template">
     TaskId: ${task.id}<br>
-    TaskProps: ${task.properties}
-    TaskStatus: ${task.status}
+    TaskProps: ${task.properties}<br>
+    TaskStatus:
+    <c:choose>
+      <c:when test="${task.status.name == 'BEGGINING'}">BEGGINNG</c:when>
+      <c:when test="${task.status.name == 'INPROGRESS'}">INPROGRESS</c:when>
+      <c:when test="${task.status.name == 'SUCCESS_END'}">SUCCESS_END</c:when>
+      <c:when test="${task.status.name == 'FAILURE_END'}">FAILURE_END</c:when>
+      <c:otherwise>BAD</c:otherwise>
+    </c:choose>
   </div>
 </div>
 

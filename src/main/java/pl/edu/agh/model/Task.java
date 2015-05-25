@@ -14,14 +14,20 @@ public class Task {
 
     private String properties;
 
-    private TaskStatus taskStatus;
+    private TaskStatus status;
 
     public Task() {
     }
 
-    public Task(String properties, TaskStatus taskStatus) {
+    public Task(String properties, TaskStatus status) {
         this.properties = properties;
-        this.taskStatus = taskStatus;
+        this.status = status;
+    }
+
+    public Task(int id,String properties, TaskStatus status) {
+        this.id = id;
+        this.properties = properties;
+        this.status = status;
     }
 
     public int getId() {
@@ -32,8 +38,8 @@ public class Task {
         return properties;
     }
 
-    public TaskStatus getTaskStatus() {
-        return taskStatus;
+    public TaskStatus getStatus() {
+        return status;
     }
 
     @Override
@@ -45,7 +51,7 @@ public class Task {
 
         if (id != task.id) return false;
         if (properties != null ? !properties.equals(task.properties) : task.properties != null) return false;
-        if (taskStatus != task.taskStatus) return false;
+        if (status != task.status) return false;
 
         return true;
     }
@@ -54,7 +60,7 @@ public class Task {
     public int hashCode() {
         int result = id;
         result = 31 * result + (properties != null ? properties.hashCode() : 0);
-        result = 31 * result + (taskStatus != null ? taskStatus.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
 }
