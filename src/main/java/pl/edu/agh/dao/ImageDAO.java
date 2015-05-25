@@ -4,6 +4,7 @@ import com.github.dockerjava.api.model.SearchItem;
 import com.google.common.base.Joiner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Image;
 import pl.edu.agh.model.Task;
@@ -69,12 +70,17 @@ public class ImageDAO {
         return new Image(image.getId(),Joiner.on(":").join(image.getRepoTags()) );
     }
 
-    public void createImageForWar(String image_name, String war_name, byte[] war_content) {
-        try {
-            dockerConnector.createImageForWar(image_name,war_name,war_content);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Task createImageForWar(final String image_name, final String war_name, final MultipartFile war_content) {
+
+        Task createContainerTask = new Task("Create Container for War:"+image_name);
+        final Task savedCreateContainerTask = taskDAO.saveTask(createContainerTask);
+        taskRunner.runSimpleTask(savedCreateContainerTask, new RunnableTask() {
+            public void run() throws Exception{
+                dockerConnector.createImageForWar(image_name, war_name, war_content.getBytes());
+            }
+        });
+
+        return savedCreateContainerTask;
     }
 
     public Map<String,String> searchForImageByName(String name){

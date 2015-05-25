@@ -73,12 +73,9 @@ public class ImageController {
     public String createImageForWar(ModelMap modelMap,
                                     @RequestParam("image_name") String image_name,
                                     @RequestParam("war_file") MultipartFile war_file) {
-        try {
-            imageDAO.createImageForWar(image_name,war_file.getOriginalFilename(),war_file.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "home/images";
+
+        Task task = imageDAO.createImageForWar(image_name, war_file.getOriginalFilename(), war_file);
+        return "redirect:/home/tasks/" + task.getId();
     }
 
     @RequestMapping(value = "/home/images/find_image", method=RequestMethod.GET)
