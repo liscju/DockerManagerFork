@@ -19,9 +19,9 @@ public class Task {
     public Task() {
     }
 
-    public Task(String properties, TaskStatus status) {
+    public Task(String properties) {
         this.properties = properties;
-        this.status = status;
+        this.status = TaskStatus.BEGGINING;
     }
 
     public Task(int id,String properties, TaskStatus status) {

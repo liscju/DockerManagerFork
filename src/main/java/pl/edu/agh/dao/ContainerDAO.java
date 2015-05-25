@@ -59,7 +59,7 @@ public class ContainerDAO {
     }
 
     public Task stopContainer(final String containerId) {
-        Task stopContainerTask = new Task("StopContainer:"+containerId, TaskStatus.BEGGINING);
+        Task stopContainerTask = new Task("StopContainer:"+containerId);
         final Task savedStopContainerTask = taskDAO.saveTask(stopContainerTask);
         taskRunner.runSimpleTask(savedStopContainerTask, new Runnable() {
             public void run() {
@@ -71,7 +71,7 @@ public class ContainerDAO {
     }
 
     public Task deleteContainer(final String containerId) {
-        Task deleteContainerTask = new Task("DeleteContainer:"+containerId, TaskStatus.BEGGINING);
+        Task deleteContainerTask = new Task("DeleteContainer:"+containerId);
         final Task savedDeleteContainerTask = taskDAO.saveTask(deleteContainerTask);
         taskRunner.runSimpleTask(savedDeleteContainerTask, new Runnable() {
             public void run() {
