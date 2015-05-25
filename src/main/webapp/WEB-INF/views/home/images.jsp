@@ -85,26 +85,38 @@
               <div class="tab-pane active" id="dockerfile">
                 <form role="form" action="${pageContext.request.contextPath}/home/images/add_image_from_dockerfile" method="post">
                   <h2>Create Image from dockerfile</h2>
-                  Name<br>
-                  <input type="text" name="image_name"/>
-                  <br>
-                  File<br>
-                  <textarea rows="10" cols="80" name="dockerfile"></textarea>
-                  <br>
-                  <input type="submit"/>
+                    <table class="table">
+                      <tbody>
+                      <tr>
+                        <td><b>Name</b></td>
+                        <td><input type="text" class="form-control" name="image_name"/></td>
+                      </tr>
+                      <tr>
+                        <td><b>Content</b></td>
+                        <td><textarea rows="10" cols="80" class="form-control" name="dockerfile"></textarea></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  <button type="submit" class="btn btn-primary">Create</button>
                 </form>
               </div>
               <div class="tab-pane" id="war">
                 <form role="form" action="${pageContext.request.contextPath}/home/images/create_image_for_war"
                       method="post" enctype="multipart/form-data">
                   <h2>Create image for given WAR</h2>
-                  Name<br>
-                  <input type="text" name="image_name"/>
-                  <br><br>
-                  War FILE<br>
-                  <input type="file" name="war_file"/>
-                  <br>
-                  <input type="submit"/>
+                  <table class="table">
+                    <tbody>
+                    <tr>
+                      <td><b>Name</b></td>
+                      <td><input type="text" class="form-control" name="image_name"/></td>
+                    </tr>
+                    <tr>
+                      <td><b>War FILE</b></td>
+                      <td><input type="file" class="form-control" name="war_file"/></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <button type="submit" class="btn btn-primary">Create</button>
                 </form>
               </div>
             </div>
