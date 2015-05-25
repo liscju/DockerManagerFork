@@ -16,18 +16,29 @@ public class Task {
 
     private TaskStatus status;
 
+    private String errResult;
+
     public Task() {
     }
 
     public Task(String properties) {
         this.properties = properties;
         this.status = TaskStatus.BEGGINING;
+        this.errResult = "";
     }
 
     public Task(int id,String properties, TaskStatus status) {
         this.id = id;
         this.properties = properties;
         this.status = status;
+        this.errResult = "";
+    }
+
+    public Task(int id,String properties, TaskStatus status,String errResult) {
+        this.id = id;
+        this.properties = properties;
+        this.status = status;
+        this.errResult = errResult;
     }
 
     public int getId() {
@@ -42,6 +53,10 @@ public class Task {
         return status;
     }
 
+    public String getErrResult() {
+        return errResult;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,15 +67,17 @@ public class Task {
         if (id != task.id) return false;
         if (properties != null ? !properties.equals(task.properties) : task.properties != null) return false;
         if (status != task.status) return false;
+        if (errResult != null ? !errResult.equals(task.errResult) : task.errResult != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (properties != null ? properties.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        return result;
+        int result1 = id;
+        result1 = 31 * result1 + (properties != null ? properties.hashCode() : 0);
+        result1 = 31 * result1 + (status != null ? status.hashCode() : 0);
+        result1 = 31 * result1 + (errResult != null ? errResult.hashCode() : 0);
+        return result1;
     }
 }

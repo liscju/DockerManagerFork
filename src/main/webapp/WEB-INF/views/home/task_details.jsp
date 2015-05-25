@@ -21,6 +21,10 @@
       <c:when test="${task.status.name == 'FAILURE_END'}">FAILURE_END</c:when>
       <c:otherwise>BAD</c:otherwise>
     </c:choose>
+    <br>
+    <c:if test="${task.status.name == 'FAILURE_END'}">
+      ${task.errResult}
+    </c:if>
   </div>
 </div>
 

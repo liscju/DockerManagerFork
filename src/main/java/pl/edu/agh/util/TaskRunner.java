@@ -1,5 +1,6 @@
 package pl.edu.agh.util;
 
+import com.github.dockerjava.api.NotModifiedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.dao.TaskDAO;
@@ -28,9 +29,17 @@ public class TaskRunner {
                             TaskStatus.SUCCESS_END);
                     taskDAO.updateTask(closedStopContainerTask);
                 } catch (Exception e) {
-                    Task closedStopContainerTask = new Task(task.getId(),
+                    Task closedStopContainerTask = null;
+                    if (e instanceof NotModifiedException) {
+                        closedStopContainerTask = new Task(task.getId(),
+                                task.getProperties(),
+                                TaskStatus.FAILURE_END,
+                                "Not Modified Exception");
+                    }else
+                        closedStopContainerTask = new Task(task.getId(),
                             task.getProperties(),
                             TaskStatus.FAILURE_END);
+
                     taskDAO.updateTask(closedStopContainerTask);
                 }
             }
