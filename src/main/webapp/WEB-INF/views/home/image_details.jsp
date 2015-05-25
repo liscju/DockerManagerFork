@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>DockerManager Image</title>
+  <title>DockerManager Image Details</title>
   <%@ include file="/resources/html/includes.html" %>
   <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet"/>
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/containers_main.js"></script>

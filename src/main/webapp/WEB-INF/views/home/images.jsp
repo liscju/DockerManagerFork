@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>DockerManager Containers</title>
+  <title>DockerManager Images</title>
   <%@ include file="/resources/html/includes.html" %>
   <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet"/>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lib/bootstrap-vertical-tabs-1.2.1/bootstrap.vertical-tabs.css">

@@ -12,7 +12,7 @@
 
 <div class="container">
   <div class="starter-template">
-    <h1>DockerManager</h1>
+    <h1>DockerManager Container Details</h1>
 
     <p class="lead">
       Container id: ${container.id} <br>
