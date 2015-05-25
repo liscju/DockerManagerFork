@@ -10,22 +10,53 @@
 <%@ include file="/resources/html/menu.html" %>
 
 <div class="container">
-  <div class="starter-template">
-    TaskId: ${task.id}<br>
-    TaskProps: ${task.properties}<br>
-    TaskStatus:
-    <c:choose>
-      <c:when test="${task.status.name == 'BEGGINING'}">BEGGINNG</c:when>
-      <c:when test="${task.status.name == 'INPROGRESS'}">INPROGRESS</c:when>
-      <c:when test="${task.status.name == 'SUCCESS_END'}">SUCCESS_END</c:when>
-      <c:when test="${task.status.name == 'FAILURE_END'}">FAILURE_END</c:when>
-      <c:otherwise>BAD</c:otherwise>
-    </c:choose>
-    <br>
-    <c:if test="${task.status.name == 'FAILURE_END'}">
-      ${task.errResult}
-    </c:if>
-  </div>
+    <div class="starter-template">
+      <h1>Task Info</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+              <b>ID</b>
+            </td>
+            <td>
+              ${task.id}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <b>Properties</b>
+            </td>
+            <td>
+              ${task.properties}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <b>Status</b>
+            </td>
+            <td>
+              <c:choose>
+                <c:when test="${task.status.name == 'BEGGINING'}">BEGGINNG</c:when>
+                <c:when test="${task.status.name == 'INPROGRESS'}">INPROGRESS</c:when>
+                <c:when test="${task.status.name == 'SUCCESS_END'}">SUCCESS_END</c:when>
+                <c:when test="${task.status.name == 'FAILURE_END'}">FAILURE_END</c:when>
+                <c:otherwise>BAD</c:otherwise>
+              </c:choose>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <c:if test="${task.status.name == 'FAILURE_END'}">
+          ${task.errResult}
+        </c:if>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+
 </div>
 
 </body>
