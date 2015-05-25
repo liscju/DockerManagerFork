@@ -51,8 +51,8 @@ public class ContainerController{
 
     @RequestMapping(value = "/home/containers/delete_container", method=RequestMethod.POST)
     public String deleteContainer(ModelMap model, @RequestParam("containerId") String containerId){
-        containerDAO.deleteContainer(containerId);
-        return "redirect:/home/containers";
+        Task task = containerDAO.deleteContainer(containerId);
+        return "redirect:/home/tasks/" + task.getId();
     }
 
 }

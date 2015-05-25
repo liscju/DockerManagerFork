@@ -70,7 +70,15 @@ public class ContainerDAO {
         return savedStopContainerTask;
     }
 
-    public void deleteContainer(String containerId) {
-        dockerConnector.deleteContainer(containerId);
+    public Task deleteContainer(final String containerId) {
+        Task deleteContainerTask = new Task("DeleteContainer:"+containerId, TaskStatus.BEGGINING);
+        final Task savedDeleteContainerTask = taskDAO.saveTask(deleteContainerTask);
+        taskRunner.runSimpleTask(savedDeleteContainerTask, new Runnable() {
+            public void run() {
+                dockerConnector.deleteContainer(containerId);
+            }
+        });
+
+        return savedDeleteContainerTask;
     }
 }
