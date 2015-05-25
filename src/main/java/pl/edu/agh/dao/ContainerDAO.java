@@ -7,6 +7,7 @@ import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Container;
 import pl.edu.agh.model.Task;
 import pl.edu.agh.model.TaskStatus;
+import pl.edu.agh.util.TaskRunner;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -21,6 +22,9 @@ public class ContainerDAO {
 
     @Autowired
     TaskDAO taskDAO;
+
+    @Autowired
+    TaskRunner taskRunner;
 
     public ContainerDAO() {
     }
@@ -57,32 +61,11 @@ public class ContainerDAO {
     public Task stopContainer(final String containerId) {
         Task stopContainerTask = new Task("StopContainer:"+containerId, TaskStatus.BEGGINING);
         final Task savedStopContainerTask = taskDAO.saveTask(stopContainerTask);
-        final TaskDAO lastTaskDAO = taskDAO;
-        Runnable stopJob = new Runnable() {
+        taskRunner.runSimpleTask(savedStopContainerTask, new Runnable() {
             public void run() {
-                Task inprogressStopContainerTask = new Task(savedStopContainerTask.getId(),
-                                                            savedStopContainerTask.getProperties(),
-                                                            TaskStatus.INPROGRESS);
-                lastTaskDAO.updateTask(inprogressStopContainerTask);
-
-                try {
-                    dockerConnector.stopContainer(containerId);
-
-                    Task closedStopContainerTask = new Task(savedStopContainerTask.getId(),
-                                                            savedStopContainerTask.getProperties(),
-                                                            TaskStatus.SUCCESS_END);
-                    lastTaskDAO.updateTask(closedStopContainerTask);
-                } catch (Exception e) {
-                    Task closedStopContainerTask = new Task(savedStopContainerTask.getId(),
-                            savedStopContainerTask.getProperties(),
-                            TaskStatus.FAILURE_END);
-                    lastTaskDAO.updateTask(closedStopContainerTask);
-                }
+                dockerConnector.stopContainer(containerId);
             }
-        };
-
-        Thread commandThread = new Thread(stopJob);
-        commandThread.start();
+        });
 
         return savedStopContainerTask;
     }
