@@ -6,6 +6,7 @@
   <title>DockerManager Containers</title>
   <%@ include file="/resources/html/includes.html" %>
   <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lib/bootstrap-vertical-tabs-1.2.1/bootstrap.vertical-tabs.css">
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/images_main.js"></script>
 </head>
 <body>
@@ -54,7 +55,7 @@
             </div>
             <button type="button" class="btn btn-default" onclick="searchForImage()">Search</button>
           </div>
-
+          <br><br><br>
           <div class="search-result">
             <table class="table">
               <thead>
@@ -69,31 +70,47 @@
           </div>
         </div>
         <div class="tab-pane" id="create">
-          <h1>Create</h1>
-          <p>Create image:</p>
+          <br><br>
+          <div class="col-xs-3"> <!-- required for floating -->
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs tabs-left">
+              <li class="active"><a href="#dockerfile" data-toggle="tab">Dockerfile</a></li>
+              <li><a href="#war" data-toggle="tab">War</a></li>
+            </ul>
+          </div>
 
-          <form role="form" action="${pageContext.request.contextPath}/home/images/add_image_from_dockerfile" method="post">
-            <h2>Create Image from dockerfile</h2>
-            Name<br>
-            <input type="text" name="image_name"/>
-            <br>
-            File<br>
-            <textarea rows="10" cols="80" name="dockerfile"></textarea>
-            <br>
-            <input type="submit"/>
-          </form>
+          <div class="col-xs-9">
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane active" id="dockerfile">
+                <form role="form" action="${pageContext.request.contextPath}/home/images/add_image_from_dockerfile" method="post">
+                  <h2>Create Image from dockerfile</h2>
+                  Name<br>
+                  <input type="text" name="image_name"/>
+                  <br>
+                  File<br>
+                  <textarea rows="10" cols="80" name="dockerfile"></textarea>
+                  <br>
+                  <input type="submit"/>
+                </form>
+              </div>
+              <div class="tab-pane" id="war">
+                <form role="form" action="${pageContext.request.contextPath}/home/images/create_image_for_war"
+                      method="post" enctype="multipart/form-data">
+                  <h2>Create image for given WAR</h2>
+                  Name<br>
+                  <input type="text" name="image_name"/>
+                  <br><br>
+                  War FILE<br>
+                  <input type="file" name="war_file"/>
+                  <br>
+                  <input type="submit"/>
+                </form>
+              </div>
+            </div>
 
-          <form role="form" action="${pageContext.request.contextPath}/home/images/create_image_for_war"
-                method="post" enctype="multipart/form-data">
-            <h2>Create image for given WAR</h2>
-            Name<br>
-            <input type="text" name="image_name"/>
-            <br><br>
-            War FILE<br>
-            <input type="file" name="war_file"/>
-            <br>
-            <input type="submit"/>
-          </form>
+          </div>
+
         </div>
       </div>
     </div>
