@@ -55,6 +55,7 @@ public class WebMVCConfigurator extends WebMvcConfigurerAdapter {
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
         commonsMultipartResolver.setMaxUploadSize(250000000);
+        commonsMultipartResolver.setMaxInMemorySize(250000000);
         return commonsMultipartResolver;
     }
 

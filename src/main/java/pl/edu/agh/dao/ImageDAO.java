@@ -2,9 +2,14 @@ package pl.edu.agh.dao;
 
 import com.github.dockerjava.api.model.SearchItem;
 import com.google.common.base.Joiner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Image;
+import pl.edu.agh.model.Task;
+import pl.edu.agh.util.RunnableTask;
+import pl.edu.agh.util.TaskRunner;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,6 +20,12 @@ import java.util.Map;
 @Service
 public class ImageDAO {
     private DockerConnector dockerConnector;
+
+    @Autowired
+    TaskDAO taskDAO;
+
+    @Autowired
+    TaskRunner taskRunner;
 
     public ImageDAO() {
     }
@@ -32,12 +43,17 @@ public class ImageDAO {
         return imagesToReturn;
     }
 
-    public void addImageFromDockerfile(String name,String content) {
-        try {
-            dockerConnector.createImageFromDockerFile(name,content);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Task addImageFromDockerfile(final String name, final String content) {
+
+        Task createImageTask = new Task("Create Image from docker:"+name);
+        final Task savedCreateImageTask = taskDAO.saveTask(createImageTask);
+        taskRunner.runSimpleTask(savedCreateImageTask, new RunnableTask() {
+            public void run() throws Exception{
+                dockerConnector.createImageFromDockerFile(name, content);
+            }
+        });
+
+        return savedCreateImageTask;
     }
 
     public String runQuickCommandInImage(String imageId, String command) {
@@ -54,12 +70,17 @@ public class ImageDAO {
         return new Image(image.getId(),Joiner.on(":").join(image.getRepoTags()) );
     }
 
-    public void createImageForWar(String image_name, String war_name, byte[] war_content) {
-        try {
-            dockerConnector.createImageForWar(image_name,war_name,war_content);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Task createImageForWar(final String image_name, final String war_name, final MultipartFile war_content) {
+
+        Task createImageTask = new Task("Create Image for War:"+image_name);
+        final Task savedCreateImageTask = taskDAO.saveTask(createImageTask);
+        taskRunner.runSimpleTask(savedCreateImageTask, new RunnableTask() {
+            public void run() throws Exception{
+                dockerConnector.createImageForWar(image_name, war_name, war_content.getBytes());
+            }
+        });
+
+        return savedCreateImageTask;
     }
 
     public Map<String,String> searchForImageByName(String name){
@@ -71,11 +92,26 @@ public class ImageDAO {
         return foundImages;
     }
 
-    public void pullImage(String imageName) {
-        dockerConnector.pullImage(imageName);
+    public Task pullImage(final String imageName) {
+        Task pullImageTask = new Task("Pull image:"+imageName);
+        final Task savedPullImageTask = taskDAO.saveTask(pullImageTask);
+        taskRunner.runSimpleTask(savedPullImageTask, new RunnableTask() {
+            public void run() throws Exception {
+                dockerConnector.pullImage(imageName);
+            }
+        });
+        return savedPullImageTask;
     }
 
-    public String runImageInContainer(String imageId) {
-        return dockerConnector.runImageInContainer(imageId);
+    public Task runImageInContainer(final String imageId) {
+
+        Task runInContainerTask = new Task("Run in container from image::"+imageId);
+        final Task savedRunInContainerTask = taskDAO.saveTask(runInContainerTask);
+        taskRunner.runSimpleTask(savedRunInContainerTask, new RunnableTask() {
+            public void run() throws Exception{
+                dockerConnector.runImageInContainer(imageId);
+            }
+        });
+        return savedRunInContainerTask;
     }
 }
