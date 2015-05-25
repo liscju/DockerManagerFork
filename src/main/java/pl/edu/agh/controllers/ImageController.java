@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.agh.dao.ImageDAO;
 import pl.edu.agh.model.Image;
+import pl.edu.agh.model.Task;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,8 +46,8 @@ public class ImageController {
                                          @RequestParam("image_name") String image_name,
                                          @RequestParam("dockerfile") String dockerfile) {
 
-        imageDAO.addImageFromDockerfile(image_name, dockerfile);
-        return "redirect:/home/images";
+        Task task = imageDAO.addImageFromDockerfile(image_name, dockerfile);
+        return "redirect:/home/tasks/" + task.getId();
     }
 
     @RequestMapping(value = "/home/images/quick_command_run", method=RequestMethod.POST)

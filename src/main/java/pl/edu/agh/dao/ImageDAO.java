@@ -2,9 +2,13 @@ package pl.edu.agh.dao;
 
 import com.github.dockerjava.api.model.SearchItem;
 import com.google.common.base.Joiner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Image;
+import pl.edu.agh.model.Task;
+import pl.edu.agh.util.RunnableTask;
+import pl.edu.agh.util.TaskRunner;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,6 +19,12 @@ import java.util.Map;
 @Service
 public class ImageDAO {
     private DockerConnector dockerConnector;
+
+    @Autowired
+    TaskDAO taskDAO;
+
+    @Autowired
+    TaskRunner taskRunner;
 
     public ImageDAO() {
     }
@@ -32,12 +42,17 @@ public class ImageDAO {
         return imagesToReturn;
     }
 
-    public void addImageFromDockerfile(String name,String content) {
-        try {
-            dockerConnector.createImageFromDockerFile(name,content);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Task addImageFromDockerfile(final String name, final String content) {
+
+        Task createContainerTask = new Task("Create Container from docker:"+name);
+        final Task savedCreateContainerTask = taskDAO.saveTask(createContainerTask);
+        taskRunner.runSimpleTask(savedCreateContainerTask, new RunnableTask() {
+            public void run() throws Exception{
+                dockerConnector.createImageFromDockerFile(name, content);
+            }
+        });
+
+        return savedCreateContainerTask;
     }
 
     public String runQuickCommandInImage(String imageId, String command) {
