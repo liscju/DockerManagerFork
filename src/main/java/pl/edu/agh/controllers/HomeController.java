@@ -31,8 +31,6 @@ public class HomeController {
 
     @RequestMapping(value="/home",method = RequestMethod.GET)
     public String getHome(ModelMap model) {
-        model.addAttribute("username", "DEFAULT_USER");
-        model.addAttribute("greeting", "Welcome to DockerManager");
         return "home/index";
     }
 

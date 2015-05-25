@@ -13,10 +13,6 @@
 
 <div class="container">
   <div class="starter-template">
-    <h1>DockerManager</h1>
-
-    <p class="lead">Containers</p>
-
     <table class="table">
       <thead>
       <tr>

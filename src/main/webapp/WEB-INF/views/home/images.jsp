@@ -12,11 +12,12 @@
   <%@ include file="/resources/html/menu.html" %>
   <div class="container">
     <div class="starter-template">
-      <h1>DockerManager</h1>
-
       <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
         <li class="active">
           <a href="#list" data-toggle="tab">List</a>
+        </li>
+        <li>
+          <a href="#search" data-toggle="tab">Search</a>
         </li>
         <li>
           <a href="#create" data-toggle="tab">Create</a>
@@ -44,6 +45,29 @@
             </tbody>
           </table>
         </div>
+        <div class="tab-pane" id="search">
+          <div>
+            <div class="form-group">
+              <h2>Search Image</h2>
+              <label for="image_to_find">Image:</label>
+              <input type="text" class="form-control" id="image_to_find" name="image_to_find" placeholder="Enter image">
+            </div>
+            <button type="button" class="btn btn-default" onclick="searchForImage()">Search</button>
+          </div>
+
+          <div class="search-result">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Image</th>
+                <th>Description</th>
+              </tr>
+              </thead>
+              <tbody id="search-result-body">
+              </tbody>
+            </table>
+          </div>
+        </div>
         <div class="tab-pane" id="create">
           <h1>Create</h1>
           <p>Create image:</p>
@@ -70,50 +94,8 @@
             <br>
             <input type="submit"/>
           </form>
-
-          <form role="form" action="${pageContext.request.contextPath}/home/images/find_image" method="post">
-            <div class="form-group">
-              <h2>Search Image</h2>
-              <label for="image_to_find">Image:</label>
-              <input type="text" class="form-control" id="image_to_find" name="image_to_find" placeholder="Enter image">
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-
-          <div class="search-result">
-
-            <c:if test="${not empty found_images}">
-
-              <table class="table">
-                <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="image" items="${found_images}">
-                  <tr>
-                    <td>
-                      <form action="${pageContext.request.contextPath}/home/images/pull_image" method="post">
-                        <input type="submit" class="btn btn-default" value="${image.key}" id="image_to_pull" name="image_to_pull">
-                      </form>
-                    </td>
-                    <td>${image.value}</td>
-
-                  </tr>
-                </c:forEach>
-                </tbody>
-              </table>
-
-            </c:if>
-
-          </div>
         </div>
       </div>
-
-
-
     </div>
   </div>
 </body>

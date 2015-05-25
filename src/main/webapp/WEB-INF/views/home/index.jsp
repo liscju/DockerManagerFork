@@ -11,9 +11,9 @@
 
 <div class="container">
     <div class="starter-template">
-        <h1>DockerManager</h1>
-
-        <p class="lead">Greeting : ${greeting}<br>From: ${username}</p>
+        <p class="lead">
+            Welcome to the application
+        </p>
     </div>
 </div>
 
