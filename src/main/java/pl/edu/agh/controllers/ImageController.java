@@ -65,8 +65,8 @@ public class ImageController {
     public String runImageInContainer(ModelMap model,
                                       @RequestParam("imageId") String imageId){
 
-        String containerId = imageDAO.runImageInContainer(imageId);
-        return "redirect:/home/containers";
+        Task task = imageDAO.runImageInContainer(imageId);
+        return "redirect:/home/tasks/" + task.getId();
     }
 
     @RequestMapping(value = "/home/images/create_image_for_war",method = RequestMethod.POST)

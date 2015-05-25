@@ -45,15 +45,15 @@ public class ImageDAO {
 
     public Task addImageFromDockerfile(final String name, final String content) {
 
-        Task createContainerTask = new Task("Create Container from docker:"+name);
-        final Task savedCreateContainerTask = taskDAO.saveTask(createContainerTask);
-        taskRunner.runSimpleTask(savedCreateContainerTask, new RunnableTask() {
+        Task createImageTask = new Task("Create Image from docker:"+name);
+        final Task savedCreateImageTask = taskDAO.saveTask(createImageTask);
+        taskRunner.runSimpleTask(savedCreateImageTask, new RunnableTask() {
             public void run() throws Exception{
                 dockerConnector.createImageFromDockerFile(name, content);
             }
         });
 
-        return savedCreateContainerTask;
+        return savedCreateImageTask;
     }
 
     public String runQuickCommandInImage(String imageId, String command) {
@@ -72,15 +72,15 @@ public class ImageDAO {
 
     public Task createImageForWar(final String image_name, final String war_name, final MultipartFile war_content) {
 
-        Task createContainerTask = new Task("Create Container for War:"+image_name);
-        final Task savedCreateContainerTask = taskDAO.saveTask(createContainerTask);
-        taskRunner.runSimpleTask(savedCreateContainerTask, new RunnableTask() {
+        Task createImageTask = new Task("Create Image for War:"+image_name);
+        final Task savedCreateImageTask = taskDAO.saveTask(createImageTask);
+        taskRunner.runSimpleTask(savedCreateImageTask, new RunnableTask() {
             public void run() throws Exception{
                 dockerConnector.createImageForWar(image_name, war_name, war_content.getBytes());
             }
         });
 
-        return savedCreateContainerTask;
+        return savedCreateImageTask;
     }
 
     public Map<String,String> searchForImageByName(String name){
@@ -96,7 +96,15 @@ public class ImageDAO {
         dockerConnector.pullImage(imageName);
     }
 
-    public String runImageInContainer(String imageId) {
-        return dockerConnector.runImageInContainer(imageId);
+    public Task runImageInContainer(final String imageId) {
+
+        Task runInContainerTask = new Task("Run in container from image::"+imageId);
+        final Task savedRunInContainerTask = taskDAO.saveTask(runInContainerTask);
+        taskRunner.runSimpleTask(savedRunInContainerTask, new RunnableTask() {
+            public void run() throws Exception{
+                dockerConnector.runImageInContainer(imageId);
+            }
+        });
+        return savedRunInContainerTask;
     }
 }
