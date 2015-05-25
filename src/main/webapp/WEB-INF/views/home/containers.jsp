@@ -31,7 +31,7 @@
           <tr>
             <td>${fn:substring(container.id,0,10)}...</td>
             <td>${container.names}</td>
-            <td>${container.image}</td>
+            <td>${fn:substring(container.image,0,10)}...</td>
             <td>${container.status}</td>
             <td><a href="${pageContext.request.contextPath}/home/containers/${container.id}">Show details</a></td>
           </tr>
