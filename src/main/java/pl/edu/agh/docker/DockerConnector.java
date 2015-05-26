@@ -9,6 +9,7 @@ import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.command.EventStreamReader;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.NullInputStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,7 @@ public class DockerConnector {
         return dockerClient.searchImagesCmd(name).exec();
     }
 
-    public void createImageFromDockerFile(String name,String content) throws IOException {
+    public EventStreamReader<EventStreamItem> createImageFromDockerFile(String name, String content) throws IOException {
         // Znowu mega obejscie.... , dockerClient.buildImageCmd oczekuje jako parametru
         // albo InputStream ktory bedzie spakowany gzipem,zipem
         // zobacz https://docs.docker.com/reference/api/docker_remote_api_v1.18/
@@ -58,22 +59,27 @@ public class DockerConnector {
         // nie mam cierpliwosci wiec zrobilem obejscie - ale ale wyglada ze dziala
         Path dockerManagerDir = Files.createTempDirectory("dockerManagerDir");
         File dockerFile = new File(dockerManagerDir.toString(),"Dockerfile");
-
+        BuildImageCmd.Response exec = null;
+        EventStreamReader<EventStreamItem> eventStreamReader = null;
         try {
             PrintWriter printWriter = new PrintWriter(dockerFile);
             printWriter.print(content);
             printWriter.close();
 
-            dockerClient
-                    .buildImageCmd(new File(dockerManagerDir.toString() ) )
+            exec = dockerClient
+                    .buildImageCmd(new File(dockerManagerDir.toString()))
                     .withNoCache()
                     .withTag(name)
-                    .exec()
-                    .close();
+                    .exec();
+
+            eventStreamReader = new EventStreamReader<EventStreamItem>(exec, EventStreamItem.class);
+        } catch (Exception e) {
+            eventStreamReader = new EventStreamReader<EventStreamItem>(new NullInputStream(1),EventStreamItem.class);
         } finally {
             dockerFile.delete();
             new File(dockerManagerDir.toString() ).delete();
         }
+        return eventStreamReader;
     }
 
     public String runImageCommand(String imageId, String command) throws IOException {
@@ -101,7 +107,7 @@ public class DockerConnector {
         return output;
     }
 
-    public EventStreamReader<PullEventStreamItem> createImageForWar(String name, String war_name, byte[] war_content) throws IOException{
+    public EventStreamReader<EventStreamItem> createImageForWar(String name, String war_name, byte[] war_content) throws IOException{
         Path dockerManagerDir = Files.createTempDirectory("dockerManagerDir");
         File dockerFile = new File(dockerManagerDir.toString(),"Dockerfile");
         File webapps_dir = new File(dockerManagerDir.toString(), "webapps");
@@ -144,7 +150,7 @@ public class DockerConnector {
                 .withTag(name)
                 .exec();
 
-        EventStreamReader<PullEventStreamItem> eventStreamReader = new EventStreamReader<PullEventStreamItem>(exec, PullEventStreamItem.class);
+        EventStreamReader<EventStreamItem> eventStreamReader = new EventStreamReader<EventStreamItem>(exec, EventStreamItem.class);
 
         new File(dockerManagerDir.toString() ).delete();
 

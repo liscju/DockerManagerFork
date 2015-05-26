@@ -1,5 +1,6 @@
 package pl.edu.agh.dao;
 
+import com.github.dockerjava.api.model.EventStreamItem;
 import com.github.dockerjava.api.model.PullEventStreamItem;
 import com.github.dockerjava.api.model.SearchItem;
 import com.github.dockerjava.core.command.EventStreamReader;
@@ -50,9 +51,9 @@ public class ImageDAO {
 
         Task createImageTask = new Task("Create Image from docker:"+name);
         final Task savedCreateImageTask = taskDAO.saveTask(createImageTask);
-        taskRunner.runSimpleTask(savedCreateImageTask, new RunnableTask() {
-            public void run() throws Exception{
-                dockerConnector.createImageFromDockerFile(name, content);
+        taskRunner.runTaskWithReturn(savedCreateImageTask, new RunnableTaskWithReturn() {
+            public EventStreamReader<EventStreamItem> run() throws Exception {
+                return dockerConnector.createImageFromDockerFile(name, content);
             }
         });
 
@@ -78,7 +79,7 @@ public class ImageDAO {
         Task createImageTask = new Task("Create Image for War:"+image_name);
         final Task savedCreateImageTask = taskDAO.saveTask(createImageTask);
         taskRunner.runTaskWithReturn(savedCreateImageTask, new RunnableTaskWithReturn() {
-            public EventStreamReader<PullEventStreamItem> run() throws Exception {
+            public EventStreamReader<EventStreamItem> run() throws Exception {
                 return dockerConnector.createImageForWar(image_name, war_name, war_content.getBytes());
             }
         });
