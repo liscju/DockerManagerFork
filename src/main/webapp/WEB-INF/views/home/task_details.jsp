@@ -8,6 +8,10 @@
 </head>
 <body>
 <%@ include file="/resources/html/menu.html" %>
+<%
+  // Set refresh, autoload time as 5 seconds
+  response.setIntHeader("Refresh", 5);
+%>
 
 <div class="container">
     <div class="starter-template">

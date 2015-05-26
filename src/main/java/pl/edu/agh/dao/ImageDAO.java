@@ -1,6 +1,8 @@
 package pl.edu.agh.dao;
 
+import com.github.dockerjava.api.model.PullEventStreamItem;
 import com.github.dockerjava.api.model.SearchItem;
+import com.github.dockerjava.core.command.EventStreamReader;
 import com.google.common.base.Joiner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Image;
 import pl.edu.agh.model.Task;
 import pl.edu.agh.util.RunnableTask;
+import pl.edu.agh.util.RunnableTaskWithReturn;
 import pl.edu.agh.util.TaskRunner;
 
 import java.io.IOException;
@@ -74,9 +77,9 @@ public class ImageDAO {
 
         Task createImageTask = new Task("Create Image for War:"+image_name);
         final Task savedCreateImageTask = taskDAO.saveTask(createImageTask);
-        taskRunner.runSimpleTask(savedCreateImageTask, new RunnableTask() {
-            public void run() throws Exception{
-                dockerConnector.createImageForWar(image_name, war_name, war_content.getBytes());
+        taskRunner.runTaskWithReturn(savedCreateImageTask, new RunnableTaskWithReturn() {
+            public EventStreamReader<PullEventStreamItem> run() throws Exception {
+                return dockerConnector.createImageForWar(image_name, war_name, war_content.getBytes());
             }
         });
 
