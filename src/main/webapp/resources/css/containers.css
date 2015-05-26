@@ -1,0 +1,11 @@
+.status-up {
+    color: green;
+}
+
+.status-stop {
+    color: yellow;
+}
+
+.status-exit {
+    color: red;
+}

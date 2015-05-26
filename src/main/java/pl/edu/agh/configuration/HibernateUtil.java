@@ -21,22 +21,23 @@ public class HibernateUtil {
 
     private static final String hibernateDialect = "org.hibernate.dialect.H2Dialect";
     private static final String hibernateShowSql = "true";
-    private static final String hibernateHbm2ddlAuto = "update";
+    //private static final String hibernateHbm2ddlAuto = "update";
+    private static final String hibernateHbm2ddlAuto = "create";
 
-//    private static DataSource getDataSource() {
-//        DataSource dataSource = new EmbeddedDatabaseBuilder()
-//                .setName("DockerManagerDB")
-//                .setType(EmbeddedDatabaseType.H2)
-//                .build();
-//        return dataSource;
-//    }
+    private static DataSource getDataSource() {
+        DataSource dataSource = new EmbeddedDatabaseBuilder()
+                .setName("DockerManagerDB")
+                .setType(EmbeddedDatabaseType.H2)
+                .build();
+        return dataSource;
+    }
     
-    private static DriverManagerDataSource getDataSource() {
+/*    private static DriverManagerDataSource getDataSource() {
     	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
     	    driverManagerDataSource.setDriverClassName("org.h2.Driver");
     	    driverManagerDataSource.setUrl("jdbc:h2:file:./db/DockerManagerDB");
     	    return driverManagerDataSource;
-    }
+    }*/
 
 
     private static Properties getHibernateProperties() {

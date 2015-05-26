@@ -1,8 +1,14 @@
 package pl.edu.agh.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.configuration.Configurator;
 import pl.edu.agh.docker.DockerConnector;
 import pl.edu.agh.model.Container;
+import pl.edu.agh.model.Task;
+import pl.edu.agh.model.TaskStatus;
+import pl.edu.agh.util.RunnableTask;
+import pl.edu.agh.util.TaskRunner;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -10,14 +16,22 @@ import java.util.List;
 
 @Service
 public class ContainerDAO {
-    private final String serverIP;
-    private final String serverPort;
-    private final DockerConnector dockerConnector;
+    private DockerConnector dockerConnector;
+
+    @Autowired
+    Configurator configurator;
+
+    @Autowired
+    TaskDAO taskDAO;
+
+    @Autowired
+    TaskRunner taskRunner;
 
     public ContainerDAO() {
-        serverIP = "127.0.0.1";
-        serverPort = "2375";
-        dockerConnector = new DockerConnector("http://" + serverIP + ":" + serverPort);
+    }
+
+    public void connect(String address) {
+        dockerConnector = new DockerConnector("http://" + address);
     }
 
     public List<Container> getAllContainers() {
@@ -40,16 +54,32 @@ public class ContainerDAO {
         com.github.dockerjava.api.model.Container.Port[] ports = container.getPorts();
         List<String> exposedInterfaces = new LinkedList<String>();
         for (com.github.dockerjava.api.model.Container.Port port : ports) {
-            exposedInterfaces.add(serverIP + ":" + port.getPublicPort() + "->" + port.getPrivatePort() );
+            exposedInterfaces.add(configurator.getAddress() + " with addr:" + port.getPublicPort() + "->" + port.getPrivatePort() );
         }
         return exposedInterfaces;
     }
 
-    public void stopContainer(String containerId) {
-        dockerConnector.stopContainer(containerId);
+    public Task stopContainer(final String containerId) {
+        Task stopContainerTask = new Task("StopContainer:"+containerId);
+        final Task savedStopContainerTask = taskDAO.saveTask(stopContainerTask);
+        taskRunner.runSimpleTask(savedStopContainerTask, new RunnableTask() {
+            public void run() throws Exception{
+                dockerConnector.stopContainer(containerId);
+            }
+        });
+
+        return savedStopContainerTask;
     }
 
-    public void deleteContainer(String containerId) {
-        dockerConnector.deleteContainer(containerId);
+    public Task deleteContainer(final String containerId) {
+        Task deleteContainerTask = new Task("DeleteContainer:"+containerId);
+        final Task savedDeleteContainerTask = taskDAO.saveTask(deleteContainerTask);
+        taskRunner.runSimpleTask(savedDeleteContainerTask, new RunnableTask() {
+            public void run() throws Exception{
+                dockerConnector.deleteContainer(containerId);
+            }
+        });
+
+        return savedDeleteContainerTask;
     }
 }

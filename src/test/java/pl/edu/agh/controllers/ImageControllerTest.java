@@ -89,19 +89,6 @@ public class ImageControllerTest {
     }
 
     @Test
-    public void testFindImage() throws Exception {
-        List<Image> allImages = new LinkedList<Image>();
-        String imageToFind = "ubuntu";
-        Map<String, String> foundImages = new HashMap<String, String>();
-        when(imageDAO.getAllImages()).thenReturn( allImages);
-        when(imageDAO.searchForImageByName(imageToFind)).thenReturn(foundImages);
-        String nextView = imageController.findImage(modelMap,imageToFind);
-        assertEquals("home/images",nextView);
-        verify(modelMap).addAttribute("images", allImages);
-        verify(modelMap).addAttribute("found_images",foundImages);
-    }
-
-    @Test
     public void testPullImage() throws Exception {
         String imageToPull = "fedora 5";
         String nextView = imageController.pullImage(modelMap,imageToPull);

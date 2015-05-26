@@ -1,14 +1,13 @@
 package pl.edu.agh.docker;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.BuildImageCmd;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
 import com.github.dockerjava.api.command.InspectImageResponse;
-import com.github.dockerjava.api.model.Container;
-import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.Image;
-import com.github.dockerjava.api.model.SearchItem;
+import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.command.EventStreamReader;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -101,7 +100,7 @@ public class DockerConnector {
         return output;
     }
 
-    public void createImageForWar(String name, String war_name, byte[] war_content) throws IOException{
+    public EventStreamReader<PullEventStreamItem> createImageForWar(String name, String war_name, byte[] war_content) throws IOException{
         Path dockerManagerDir = Files.createTempDirectory("dockerManagerDir");
         File dockerFile = new File(dockerManagerDir.toString(),"Dockerfile");
         File webapps_dir = new File(dockerManagerDir.toString(), "webapps");
@@ -138,14 +137,17 @@ public class DockerConnector {
         File tarFile = File.createTempFile("dockermanagerdir",".tar");
         CompressTarGz.compress(tarFile.getAbsolutePath(), mapping);
 
-        dockerClient
+        BuildImageCmd.Response exec = dockerClient
                 .buildImageCmd(new FileInputStream(tarFile))
                 .withNoCache()
                 .withTag(name)
-                .exec()
-                .close();
+                .exec();
+
+        EventStreamReader<PullEventStreamItem> eventStreamReader = new EventStreamReader<PullEventStreamItem>(exec, PullEventStreamItem.class);
 
         new File(dockerManagerDir.toString() ).delete();
+
+        return eventStreamReader;
     }
 
     public List<Container> getAllContainers() {

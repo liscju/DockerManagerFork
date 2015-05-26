@@ -3,13 +3,11 @@ package pl.edu.agh.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.agh.dao.ImageDAO;
 import pl.edu.agh.model.Image;
+import pl.edu.agh.model.Task;
 
 import java.io.IOException;
 import java.util.List;
@@ -48,8 +46,8 @@ public class ImageController {
                                          @RequestParam("image_name") String image_name,
                                          @RequestParam("dockerfile") String dockerfile) {
 
-        imageDAO.addImageFromDockerfile(image_name, dockerfile);
-        return "redirect:/home/images";
+        Task task = imageDAO.addImageFromDockerfile(image_name, dockerfile);
+        return "redirect:/home/tasks/" + task.getId();
     }
 
     @RequestMapping(value = "/home/images/quick_command_run", method=RequestMethod.POST)
@@ -67,38 +65,30 @@ public class ImageController {
     public String runImageInContainer(ModelMap model,
                                       @RequestParam("imageId") String imageId){
 
-        String containerId = imageDAO.runImageInContainer(imageId);
-        return "redirect:/home/containers";
+        Task task = imageDAO.runImageInContainer(imageId);
+        return "redirect:/home/tasks/" + task.getId();
     }
 
     @RequestMapping(value = "/home/images/create_image_for_war",method = RequestMethod.POST)
     public String createImageForWar(ModelMap modelMap,
                                     @RequestParam("image_name") String image_name,
                                     @RequestParam("war_file") MultipartFile war_file) {
-        try {
-            imageDAO.createImageForWar(image_name,war_file.getOriginalFilename(),war_file.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "home/images";
+
+        Task task = imageDAO.createImageForWar(image_name, war_file.getOriginalFilename(), war_file);
+        return "redirect:/home/tasks/" + task.getId();
     }
 
-    @RequestMapping(value = "/home/images/find_image", method=RequestMethod.POST)
-    public String findImage(ModelMap model,
-                            @RequestParam("image_to_find") String imageToFind){
-
-        List<Image> allImages = imageDAO.getAllImages();
+    @RequestMapping(value = "/home/images/find_image", method=RequestMethod.GET)
+    public @ResponseBody Map<String, String> findImage(@RequestParam("image_to_find") String imageToFind){
         Map<String, String> foundImages = imageDAO.searchForImageByName(imageToFind);
-        model.addAttribute("images",allImages);
-        model.addAttribute("found_images",foundImages);
-        return "home/images";
+        return foundImages;
     }
 
     @RequestMapping(value = "/home/images/pull_image", method=RequestMethod.POST)
     public String pullImage(ModelMap model,
                             @RequestParam("image_to_pull") String imageToPull){
 
-        imageDAO.pullImage(imageToPull);
-        return "redirect:home/images";
+        Task task = imageDAO.pullImage(imageToPull);
+        return "redirect:/home/tasks/" + task.getId();
     }
 }

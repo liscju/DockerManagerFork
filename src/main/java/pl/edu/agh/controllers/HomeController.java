@@ -1,52 +1,42 @@
 package pl.edu.agh.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.edu.agh.controllers.api.UserAuthorizator;
-import pl.edu.agh.dao.UserDAO;
-import pl.edu.agh.model.User;
+import org.springframework.web.bind.annotation.RequestParam;
+import pl.edu.agh.configuration.Configurator;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
 
     @Autowired
-    private UserDAO userDAO;
-
-    @Autowired
-    private UserAuthorizator userAuthorizator;
+    Configurator configurator;
 
     public HomeController() {
     }
 
-    public HomeController(UserDAO userDAO,UserAuthorizator userAuthorizator) {
-        this.userDAO = userDAO;
-        this.userAuthorizator = userAuthorizator;
+    @RequestMapping(value = "/",method = RequestMethod.GET)
+    public String getConfiguration(ModelMap model) {
+        return "configuration/start";
+    }
+
+    @RequestMapping(value = "/configure", method = RequestMethod.POST)
+    public String setServerAddress(@RequestParam("address") String address, ModelMap model) {
+        configurator.setAddress(address);
+        return "redirect:/home";
     }
 
     @RequestMapping(value="/home",method = RequestMethod.GET)
     public String getHome(ModelMap model) {
-        String username = userAuthorizator.getCurrentUser().getName();
-
-        model.addAttribute("username", username);
-        model.addAttribute("greeting", "Welcome to DockerManager");
         return "home/index";
     }
-
 
     @RequestMapping(value="/home/about",method = RequestMethod.GET)
     public String getAbout(ModelMap model) {
         return "home/about";
-    }
-
-    @RequestMapping(value="/home/contact",method = RequestMethod.GET)
-    public String getContact(ModelMap model) {
-        return "home/contact";
     }
 
 }
