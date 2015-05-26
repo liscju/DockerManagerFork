@@ -145,6 +145,22 @@
             <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+			<groupId>org.libvirt</groupId>
+			<artifactId>libvirt</artifactId>
+			<version>0.5.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		
+        
+        
+        
     </dependencies>
     <reporting>
         <plugins>

@@ -19,7 +19,7 @@ public class ImageDAO {
     private final DockerConnector dockerConnector;
 
     public ImageDAO() {
-        serverIP = "192.168.0.2";
+        serverIP = "127.0.0.1";
         serverPort = "2375";
         dockerConnector = new DockerConnector("http://" + serverIP + ":" + serverPort);
     }

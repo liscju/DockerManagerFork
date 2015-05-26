@@ -15,7 +15,7 @@ public class ContainerDAO {
     private final DockerConnector dockerConnector;
 
     public ContainerDAO() {
-        serverIP = "192.168.0.2";
+        serverIP = "127.0.0.1";
         serverPort = "2375";
         dockerConnector = new DockerConnector("http://" + serverIP + ":" + serverPort);
     }
