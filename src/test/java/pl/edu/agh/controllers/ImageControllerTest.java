@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.agh.dao.ImageDAO;
 import pl.edu.agh.model.Image;
+import pl.edu.agh.model.Task;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -49,8 +50,12 @@ public class ImageControllerTest {
 
     @Test
     public void testAddImageFromDockerfile() throws Exception {
+        Task task = mock(Task.class);
+        when(task.getId()).thenReturn(20);
+        when(imageDAO.addImageFromDockerfile("doc", "FROM /")).thenReturn(task);
+
         String nextView = imageController.addImageFromDockerfile(modelMap, "doc", "FROM /");
-        assertEquals("redirect:/home/images", nextView);
+        assertEquals("redirect:/home/tasks/" + task.getId(), nextView);
         verify(imageDAO).addImageFromDockerfile("doc", "FROM /");
     }
 
@@ -69,9 +74,13 @@ public class ImageControllerTest {
 
     @Test
     public void testPullImage() throws Exception {
+        Task task = mock(Task.class);
+        when(task.getId()).thenReturn(20);
+        when(imageDAO.pullImage("fedora 5")).thenReturn(task);
         String imageToPull = "fedora 5";
+
         String nextView = imageController.pullImage(modelMap,imageToPull);
-        assertEquals("redirect:home/images",nextView);
+        assertEquals("redirect:/home/tasks/" + task.getId(),nextView);
         verify(imageDAO).pullImage(imageToPull);
     }
 }

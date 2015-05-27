@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.ui.ModelMap;
 import pl.edu.agh.dao.ContainerDAO;
 import pl.edu.agh.model.Container;
+import pl.edu.agh.model.Task;
 
 import java.util.LinkedList;
 
@@ -51,15 +52,21 @@ public class ContainerControllerTest {
 
     @Test
     public void testStopContainer() throws Exception {
+        Task task = mock(Task.class);
+        when(task.getId()).thenReturn(20);
+        when(containerDAO.stopContainer("20")).thenReturn(task);
         String nextView = containerController.stopContainer(modelMap,"20");
-        assertEquals("redirect:/home/containers",nextView);
+        assertEquals("redirect:/home/tasks/" + task.getId(),nextView);
         verify(containerDAO).stopContainer("20");
     }
 
     @Test
     public void testDeleteContainer() throws Exception {
+        Task task = mock(Task.class);
+        when(task.getId()).thenReturn(20);
+        when(containerDAO.deleteContainer("20")).thenReturn(task);
         String nextView = containerController.deleteContainer(modelMap, "20");
-        assertEquals("redirect:/home/containers",nextView);
+        assertEquals("redirect:/home/tasks/" + task.getId(),nextView);
         verify(containerDAO).deleteContainer("20");
     }
 
