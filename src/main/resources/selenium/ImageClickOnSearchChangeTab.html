@@ -3,32 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://localhost:8080/DockerManager/login" />
-<title>ImageLinkTakeToProperLocation</title>
+<link rel="selenium.base" href="http://localhost:8080/DockerManager/home" />
+<title>ImageClickOnSearchChangeTab</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">ImageLinkTakeToProperLocation</td></tr>
+<tr><td rowspan="1" colspan="3">ImageClickOnSearchChangeTab</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/DockerManager/login</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=username</td>
-	<td>lee</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=password</td>
-	<td>l</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//button[@type='submit']</td>
+	<td>/DockerManager/home/</td>
 	<td></td>
 </tr>
 <tr>
@@ -37,9 +22,14 @@
 	<td></td>
 </tr>
 <tr>
-	<td>open</td>
-	<td>/DockerManager/home/images</td>
+	<td>click</td>
+	<td>link=Search</td>
 	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=h2</td>
+	<td>Search Image</td>
 </tr>
 
 </tbody></table>

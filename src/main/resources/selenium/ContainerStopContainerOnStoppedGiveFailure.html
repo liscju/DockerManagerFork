@@ -3,37 +3,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://localhost:8080/DockerManager/login" />
-<title>Valid_login</title>
+<link rel="selenium.base" href="http://localhost:8080/DockerManager/home" />
+<title>ContainerStopContainerOnStoppedGiveFailure</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Valid_login</td></tr>
+<tr><td rowspan="1" colspan="3">ContainerStopContainerOnStoppedGiveFailure</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/DockerManager/login</td>
+	<td>/DockerManager/home</td>
 	<td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>id=username</td>
-	<td>lee</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=password</td>
-	<td>l</td>
+	<td>clickAndWait</td>
+	<td>link=Containers</td>
+	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//button[@type='submit']</td>
+	<td>xpath=(//a[contains(text(),'Show details')])[76]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-warning</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/DockerManager/home/tasks/1</td>
 	<td></td>
 </tr>
 <tr>
 	<td>assertTitle</td>
-	<td>DockerManager Home</td>
+	<td>DockerManager About</td>
 	<td></td>
 </tr>
 
