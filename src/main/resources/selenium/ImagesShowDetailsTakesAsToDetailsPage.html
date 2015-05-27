@@ -3,43 +3,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://localhost:8080/DockerManager/login" />
-<title>ContainerLinkTakeToProperLocation</title>
+<link rel="selenium.base" href="http://localhost:8080/DockerManager/home" />
+<title>ImagesShowDetailsTakesAsToDetailsPage</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">ContainerLinkTakeToProperLocation</td></tr>
+<tr><td rowspan="1" colspan="3">ImagesShowDetailsTakesAsToDetailsPage</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/DockerManager/login</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=username</td>
-	<td>lee</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=password</td>
-	<td>l</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//button[@type='submit']</td>
+	<td>/DockerManager/home</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Containers</td>
+	<td>link=Images</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Show details')])[82]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>open</td>
-	<td>/DockerManager/home/containers</td>
+	<td>/DockerManager/home/images/8b9e83817eb636d63e42e3e54ef30972d3051e013ebf94b9452762fa809e8e04</td>
 	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>DockerManager Image Details</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=b</td>
+	<td>ID</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//tr[2]/td/b</td>
+	<td>Tags</td>
 </tr>
 
 </tbody></table>

@@ -3,42 +3,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://localhost:8080/DockerManager/login" />
-<title>Invalid_Login</title>
+<link rel="selenium.base" href="http://localhost:8080/DockerManager/home" />
+<title>ContainerShowDetailsTakesAsToContainerInfoSite</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Invalid_Login</td></tr>
+<tr><td rowspan="1" colspan="3">ContainerShowDetailsTakesAsToContainerInfoSite</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/DockerManager/login</td>
+	<td>/DockerManager/home</td>
 	<td></td>
-</tr>
-<tr>
-	<td>assertTitle</td>
-	<td>DockerManager Login</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=username</td>
-	<td>wwwwwwwwwwwww</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=password</td>
-	<td>wwwwwwwwwwwwwww</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//button[@type='submit']</td>
+	<td>link=Containers</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Show details')])[76]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/DockerManager/home/containers/ab524b7c34495eacc9652dd4b1cf3be83ac8c6bac66b14f898cd8e4571046889</td>
 	<td></td>
 </tr>
 <tr>
 	<td>assertTitle</td>
-	<td>DockerManager Login</td>
+	<td>DockerManager Containers</td>
 	<td></td>
 </tr>
 

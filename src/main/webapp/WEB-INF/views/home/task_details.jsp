@@ -60,7 +60,18 @@
       </div>
       <div class="col-md-1"></div>
     </div>
-
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <h2>Output:</h2>
+        <ul>
+          <c:forEach var="message" items="${messages}">
+            <li>${message.details}</li>
+          </c:forEach>
+        </ul>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
 </div>
 
 </body>

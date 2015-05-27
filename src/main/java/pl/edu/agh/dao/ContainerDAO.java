@@ -1,5 +1,8 @@
 package pl.edu.agh.dao;
 
+import com.google.common.base.Joiner;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.configuration.Configurator;
@@ -10,6 +13,8 @@ import pl.edu.agh.model.TaskStatus;
 import pl.edu.agh.util.RunnableTask;
 import pl.edu.agh.util.TaskRunner;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,4 +87,24 @@ public class ContainerDAO {
 
         return savedDeleteContainerTask;
     }
+
+    public String createContainerForConsole(final String imageId) {
+        String containerId = dockerConnector.createContainer(imageId);
+        dockerConnector.startContainer(containerId);
+        return containerId;
+    }
+
+    public String execCommand(final String containerId,final String command) {
+        String commandId = dockerConnector.createCommand(containerId, command);
+        InputStream inputStream = dockerConnector.execCommand(containerId, commandId);
+        try {
+            inputStream.read(new byte[8]); // pomijanie naglowka
+            List<String> strings = IOUtils.readLines(inputStream);
+            return StringUtils.join(strings,"\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

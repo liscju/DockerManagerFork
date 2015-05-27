@@ -1,6 +1,7 @@
 package pl.edu.agh.util;
 
 import com.github.dockerjava.api.NotModifiedException;
+import com.github.dockerjava.api.model.EventStreamItem;
 import com.github.dockerjava.api.model.PullEventStreamItem;
 import com.github.dockerjava.core.command.EventStreamReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,11 +66,14 @@ public class TaskRunner {
                 taskDAO.updateTask(inprogressStopContainerTask);
 
                 try {
-                    EventStreamReader<PullEventStreamItem> events = runnable.run();
-                    PullEventStreamItem iter = null;
+                    EventStreamReader<EventStreamItem> events = runnable.run();
+                    EventStreamItem iter = null;
                     while ( (iter = events.readItem()) != null) {
                         try {
-                            TaskMessage taskMessage = new TaskMessage(task, iter.getProgressDetail().toString() );
+                            TaskMessage taskMessage =
+                                    new TaskMessage(task, "Stream:" + iter.getStream() +
+                                            "\nError:"+iter.getError() +
+                                            "\nGeneral:" + iter.toString());
                             taskMessageDAO.saveTaskMessage( taskMessage );
                         } catch (Exception e) {
                         }

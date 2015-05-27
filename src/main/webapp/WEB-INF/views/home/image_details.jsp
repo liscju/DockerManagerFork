@@ -51,6 +51,7 @@
         <ul class="nav nav-tabs tabs-left">
           <li class="active"><a href="#run" data-toggle="tab">Run</a></li>
           <li><a href="#run_command" data-toggle="tab">Run Command</a></li>
+          <li><a href="#run_console" data-toggle="tab">Run in console</a></li>
         </ul>
       </div>
 
@@ -71,6 +72,14 @@
               <input type="hidden" name="imageId" value="${image.id}"/>
               <input type="text" class="form-control" name="command" placeholder="Place for your command"></input>
               <br>
+              <button type="submit" class="btn btn-primary">Run</button>
+            </form>
+          </div>
+          <div class="tab-pane" id="run_console">
+            <form action="${pageContext.request.contextPath}/home/images/run_in_console" method="POST">
+              <h2>Run image in sh console</h2>
+              <br>
+              <input type="hidden" name="imageId" value="${image.id}"/>
               <button type="submit" class="btn btn-primary">Run</button>
             </form>
           </div>
