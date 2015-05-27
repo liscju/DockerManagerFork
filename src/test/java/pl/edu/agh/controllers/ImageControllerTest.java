@@ -66,27 +66,6 @@ public class ImageControllerTest {
         verify(modelMap).addAttribute("output", output);
     }
 
-    @Test
-    public void testRunImageInContainer() throws Exception {
-        String containerId = "CONT20";
-        String imageId = "IMG10";
-        when(imageDAO.runImageInContainer(imageId)).thenReturn(containerId);
-        String nextView = imageController.runImageInContainer(modelMap, imageId);
-        assertEquals("redirect:/home/containers",nextView);
-    }
-
-    @Test
-    public void testCreateImageForWar() throws Exception {
-        String imageName = "IMG50";
-        String originalFilename = "FROM ...";
-        String content = "\5\3\2";
-        MultipartFile war_content = mock(MultipartFile.class);
-        when(war_content.getOriginalFilename()).thenReturn(originalFilename);
-        when(war_content.getBytes()).thenReturn(content.getBytes());
-        String nextView = imageController.createImageForWar(modelMap, imageName, war_content);
-        assertEquals("home/images",nextView);
-        verify(imageDAO).createImageForWar(imageName,originalFilename,content.getBytes() );
-    }
 
     @Test
     public void testPullImage() throws Exception {

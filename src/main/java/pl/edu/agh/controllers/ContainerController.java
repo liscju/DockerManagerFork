@@ -3,11 +3,8 @@ package pl.edu.agh.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import pl.edu.agh.dao.ContainerDAO;
 import pl.edu.agh.model.Container;
 import pl.edu.agh.model.Task;
@@ -55,4 +52,22 @@ public class ContainerController{
         return "redirect:/home/tasks/" + task.getId();
     }
 
+    @RequestMapping(value = "/home/containers/create_container", method=RequestMethod.POST)
+    public @ResponseBody String createContainer(ModelMap model,@RequestParam("imageId") String imageId) {
+        String containerId = containerDAO.createContainerForConsole(imageId);
+        return containerId;
+    }
+
+    @RequestMapping(value = "/home/containers/exec_command", method=RequestMethod.POST)
+    public @ResponseBody String execCommand(ModelMap model,
+                                            @RequestParam("containerId") String containerId,
+                                            @RequestParam("command") String command) {
+        int i=0;
+        String output = containerDAO.execCommand(containerId, command);
+        while (output.equals("") && i < 5) {// ponawianie proby...
+            output = containerDAO.execCommand(containerId, command);
+            i++;
+        }
+        return output;
+    }
 }

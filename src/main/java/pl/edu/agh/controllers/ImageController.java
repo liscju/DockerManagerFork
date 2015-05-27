@@ -69,6 +69,13 @@ public class ImageController {
         return "redirect:/home/tasks/" + task.getId();
     }
 
+    @RequestMapping(value = "/home/images/run_in_console", method = RequestMethod.POST)
+    public String runImageInConsole(ModelMap model,
+                                    @RequestParam("imageId") String imageId) {
+        model.addAttribute("imageId",imageId);
+        return "/home/image_run_console";
+    }
+
     @RequestMapping(value = "/home/images/create_image_for_war",method = RequestMethod.POST)
     public String createImageForWar(ModelMap modelMap,
                                     @RequestParam("image_name") String image_name,

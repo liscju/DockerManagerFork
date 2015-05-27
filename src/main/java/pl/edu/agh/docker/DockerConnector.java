@@ -199,4 +199,45 @@ public class DockerConnector {
                 .removeContainerCmd(containerId)
                 .exec();
     }
+
+    public String createContainer(String imageId) {
+        CreateContainerResponse exec = dockerClient
+                .createContainerCmd(imageId)
+                .withAttachStdin(true)
+                .withAttachStdout(true)
+                .withAttachStderr(true)
+                .withTty(true)
+                .withCmd("/bin/sh")
+                .exec();
+
+        return exec.getId();
+    }
+
+    public void startContainer(String containerId) {
+        dockerClient
+                .startContainerCmd(containerId)
+                .exec();
+    }
+
+    public String createCommand(String containerId, String command) {
+        ExecCreateCmdResponse exec = dockerClient
+                .execCreateCmd(containerId)
+                .withAttachStdin(true)
+                .withAttachStdout(true)
+                .withAttachStderr(true)
+                .withTty(true)
+                .withCmd(command.split(" "))
+                .exec();
+
+        return exec.getId();
+    }
+
+    public InputStream execCommand(String containerId,String commandId) {
+        InputStream exec = dockerClient
+                .execStartCmd(containerId)
+                .withExecId(commandId)
+                .withTty(true)
+                .exec();
+        return exec;
+    }
 }
