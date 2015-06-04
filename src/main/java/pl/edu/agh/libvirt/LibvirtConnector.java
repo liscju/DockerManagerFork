@@ -19,9 +19,11 @@ public class LibvirtConnector {
 	
     ConnectAuth ca;
     Connect conn;
+    String address;
 	
 	public LibvirtConnector(String address){
 	  ca = new ConnectAuthDefault();
+	  this.address=address;
 	  try {
 		conn = new Connect("qemu+tcp://"+address+"/system", ca, 0);
 		} catch (LibvirtException e) {
@@ -137,6 +139,16 @@ public class LibvirtConnector {
 		} catch (LibvirtException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public void checkConnection(){
+		try {
+			if (!conn.isConnected()){
+				conn = new Connect("qemu+tcp://"+address+"/system", ca, 0);
+			}
+		} catch (LibvirtException e) {
+			e.printStackTrace();
 		}
 	}
 	

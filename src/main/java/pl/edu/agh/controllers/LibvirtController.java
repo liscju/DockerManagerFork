@@ -47,11 +47,20 @@ public class LibvirtController {
     
     @RequestMapping(value="/home/domains_r/{domain_name}",method = RequestMethod.GET)
     public String getRunning(@PathVariable String domain_name,ModelMap model) {
+    	model.addAttribute("domain_name",domain_name);
+    	java.util.Map<String, String> info = LSD.getRunningDomainInfo(domain_name);
+    	model.addAttribute("rd_info",info);
+
     	
     	
         return "home/libvirt_r_details";
     }
-    
+    @RequestMapping(value="/home/domains_d/{domain_name}",method = RequestMethod.GET)
+    public String getDefined(@PathVariable String domain_name,ModelMap model) {
+    	
+    	
+        return "home/libvirt_d_details";
+    }
 
 
 	@RequestMapping(value="/iso",method = RequestMethod.GET)
