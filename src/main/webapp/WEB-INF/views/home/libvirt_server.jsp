@@ -52,7 +52,7 @@
           <c:forEach var="def" items="${defined}">
             <tr>
               <td>${def}</td>
-              <td><a href="${pageContext.request.contextPath}/home/domains_d/${def}">Show details</a></td>
+              <td><a href="${pageContext.request.contextPath}/home/domains_r/${def}">Show details</a></td>
             </tr>
           </c:forEach>
         </tbody>

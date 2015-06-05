@@ -89,6 +89,27 @@ public class LibvirtConnector {
 		}
 	}
 	
+	
+	public void startVm(String domains){
+        try {
+        	Domain domain = domainFromName(domains);
+			domain.create();
+			
+		} catch (LibvirtException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void stopVm(String domains){
+		try {
+        	Domain domain = domainFromName(domains);
+			domain.destroy();
+		} catch (LibvirtException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Domain domainFromName(String name){
 		try {
 			return conn.domainLookupByName(name);

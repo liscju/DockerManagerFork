@@ -27,10 +27,17 @@ public class LibvirtServerDAO {
 	private String IPAddress;
 	private LibvirtConnector lc;
 	
+
+	
 	public LibvirtServerDAO(){
 		IPAddress="192.168.56.101";
 		lc = new LibvirtConnector(IPAddress);	
 	}
+	
+	public Domain getDomain(String name){
+		return lc.domainFromName(name);
+	}
+	
 	public void setAddress(String address){
 		this.IPAddress=address;
 	}
@@ -77,6 +84,8 @@ public class LibvirtServerDAO {
 			info.put("Memory",Long.toString(i.memory));
 			info.put("vCpus", Integer.toString(i.nrVirtCpu));
 			info.put("VNCPort", vncport);
+			info.put("DomainID", Integer.toString(d.getID()));
+			
 			return info;
 			
 		} catch (LibvirtException e) {
