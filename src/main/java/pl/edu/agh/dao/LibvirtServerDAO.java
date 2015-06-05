@@ -26,20 +26,17 @@ import pl.edu.agh.libvirt.LibvirtConnector;
 public class LibvirtServerDAO {
 	private String IPAddress;
 	private LibvirtConnector lc;
-	
 
-	
 	public LibvirtServerDAO(){
-		IPAddress="192.168.56.101";
-		lc = new LibvirtConnector(IPAddress);	
 	}
-	
+
 	public Domain getDomain(String name){
 		return lc.domainFromName(name);
 	}
-	
-	public void setAddress(String address){
+
+	public void connect(String address){
 		this.IPAddress=address;
+		lc = new LibvirtConnector(IPAddress);
 	}
 	
 	public String getIPAddress(){
@@ -51,7 +48,6 @@ public class LibvirtServerDAO {
 	}
 
 	public Map<String,String> getServerInfo() {
-		
 		return lc.serverInfo();
 	}
 
@@ -117,6 +113,5 @@ public class LibvirtServerDAO {
 
         return null;
     }
-
 
 }
