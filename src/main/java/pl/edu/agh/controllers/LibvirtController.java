@@ -73,8 +73,19 @@ public class LibvirtController {
         model.addAttribute("defined",defined);
         return "home/libvirt_server";
     }
-    
-    @RequestMapping(value="/home/domains_r/{domain_name}",method = RequestMethod.GET)
+
+	@RequestMapping(value = "/home/domains_r/create",method = RequestMethod.GET)
+	public String showCreateDomainPage(ModelMap model) {
+		return "home/libvirt_domain_create";
+	}
+
+	@RequestMapping(value = "/home/domains_r/create", method = RequestMethod.POST)
+	public String createDomainPage(ModelMap model, @RequestParam("domain_xml") String domain_xml) {
+		LSD.createDomainFromXML(domain_xml);
+		return "redirect:/home/libvirt_server";
+	}
+
+	@RequestMapping(value="/home/domains_r/{domain_name}",method = RequestMethod.GET)
     public String getRunning(@PathVariable String domain_name,ModelMap model) {
     	model.addAttribute("domain_name",domain_name);
     	java.util.Map<String, String> info = LSD.getRunningDomainInfo(domain_name);

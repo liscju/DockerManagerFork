@@ -25,7 +25,16 @@
           </c:forEach>
         </tbody>
       </table>
-      
+
+      <br><br>
+      <div class="row">
+        <div class="col-xs-3">
+          <form method="GET" action="${pageContext.request.contextPath}/home/domains_r/create">
+            <button type="submit" class="btn btn-primary pull-left">Create Domain</button>
+          </form>
+        </div>
+        <div class="col-xs-9"></div>
+      </div>
       <table class="table">
         <thead>
         <tr>

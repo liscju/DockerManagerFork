@@ -114,4 +114,7 @@ public class LibvirtServerDAO {
         return null;
     }
 
+	public void createDomainFromXML(String domain_xml) {
+		lc.createDomainFromXML(domain_xml);
+	}
 }
