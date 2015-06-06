@@ -31,29 +31,6 @@ public class LibvirtConnector {
 		}
 	}
 	
-	public void printProperties(){
-		try{
-	      NodeInfo ni = conn.nodeInfo();
-	      	 	 
-	      System.out.println("model: " + ni.model + " mem(kb):" + ni.memory);
-	 
-	      int numOfVMs = conn.numOfDomains();
-	      
-	      System.out.println(numOfVMs);
-	      
-	      for(int i : conn.listDomains())
-	      {
-	        Domain vm = conn.domainLookupByID(i);
-	        System.out.println("vm name: " + vm.getName() + "  type: " + vm.getOSType()
-		    	+ " max mem: " + vm.getMaxMemory() + " max cpu: " + vm.getMaxVcpus());
-	      }
-  
-		}
-		catch(LibvirtException le)
-		{
-			le.printStackTrace();
-		}
-	}
 	
 	public Map<String,String> serverInfo(){
 		Map<String,String> info = new HashMap<String,String>();
@@ -181,18 +158,7 @@ public class LibvirtConnector {
 		}
 	}
 	
-	public static void main(String [] args){
-		LibvirtConnector c = new LibvirtConnector("192.168.56.101");
-		c.printProperties();
-		
-		String[] domains = c.getDefinedDomains();
-		for (String d : domains){
-			System.out.println(d);
-			System.out.println(c.getDomainXML(c.domainFromName(d)));
-			c.startVm(c.domainFromName(d));
-		}
-		
-	}
+
 
 
 	

@@ -1,9 +1,13 @@
 package pl.edu.agh.controllers;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -66,7 +70,6 @@ public class LibvirtController {
     	}
 
 		return "redirect:/home/libvirt_server";
-       // return "redirect:home/libvirt_r_details";
     }
 
 
@@ -86,6 +89,33 @@ public class LibvirtController {
 	public String showCreateDomain(ModelMap model) {
 		return "home/libvirt_domain_create";
 	}
+	
+	public void createVNCFile(String port, String name){
+		
+		File f =new File("VNC/"+name+".html");
+		if(!f.exists()){
+			try {
+				f.createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			String xml = "<html><title>VNC desktop</title><body><applet archive=\"tightvnc-jviewer.jar\" "
+					+ "code=\"com.glavsoft.viewer.Viewer\" width=\"1\" height=\"1\">"
+					+ "<param name=\"Host\" value=\""+LSD.getIPAddress()+"\" /><param name=\"Port\" value=\""+port+"\" /></applet></body></html>";
+			try {
+				FileWriter fw = new FileWriter(f.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(xml);
+				bw.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 
 	@RequestMapping(value = "/home/domains_r/create_from_xml", method = RequestMethod.POST)
 	public String createDomainFromXML(ModelMap model, @RequestParam("domain_xml") String domain_xml) {
@@ -99,6 +129,7 @@ public class LibvirtController {
 											 @RequestParam("domain_vcpu") String domainVcpu,
 											 @RequestParam("domain_emulator") String domainEmulator,
 											 @RequestParam("domain_sourcefile") String domainSourceFile
+
 	) {
 		String domainXml;
 		try {
@@ -118,6 +149,7 @@ public class LibvirtController {
 
 			if (domainEmulator != null && !domainEmulator.equals(""))
 				domainXMLBuilder = domainXMLBuilder.withSourceFile(domainSourceFile);
+			
 
 			domainXml = domainXMLBuilder.buildXML();
 		} catch (IllegalArgumentException e) {
@@ -135,7 +167,8 @@ public class LibvirtController {
     	java.util.Map<String, String> info = LSD.getRunningDomainInfo(domain_name);
     	model.addAttribute("rd_info",info);
     	model.addAttribute("vnc_server",LSD.getIPAddress());
-
+    	createVNCFile(info.get("VNCPort"),domain_name);
+    	
         return "home/libvirt_r_details";
     }
     
