@@ -57,8 +57,8 @@ public class LibvirtController {
 				e.printStackTrace();
 			}
     	}
-    	
-    	return "redirect:domains_r/"+name;
+
+		return "redirect:/home/libvirt_server";
        // return "redirect:home/libvirt_r_details";
     }
 
