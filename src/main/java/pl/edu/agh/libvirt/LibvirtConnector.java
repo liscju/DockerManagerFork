@@ -172,6 +172,14 @@ public class LibvirtConnector {
 			e.printStackTrace();
 		}
 	}
+
+	public void createDomainFromXML(String domainXml) {
+		try {
+			conn.domainCreateXML(domainXml,0);
+		} catch (LibvirtException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static void main(String [] args){
 		LibvirtConnector c = new LibvirtConnector("192.168.56.101");
