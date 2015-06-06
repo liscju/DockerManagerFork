@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.edu.agh.dao.LibvirtServerDAO;
 import pl.edu.agh.model.Image;
 import pl.edu.agh.model.Task;
+import pl.edu.agh.util.DomainXMLBuilder;
 
 @Controller
 @RequestMapping("/")
@@ -75,13 +76,49 @@ public class LibvirtController {
     }
 
 	@RequestMapping(value = "/home/domains_r/create",method = RequestMethod.GET)
-	public String showCreateDomainPage(ModelMap model) {
+	public String showCreateDomain(ModelMap model) {
 		return "home/libvirt_domain_create";
 	}
 
-	@RequestMapping(value = "/home/domains_r/create", method = RequestMethod.POST)
-	public String createDomainPage(ModelMap model, @RequestParam("domain_xml") String domain_xml) {
+	@RequestMapping(value = "/home/domains_r/create_from_xml", method = RequestMethod.POST)
+	public String createDomainFromXML(ModelMap model, @RequestParam("domain_xml") String domain_xml) {
 		LSD.createDomainFromXML(domain_xml);
+		return "redirect:/home/libvirt_server";
+	}
+
+	@RequestMapping(value = "/home/domains_r/create_from_properties", method = RequestMethod.POST)
+	public String createDomainFromProperties(ModelMap model, @RequestParam("domain_name") String domainName,
+											 @RequestParam("domain_memory") String domainMemory,
+											 @RequestParam("domain_vcpu") String domainVcpu,
+											 @RequestParam("domain_emulator") String domainEmulator,
+											 @RequestParam("domain_sourcefile") String domainSourceFile
+	) {
+		String domainXml;
+		try {
+			DomainXMLBuilder domainXMLBuilder = new DomainXMLBuilder();
+
+			if (domainName != null && !domainName.equals(""))
+				domainXMLBuilder = domainXMLBuilder.withName(domainName);
+
+			if (domainMemory != null && !domainMemory.equals(""))
+				domainXMLBuilder = domainXMLBuilder.withMemory(Integer.parseInt(domainMemory));
+
+			if (domainVcpu != null && !domainVcpu.equals(""))
+				domainXMLBuilder = domainXMLBuilder.withVCpu(Integer.parseInt(domainVcpu));
+
+			if (domainEmulator != null && !domainEmulator.equals(""))
+				domainXMLBuilder = domainXMLBuilder.withEmulator(domainEmulator);
+
+			if (domainEmulator != null && !domainEmulator.equals(""))
+				domainXMLBuilder = domainXMLBuilder.withSourceFile(domainSourceFile);
+
+			domainXml = domainXMLBuilder.buildXML();
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.toString());
+			return "redirect:/home/domains_r/create";
+		}
+
+		LSD.createDomainFromXML(domainXml);
 		return "redirect:/home/libvirt_server";
 	}
 
