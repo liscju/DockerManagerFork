@@ -14,7 +14,7 @@
     <div class="starter-template">
       <h1>LibvirtManager</h1>
 
-      <p class="lead">Running domain: ${domain_name}</p>
+      <p class="lead">Domain: ${domain_name}</p>
       <a href="http://127.0.0.1:8000/${domain_name}.html" target="_blank">VNC connection</a>
 
 
@@ -60,11 +60,13 @@
 			  <select name="domain_action">
 			    <option value="Destroy">Stop ${domain_name}</option>
 			    <option value="Create">Start ${domain_name}</option>
+			    <option value="Undefine">Undefine ${domain_name}</option>
+			    
 			  </select>
 			  <input type="submit" value="Submit">
 			</form>
 			
-			
+						
 			
           
         </div>

@@ -84,7 +84,13 @@ public class LibvirtServerDAO {
 			info.put("Memory",Long.toString(i.memory));
 			info.put("vCpus", Integer.toString(i.nrVirtCpu));
 			info.put("VNCPort", vncport);
-			info.put("DomainID", Integer.toString(d.getID()));
+			
+			String id = "stopped";
+			if(d.getID()!=-1){
+				id=Integer.toString(d.getID());
+			}
+			
+			info.put("DomainID", id);
 			
 			return info;
 			

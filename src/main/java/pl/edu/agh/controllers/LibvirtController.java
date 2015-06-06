@@ -54,7 +54,14 @@ public class LibvirtController {
 				d.create();
 			} catch (LibvirtException e) {
 				e.printStackTrace();
-			}
+			}}else if(action.equals("Undefine")){
+	    		try {
+					d.undefine();
+					return "redirect:libvirt_server";
+				} catch (LibvirtException e) {
+					e.printStackTrace();
+				}
+			
     	}
     	
     	return "redirect:domains_r/"+name;
