@@ -62,6 +62,11 @@ public class LibvirtController {
 			}}else if(action.equals("Undefine")){
 	    		try {
 					d.undefine();
+					File f =new File("VNC/"+name+".html");
+					if(f.exists()){
+						f.delete();
+					}
+					
 					return "redirect:libvirt_server";
 				} catch (LibvirtException e) {
 					e.printStackTrace();

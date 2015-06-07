@@ -132,7 +132,7 @@ public class LibvirtConnector {
 	
 	public String getDomainXML(Domain d){
 		try {
-		
+			
 			return d.getXMLDesc(0);
 		} catch (LibvirtException e) {
 			e.printStackTrace();
