@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.edu.agh.configuration.Configurator;
 import pl.edu.agh.dao.LibvirtServerDAO;
 import pl.edu.agh.model.Image;
 import pl.edu.agh.model.Task;
@@ -36,6 +37,9 @@ public class LibvirtController {
 	
 	@Autowired
 	LibvirtServerDAO LSD;
+
+	@Autowired
+	Configurator configurator;
 	
 	private String filePath = "/resources/iso/current.iso";
 	private static final int BUFFER_SIZE = 4096;
@@ -94,33 +98,6 @@ public class LibvirtController {
 	public String showCreateDomain(ModelMap model) {
 		return "home/libvirt_domain_create";
 	}
-	
-	public void createVNCFile(String port, String name){
-		
-		File f =new File("VNC/"+name+".html");
-		if(!f.exists()){
-			try {
-				f.createNewFile();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			String xml = "<html><title>VNC desktop</title><body><applet archive=\"tightvnc-jviewer.jar\" "
-					+ "code=\"com.glavsoft.viewer.Viewer\" width=\"1\" height=\"1\">"
-					+ "<param name=\"Host\" value=\""+LSD.getIPAddress()+"\" /><param name=\"Port\" value=\""+port+"\" /></applet></body></html>";
-			try {
-				FileWriter fw = new FileWriter(f.getAbsoluteFile());
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(xml);
-				bw.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	
 
 	@RequestMapping(value = "/home/domains_r/create_from_xml", method = RequestMethod.POST)
 	public String createDomainFromXML(ModelMap model, @RequestParam("domain_xml") String domain_xml) {
@@ -172,10 +149,18 @@ public class LibvirtController {
     	java.util.Map<String, String> info = LSD.getRunningDomainInfo(domain_name);
     	model.addAttribute("rd_info",info);
     	model.addAttribute("vnc_server",LSD.getIPAddress());
-    	createVNCFile(info.get("VNCPort"),domain_name);
     	
         return "home/libvirt_r_details";
     }
+
+	@RequestMapping(value="/home/domains_r/{domain_name}/run_remote",method = RequestMethod.GET)
+	public String runRemoteDesktop(@PathVariable("domain_name") String domain_name,ModelMap model) {
+		java.util.Map<String, String> runningDomainInfo = LSD.getRunningDomainInfo(domain_name);
+		model.addAttribute("domain_name",domain_name);
+		model.addAttribute("host", configurator.getAddress() );
+		model.addAttribute("port",runningDomainInfo.get("VNCPort") );
+		return "remote_desktop/run";
+	}
     
     
     @RequestMapping(value="/home/domains_d/{domain_name}",method = RequestMethod.GET)

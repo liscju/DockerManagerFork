@@ -15,9 +15,7 @@
       <h1>LibvirtManager</h1>
 
       <p class="lead">Domain: ${domain_name}</p>
-      <a href="http://127.0.0.1:8000/${domain_name}.html" target="_blank">VNC connection</a>
-
-
+      <a href="${pageContext.request.contextPath}/home/domains_r/${domain_name}/run_remote" target="_blank">VNC connection</a>
 
   </div>
   </div>
