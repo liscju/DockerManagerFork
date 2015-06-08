@@ -157,11 +157,34 @@ public class LibvirtConnector {
 			e.printStackTrace();
 		}
 	}
-	
 
-
-
+	public String[] getDefinedStoragePoolNames() {
+		String[] storagePools = new String[0];
+		try {
+			storagePools = conn.listDefinedStoragePools();
+			return storagePools;
+		} catch (LibvirtException e) {
+			e.printStackTrace();
+		}
+		return storagePools;
+	}
 	
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

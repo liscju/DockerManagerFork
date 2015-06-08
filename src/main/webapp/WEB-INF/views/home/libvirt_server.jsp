@@ -7,24 +7,30 @@
   <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet"/>
   <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/containers_main.js"></script>
 </head>
-<body>
+<body class="container">
   <%@ include file="/resources/html/menu.html" %>
   <div class="libvirt_server">
     <div class="starter-template">
-      <h1>LibvirtManager</h1>
+      <div class="row">
+        <h1>LibvirtManager</h1>
+      </div>
 
-      <p class="lead">Server info:</p>
+      <div class="row">
+        <p class="lead">Server info:</p>
+      </div>
 
-      <table class="table">
-        <tbody>
+      <div class="row">
+        <table class="table">
+          <tbody>
           <c:forEach var="info" items="${server_info}">
             <tr>
               <td>${info.key}</td>
               <td>${info.value}</td>
             </tr>
           </c:forEach>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
 
       <br><br>
       <div class="row">
@@ -35,40 +41,59 @@
         </div>
         <div class="col-xs-9"></div>
       </div>
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Running domains</th>
-	        </tr>
-        </thead>
-        <tbody>
-          <c:forEach var="domain" items="${domains}">
-            <tr>
-              <td>${domain.name}</td>
-              <td><a href="${pageContext.request.contextPath}/home/domains_r/${domain.name}">Show details</a></td>
-            </tr>
-          </c:forEach>
-        </tbody>
-      </table>
-      
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Defined domains</th>
-	        </tr>
-        </thead>
-        <tbody>
-          <c:forEach var="def" items="${defined}">
-            <tr>
-              <td>${def}</td>
-              <td><a href="${pageContext.request.contextPath}/home/domains_r/${def}">Show details</a></td>
-            </tr>
-          </c:forEach>
-        </tbody>
-      </table>
-      	
 
+      <div class="row">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Running domains</th>
+              </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="domain" items="${domains}">
+              <tr>
+                <td>${domain.name}</td>
+                <td><a href="${pageContext.request.contextPath}/home/domains_r/${domain.name}">Show details</a></td>
+              </tr>
+            </c:forEach>
+          </tbody>
+        </table>
+      </div>
 
+      <div class="row">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Defined domains</th>
+              </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="def" items="${defined}">
+              <tr>
+                <td>${def}</td>
+                <td><a href="${pageContext.request.contextPath}/home/domains_r/${def}">Show details</a></td>
+              </tr>
+            </c:forEach>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Defined Storage Pools</th>
+          </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="definedStoragePoolName" items="${definedStoragePoolNames}">
+              <tr>
+                <td>${definedStoragePoolName}</td>
+              </tr>
+            </c:forEach>
+          </tbody>
+        </table>
+      </div>
 
   </div>
   </div>

@@ -1,20 +1,15 @@
 package pl.edu.agh.controllers;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.mapping.Map;
 import org.libvirt.Domain;
 import org.libvirt.LibvirtException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.edu.agh.configuration.Configurator;
 import pl.edu.agh.dao.LibvirtServerDAO;
-import pl.edu.agh.model.Image;
-import pl.edu.agh.model.Task;
 import pl.edu.agh.util.DomainXMLBuilder;
 
 @Controller
@@ -90,7 +83,9 @@ public class LibvirtController {
         List<Domain> domains = LSD.getAllDomains();
         model.addAttribute("domains",domains);
         String[] defined = LSD.getDefinedDomains();
-        model.addAttribute("defined",defined);
+        model.addAttribute("defined", defined);
+		String[] definedStoragePoolNames = LSD.getDefinedStoragePoolNames();
+		model.addAttribute("definedStoragePoolNames", definedStoragePoolNames);
         return "home/libvirt_server";
     }
 
