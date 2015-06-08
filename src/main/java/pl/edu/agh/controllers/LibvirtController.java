@@ -73,6 +73,39 @@ public class LibvirtController {
 
 		return "redirect:/home/libvirt_server";
     }
+    
+    @RequestMapping(value = "home/change_domain",method = RequestMethod.POST)
+    public String changeDomain(ModelMap modelMap, @RequestParam("vCPUs") String vcpu,
+    		@RequestParam("domain_name") String name,@RequestParam("Memory") String memory,@RequestParam("MaxMemory") String mmemory,
+    		@RequestParam("MaxCpu") String mcpu) {
+    	
+    	Domain d = LSD.getDomain(name);
+    	    	
+    	try {
+    		d.setMaxMemory(Long.parseLong(mmemory));
+			
+		} catch (LibvirtException e) {
+		}
+		d.cpuMapLength(Integer.parseInt(mcpu));
+		
+		try {
+			d.setMemory(Long.parseLong(memory));
+		} catch (NumberFormatException e) {
+		} catch (LibvirtException e) {
+			
+		}
+
+		try {
+			d.setVcpus(Integer.parseInt(vcpu));
+		} catch (NumberFormatException e) {
+		} catch (LibvirtException e) {
+		}
+
+
+    	
+
+		return "redirect:/home/libvirt_server";
+    }
 
 
 	

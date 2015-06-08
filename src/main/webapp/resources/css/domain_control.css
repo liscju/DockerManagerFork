@@ -1,0 +1,25 @@
+body {
+    padding-top: 50px;
+}
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+
+.button {
+  margin: 0 0 0 5px;
+  cursor: pointer;
+  width: 29px;
+  height: 29px;
+  float: right;
+  text-align: center;
+}
+
+input[type=text] {
+  float: center;
+  width: 80px;
+  padding: 3px 0 0 0;
+  text-align: center;
+}
+

@@ -5,7 +5,8 @@
 <head>
   <title>DockerManager Libvirt server</title>
   <%@ include file="/resources/html/includes.html" %>
-  <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet"/>
+  <link href="${pageContext.request.contextPath}/resources/css/domain_control.css" rel="stylesheet"/>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/increment.js"></script>
   
 </head>
 <body>
@@ -58,11 +59,48 @@
 			  <select name="domain_action">
 			    <option value="Destroy">Stop ${domain_name}</option>
 			    <option value="Create">Start ${domain_name}</option>
-			    <option value="Undefine">Undefine ${domain_name}</option>
-			    
+			    <option value="Undefine">Undefine ${domain_name}</option>  
 			  </select>
 			  <input type="submit" value="Submit">
 			</form>
+			
+			
+			<form method="post" action="${pageContext.request.contextPath}/home/change_domain">
+			<table class="table">
+	        <tbody>
+			<tr>
+			<input type="hidden" id="domain_name" name="domain_name" value="${domain_name}">
+			<td>
+			  <div class="numbers-row">
+		      Max vCPUs
+		        <input type="text" name="MaxCpu" id="MaxCpu" value="${rd_info.MaxCpu}">
+		      </div>
+		    </td>
+		    <td>
+		      <div class="numbers-row">
+		      vCpus
+		        <input type="text" name="vCPUs" id="vCPUs" value="${rd_info.vCpus}">
+		      </div>
+		      </td>
+		      <td>
+		      <div class="numbers-row">
+		        Max Memory
+		        <input type="text" name="MaxMemory" id="MaxMemory" value="${rd_info.MaxMemory}">
+		      </div>
+		      </td>
+		      <td>
+		      <div class="numbers-row">
+		        Memory
+		        <input type="text" name="Memory" id="Memory" value="${rd_info.Memory}">
+		      </div>
+		      </td>
+		      <td>
+		      <input type="submit" value="Submit" id="submit">
+		      </td>
+		      </tr>
+		      	        </tbody>
+	      </table>
+		    </form>
 			
 						
 			

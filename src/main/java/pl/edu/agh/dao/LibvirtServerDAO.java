@@ -80,6 +80,9 @@ public class LibvirtServerDAO {
 			info.put("Memory",Long.toString(i.memory));
 			info.put("vCpus", Integer.toString(i.nrVirtCpu));
 			info.put("VNCPort", vncport);
+			info.put("MaxMemory", Long.toString(i.maxMem));
+			info.put("MaxCpu", Integer.toString(d.getMaxVcpus()));
+
 			
 			String id = "stopped";
 			if(d.getID()!=-1){
