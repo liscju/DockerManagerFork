@@ -1,8 +1,16 @@
 package pl.edu.agh.util;
 
+import java.io.StringWriter;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -85,13 +93,18 @@ public class DomainXMLBuilder {
         generatedXML = generatedXML.replaceFirst(EMULATOR_PATTERN,emulator);
         generatedXML = generatedXML.replaceFirst(SOURCEFILE_PATTERN, sourceFile);
 
-        return generatedXML;
+        //return generatedXML;
+        return createXML(name,memory,vcpu,emulator,sourceFile);
     }
     
     
-    public String createXML(String name,String memory,String cpu,String emulator,String source) throws ParserConfigurationException{
+    public String createXML(String name,String memory,String cpu,String emulator,String source){
     	DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+		DocumentBuilder docBuilder;
+		String res = null;
+		try {
+			docBuilder = docFactory.newDocumentBuilder();
+
 		
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("domain");
@@ -120,7 +133,7 @@ public class DomainXMLBuilder {
 		ostype.setAttribute("arch", "x86_64");
 		ostype.setAttribute("machine", "pc");
 		ostype.appendChild(doc.createTextNode("hvm"));
-		os.appendChild(vcpu);
+		os.appendChild(ostype);
 		
 		
 		Element dev = doc.createElement("devices");
@@ -140,7 +153,7 @@ public class DomainXMLBuilder {
 		disk.appendChild(sourcef);
 		
 		Element target = doc.createElement("target");
-		target.setAttribute("dev", "hda");
+		target.setAttribute("dev", "hdc");
 		disk.appendChild(target);
 		
 		Element nic = doc.createElement("interface");
@@ -156,7 +169,23 @@ public class DomainXMLBuilder {
 		vnc.setAttribute("port","-1");
 		dev.appendChild(vnc);
 		
+	    TransformerFactory tFact = TransformerFactory.newInstance();
+        Transformer trans = tFact.newTransformer();
+
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        DOMSource sourcex = new DOMSource(doc);
+        trans.transform(sourcex, result);
+        res=writer.toString();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
 		
-		return doc.toString();
+		
+		return res;
     }
 }
