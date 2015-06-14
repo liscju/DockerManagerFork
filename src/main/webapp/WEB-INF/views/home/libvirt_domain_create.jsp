@@ -41,17 +41,17 @@
                             </div>
                             <div class="row">
                                 <label for="domain_memory">Domain Memory:</label>
-                                <input type="text" class="form-control" id="domain_memory" name="domain_memory"></input>
+                                <input type="text" class="form-control" id="domain_memory" name="domain_memory" value="128000"></input>
                                 <br>
                             </div>
                             <div class="row">
                                 <label for="domain_vcpu">Domain VCPU:</label>
-                                <input type="text" class="form-control" id="domain_vcpu" name="domain_vcpu"></input>
+                                <input type="text" class="form-control" id="domain_vcpu" name="domain_vcpu" value="1"></input>
                                 <br>
                             </div>
                             <div class="row">
                                 <label for="domain_emulator">Domain Emulator:</label>
-                                <input type="text" class="form-control" id="domain_emulator" name="domain_emulator"></input>
+                                <input type="text" class="form-control" id="domain_emulator" name="domain_emulator" value="/usr/libexec/qemu-kvm"></input>
                                 <br>
                             </div>
                             <div class="row">

@@ -34,7 +34,7 @@ public class LibvirtController {
 	@Autowired
 	Configurator configurator;
 	
-	private String filePath = "/resources/iso/current.iso";
+	private String filePath = "/resources/iso/";
 	private static final int BUFFER_SIZE = 4096;
 	
 	
@@ -199,13 +199,13 @@ public class LibvirtController {
     }
 
 
-	@RequestMapping(value="/iso",method = RequestMethod.GET)
+	@RequestMapping(value="/iso/{isoname}",method = RequestMethod.GET)
 	public void doDownload(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response, @PathVariable String isoname) throws IOException {
 		ServletContext context = request.getServletContext();
 	
 		String appPath = context.getRealPath("");
-		String fullPath = appPath + filePath;		
+		String fullPath = appPath + filePath+isoname+".iso";	
 		File downloadFile = new File(fullPath);
 		FileInputStream inputStream = new FileInputStream(downloadFile);
 		String mimeType = context.getMimeType(fullPath);
