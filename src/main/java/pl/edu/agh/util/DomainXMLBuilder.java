@@ -1,5 +1,6 @@
 package pl.edu.agh.util;
 
+import java.io.File;
 import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -126,30 +127,33 @@ public class DomainXMLBuilder {
             Element disk = doc.createElement("disk");
             disk.setAttribute("type", "file");
             disk.setAttribute("device", "disk");
-            dev.appendChild(disk);
-
+            
             Element sourcef = doc.createElement("source");
             sourcef.setAttribute("file", source);
             disk.appendChild(sourcef);
 
-            Element target = doc.createElement("target");
-            target.setAttribute("dev", "hda");
-            target.setAttribute("bus", "ide");
-            disk.appendChild(target);
+            Element tgt = doc.createElement("target");
+            tgt.setAttribute("dev", "hda");
+            tgt.setAttribute("bus", "ide");
+            disk.appendChild(tgt);
             
-            Element driver = doc.createElement("driver");
-            driver.setAttribute("name", "qemu");
-            driver.setAttribute("type", "raw");
-            driver.setAttribute("cache", "none");
-            disk.appendChild(driver);
+            dev.appendChild(disk);
+
+
+            
+//            Element driver = doc.createElement("driver");
+//            driver.setAttribute("name", "qemu");
+//            driver.setAttribute("type", "raw");
+//            driver.setAttribute("cache", "none");
+//            disk.appendChild(driver);
           
-            Element address = doc.createElement("address");
-            address.setAttribute("type", "drive");
-            address.setAttribute("controller", "0");
-            address.setAttribute("bus", "0");
-            address.setAttribute("target", "0");
-            address.setAttribute("unit", "0");
-            disk.appendChild(address);
+//            Element address = doc.createElement("address");
+//            address.setAttribute("type", "drive");
+//            address.setAttribute("controller", "0");
+//            address.setAttribute("bus", "0");
+//            address.setAttribute("target", "0");
+//            address.setAttribute("unit", "0");
+//            disk.appendChild(address);
 
             Element nic = doc.createElement("interface");
             nic.setAttribute("type", "network");
@@ -157,7 +161,7 @@ public class DomainXMLBuilder {
 
             Element nicsource = doc.createElement("source");
             nicsource.setAttribute("network", "default");
-            nic.appendChild(target);
+            nic.appendChild(nicsource);
 
             Element vnc = doc.createElement("graphics");
             vnc.setAttribute("type", "vnc");
@@ -172,6 +176,8 @@ public class DomainXMLBuilder {
             DOMSource sourcex = new DOMSource(doc);
             trans.transform(sourcex, result);
             res=writer.toString();
+
+            
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (TransformerConfigurationException e) {
@@ -179,6 +185,7 @@ public class DomainXMLBuilder {
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
+
 		
 		return res;
     }
