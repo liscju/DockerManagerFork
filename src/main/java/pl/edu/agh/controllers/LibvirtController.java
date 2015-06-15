@@ -166,7 +166,6 @@ public class LibvirtController {
 			System.out.println(e.toString());
 			return "redirect:/home/domains_r/create";
 		}
-
 		LSD.createDomainFromXML(domainXml);
 		return "redirect:/home/libvirt_server";
 	}

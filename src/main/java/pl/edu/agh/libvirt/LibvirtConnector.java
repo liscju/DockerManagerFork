@@ -152,7 +152,8 @@ public class LibvirtConnector {
 
 	public void createDomainFromXML(String domainXml) {
 		try {
-			conn.domainCreateXML(domainXml,0);
+			//conn.domainCreateXML(domainXml,0);
+			conn.domainDefineXML(domainXml);
 		} catch (LibvirtException e) {
 			e.printStackTrace();
 		}
@@ -169,7 +170,7 @@ public class LibvirtConnector {
 		return storagePools;
 	}
 	
-	
+
 
 }
 

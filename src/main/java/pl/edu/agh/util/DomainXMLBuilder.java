@@ -133,8 +133,23 @@ public class DomainXMLBuilder {
             disk.appendChild(sourcef);
 
             Element target = doc.createElement("target");
-            target.setAttribute("dev", "hdc");
+            target.setAttribute("dev", "hda");
+            target.setAttribute("bus", "ide");
             disk.appendChild(target);
+            
+            Element driver = doc.createElement("driver");
+            driver.setAttribute("name", "qemu");
+            driver.setAttribute("type", "raw");
+            driver.setAttribute("cache", "none");
+            disk.appendChild(driver);
+          
+            Element address = doc.createElement("address");
+            address.setAttribute("type", "drive");
+            address.setAttribute("controller", "0");
+            address.setAttribute("bus", "0");
+            address.setAttribute("target", "0");
+            address.setAttribute("unit", "0");
+            disk.appendChild(address);
 
             Element nic = doc.createElement("interface");
             nic.setAttribute("type", "network");

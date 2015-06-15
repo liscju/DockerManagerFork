@@ -124,10 +124,15 @@ public class LibvirtServerDAO {
     }
 
 	public void createDomainFromXML(String domain_xml) {
+		
 		lc.createDomainFromXML(domain_xml);
 	}
 
 	public String[] getDefinedStoragePoolNames() {
 		return lc.getDefinedStoragePoolNames();
+	}
+
+	public void createDisk(String domainSourceFile) {
+		
 	}
 }
