@@ -5,11 +5,31 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/home/containers">Docker Containers</a></li>
-                <li><a href="${pageContext.request.contextPath}/home/images">Docker Images</a></li>
-                <li><a href="${pageContext.request.contextPath}/home/libvirt_server">Libvirt Servers</a></li>
-                <li><a href="${pageContext.request.contextPath}/home/about">About</a></li>
+                <li class="active">
+                    <a href="${pageContext.request.contextPath}/home">
+                        <spring:message code="main_menu.home" text="missing" />
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/home/containers">
+                        <spring:message code="main_menu.containers" text="missing" />
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/home/images">
+                        <spring:message code="main_menu.docker_images" text="missing" />
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/home/libvirt_server">
+                        <spring:message code="main_menu.libvirt_servers" text="missing" />
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/home/about">
+                        <spring:message code="main_menu.about" text="missing" />
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

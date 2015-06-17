@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.edu.agh.configuration.Configurator;
 import pl.edu.agh.dao.LibvirtServerDAO;
+import pl.edu.agh.model.DomainInfo;
+import pl.edu.agh.model.ServerInfo;
 import pl.edu.agh.util.DomainXMLBuilder;
 
 @Controller
@@ -111,8 +113,9 @@ public class LibvirtController {
 	
     @RequestMapping(value="/home/libvirt_server",method = RequestMethod.GET)
     public String getServers(ModelMap model) {
-        java.util.Map<String, String> info = LSD.getServerInfo();
-        model.addAttribute("server_info",info);
+        ServerInfo serverInfo = LSD.getServerInfo();
+
+        model.addAttribute("server_info",serverInfo);
         List<Domain> domains = LSD.getAllDomains();
         model.addAttribute("domains",domains);
         String[] defined = LSD.getDefinedDomains();
@@ -175,7 +178,7 @@ public class LibvirtController {
 	@RequestMapping(value="/home/domains_r/{domain_name}",method = RequestMethod.GET)
     public String getRunning(@PathVariable String domain_name,ModelMap model) {
     	model.addAttribute("domain_name",domain_name);
-    	java.util.Map<String, String> info = LSD.getRunningDomainInfo(domain_name);
+    	DomainInfo info = LSD.getRunningDomainInfo(domain_name);
     	model.addAttribute("rd_info",info);
     	model.addAttribute("vnc_server",LSD.getIPAddress());
     	
@@ -184,10 +187,10 @@ public class LibvirtController {
 
 	@RequestMapping(value="/home/domains_r/{domain_name}/run_remote",method = RequestMethod.GET)
 	public String runRemoteDesktop(@PathVariable("domain_name") String domain_name,ModelMap model) {
-		java.util.Map<String, String> runningDomainInfo = LSD.getRunningDomainInfo(domain_name);
+		DomainInfo runningDomainInfo = LSD.getRunningDomainInfo(domain_name);
 		model.addAttribute("domain_name",domain_name);
 		model.addAttribute("host", configurator.getAddress() );
-		model.addAttribute("port",runningDomainInfo.get("VNCPort") );
+		model.addAttribute("port",Integer.toString(runningDomainInfo.getVncPort()) );
 		return "remote_desktop/run";
 	}
     
