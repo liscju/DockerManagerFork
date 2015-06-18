@@ -160,6 +160,7 @@ public class LibvirtConnector {
 
 		} catch (LibvirtException e) {
 			e.printStackTrace();
+			System.out.println(xml);
 		}
 	}
 

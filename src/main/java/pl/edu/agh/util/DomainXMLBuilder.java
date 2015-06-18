@@ -83,6 +83,10 @@ public class DomainXMLBuilder {
         if (sourceFile == null) {
             throw new IllegalArgumentException("You must supply source file of the vm");
         }
+        
+        if (name == null) {
+            throw new IllegalArgumentException("You must supply name of domain");
+        }
 
         return crerateDiskXML(sourceFile,name);
     }
@@ -137,7 +141,7 @@ public class DomainXMLBuilder {
             disk.setAttribute("device", "disk");
             
             Element sourcef = doc.createElement("source");
-            sourcef.setAttribute("file", source);
+            sourcef.setAttribute("file", source+name+".img");
             disk.appendChild(sourcef);
 
             Element tgt = doc.createElement("target");
@@ -211,7 +215,12 @@ public class DomainXMLBuilder {
 
                 Document doc = docBuilder.newDocument();
                 Element rootElement = doc.createElement("volume");
-                rootElement.setAttribute("type", "file");
+                doc.appendChild(rootElement);
+                //rootElement.setAttribute("type", "file");
+                
+                Element all = doc.createElement("allocation");
+                all.appendChild(doc.createTextNode("0"));
+                rootElement.appendChild(all);
 
                 Element vname = doc.createElement("name");
                 vname.appendChild(doc.createTextNode(name+".img"));
@@ -249,7 +258,6 @@ public class DomainXMLBuilder {
     			e.printStackTrace();
     		}
 
-    		
     		return res;
  
     	  }
