@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,6 +26,8 @@ import pl.edu.agh.model.ServerInfo;
 
 @Service
 public class LibvirtServerDAO {
+	private static final Logger log = Logger.getLogger(LibvirtServerDAO.class.getName());
+
 	private String IPAddress;
 	private LibvirtConnector lc;
 
@@ -73,15 +76,13 @@ public class LibvirtServerDAO {
 			try {
 				i = d.getInfo();
 			} catch (LibvirtException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.severe(e.getMessage());
 			}
 			String xml = null;
 			try {
 				xml = d.getXMLDesc(0);
 			} catch (LibvirtException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.severe(e.getMessage());
 			}
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -89,15 +90,15 @@ public class LibvirtServerDAO {
 			try {
 				builder = factory.newDocumentBuilder();
 			} catch (ParserConfigurationException e) {
-				e.printStackTrace();
+				log.severe(e.getMessage());
 			}
 			Document document = null;
 			try {
 				document = builder.parse(new InputSource(new StringReader(xml)));
 			} catch (SAXException e) {
-				e.printStackTrace();
+				log.severe(e.getMessage());
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.severe(e.getMessage());
 			}
 			Element rootElement = document.getDocumentElement();
 			NodeList nl = rootElement.getElementsByTagName("graphics");
@@ -107,14 +108,14 @@ public class LibvirtServerDAO {
 			try {
 				domainId = d.getID();
 			} catch (LibvirtException e) {
-				e.printStackTrace();
+				log.severe(e.getMessage());
 			}
 			int vcpuCount = i.nrVirtCpu;
 			int maxCpu = 0;
 			try {
 				maxCpu = d.getMaxVcpus();
 			} catch (LibvirtException e) {
-				e.printStackTrace();
+				log.severe(e.getMessage());
 			}
 			int maxMemory = (int) i.maxMem;
 			int vncPort = Integer.parseInt(vncport);
@@ -137,12 +138,10 @@ public class LibvirtServerDAO {
     }
 
 	public void createDomainFromXML(String domain_xml) {
-		
 		lc.createDomainFromXML(domain_xml);
 	}
 	
 	public void createDiskFromXML(String disk_xml) {
-		
 		lc.createDiskFromXML(disk_xml);
 	}
 

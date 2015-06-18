@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.libvirt.Connect;
 import org.libvirt.ConnectAuth;
@@ -17,6 +18,8 @@ import org.springframework.jmx.support.ConnectorServerFactoryBean;
 import com.sun.jna.*;
 
 public class LibvirtConnector {
+
+	private static final Logger log = Logger.getLogger(LibvirtConnector.class.getName());
 	
     private ConnectAuth ca;
     private Connect conn;
@@ -43,7 +46,7 @@ public class LibvirtConnector {
 			info.put("Running / defined domains", Integer.toString(conn.numOfDomains()) + "/" + Integer.toString(conn.numOfDefinedDomains()));
 			
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 		return info;
 
@@ -54,7 +57,7 @@ public class LibvirtConnector {
 			domain.create();
 			
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 
 	}
@@ -63,7 +66,7 @@ public class LibvirtConnector {
 		try {
 			domain.destroy();
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 	}
 	
@@ -74,7 +77,7 @@ public class LibvirtConnector {
 			domain.create();
 			
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 
 	}
@@ -84,7 +87,7 @@ public class LibvirtConnector {
         	Domain domain = domainFromName(domains);
 			domain.destroy();
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 	}
 	
@@ -92,7 +95,7 @@ public class LibvirtConnector {
 		try {
 			return conn.domainLookupByName(name);
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 			return null;
 		}
 	}
@@ -101,7 +104,7 @@ public class LibvirtConnector {
 		try {
 			return conn.domainLookupByID(id);
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 			return null;
 		}
 	}
@@ -110,7 +113,7 @@ public class LibvirtConnector {
 		try {
 			return conn.listDefinedDomains();
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 			return null;
 		}
 	}
@@ -124,7 +127,7 @@ public class LibvirtConnector {
 			   
 			  }
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 	    return d;
 	}
@@ -136,7 +139,7 @@ public class LibvirtConnector {
 			
 			return d.getXMLDesc(0);
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 			return null;
 		}
 	}
@@ -147,7 +150,7 @@ public class LibvirtConnector {
 				conn = new Connect("qemu+tcp://"+address+"/system", ca, 0);
 			}
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 	}
 	
@@ -159,18 +162,15 @@ public class LibvirtConnector {
 			s.storageVolCreateXML(xml, 0);
 
 		} catch (LibvirtException e) {
-			e.printStackTrace();
-			System.out.println(xml);
+			log.severe(e.getMessage());
 		}
 	}
 
 	public void createDomainFromXML(String domainXml) {
 		try {
-			//conn.domainCreateXML(domainXml,0);
-
 			conn.domainDefineXML(domainXml);
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 	}
 
@@ -180,7 +180,7 @@ public class LibvirtConnector {
 			storagePools = conn.listDefinedStoragePools();
 			return storagePools;
 		} catch (LibvirtException e) {
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 		return storagePools;
 	}
