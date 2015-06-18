@@ -21,6 +21,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import pl.edu.agh.libvirt.LibvirtConnector;
+import pl.edu.agh.model.ServerInfo;
 
 @Service
 public class LibvirtServerDAO {
@@ -47,8 +48,8 @@ public class LibvirtServerDAO {
 		return lc;
 	}
 
-	public Map<String,String> getServerInfo() {
-		return lc.serverInfo();
+	public ServerInfo getServerInfo() {
+		return ServerInfo.createFromProperties(lc.serverInfo());
 	}
 
 	public List<Domain> getAllDomains() {
@@ -63,20 +64,23 @@ public class LibvirtServerDAO {
 		lc.checkConnection();
 	}
 	
-	public Map<String,String> getRunningDomainInfo(String domain_name){
+	public pl.edu.agh.model.DomainInfo getRunningDomainInfo(String domain_name){
 		
 			Map<String,String> info = new HashMap<String,String>();
-			Domain d = getDomain(domain_name);
+			Domain d = lc.domainFromName(domain_name);
+			
 			DomainInfo i = null;
 			try {
 				i = d.getInfo();
 			} catch (LibvirtException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			String xml = null;
 			try {
 				xml = d.getXMLDesc(0);
 			} catch (LibvirtException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -98,34 +102,25 @@ public class LibvirtServerDAO {
 			Element rootElement = document.getDocumentElement();
 			NodeList nl = rootElement.getElementsByTagName("graphics");
 			String vncport = nl.item(0).getAttributes().getNamedItem("port").getNodeValue();
-	
-			info.put("Memory",Long.toString(i.memory));
-			info.put("vCpus", Integer.toString(i.nrVirtCpu));
-			info.put("VNCPort", vncport);
-			info.put("MaxMemory", Long.toString(i.maxMem));
+
+			int domainId = 0;
 			try {
-				info.put("MaxCpu", Integer.toString(d.getMaxVcpus()));
+				domainId = d.getID();
 			} catch (LibvirtException e) {
 				e.printStackTrace();
 			}
-
-			
-			String id = "stopped";
+			int vcpuCount = i.nrVirtCpu;
+			int maxCpu = 0;
 			try {
-				if(d.getID()!=-1){
-					id=Integer.toString(d.getID());
-				}
+				maxCpu = d.getMaxVcpus();
 			} catch (LibvirtException e) {
 				e.printStackTrace();
 			}
-			
-			info.put("DomainID", id);
-			
-			return info;
-			
+			int maxMemory = (int) i.maxMem;
+			int vncPort = Integer.parseInt(vncport);
+			int memory = (int) i.memory;
+			return new pl.edu.agh.model.DomainInfo(domainId, vcpuCount, maxCpu, maxMemory, vncPort, memory);
 
-	
-		
 	}
 
 	protected String getString(String tagName, Element element) {
