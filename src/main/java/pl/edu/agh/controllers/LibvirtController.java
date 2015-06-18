@@ -40,7 +40,7 @@ public class LibvirtController {
 	
 	
     @RequestMapping(value = "home/domain_action",method = RequestMethod.POST)
-    public String addImageFromDockerfile(ModelMap modelMap, @RequestParam("domain_action") String action,
+    public String performAction(ModelMap modelMap, @RequestParam("domain_action") String action,
     		@RequestParam("domain_name") String name) {
     	
     	Domain d = LSD.getDomain(name);
@@ -82,21 +82,21 @@ public class LibvirtController {
     	Domain d = LSD.getDomain(name);
     	    	
     	try {
-    		d.setMaxMemory(Long.parseLong(mmemory));
+    		if(!mmemory.isEmpty())d.setMaxMemory(Long.parseLong(mmemory));
 			
 		} catch (LibvirtException e) {
 		}
-		d.cpuMapLength(Integer.parseInt(mcpu));
+    	if(!mcpu.isEmpty())d.cpuMapLength(Integer.parseInt(mcpu));
 		
 		try {
-			d.setMemory(Long.parseLong(memory));
+			if(!memory.isEmpty())d.setMemory(Long.parseLong(memory));
 		} catch (NumberFormatException e) {
 		} catch (LibvirtException e) {
 			
 		}
 
 		try {
-			d.setVcpus(Integer.parseInt(vcpu));
+			if(!vcpu.isEmpty())d.setVcpus(Integer.parseInt(vcpu));
 		} catch (NumberFormatException e) {
 		} catch (LibvirtException e) {
 		}

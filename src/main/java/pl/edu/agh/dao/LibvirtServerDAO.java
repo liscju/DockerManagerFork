@@ -64,16 +64,37 @@ public class LibvirtServerDAO {
 	}
 	
 	public Map<String,String> getRunningDomainInfo(String domain_name){
-		try {
+		
 			Map<String,String> info = new HashMap<String,String>();
-			Domain d = lc.domainFromName(domain_name);
-			
-			DomainInfo i =d.getInfo();
-			String xml = d.getXMLDesc(0);
+			Domain d = getDomain(domain_name);
+			DomainInfo i = null;
+			try {
+				i = d.getInfo();
+			} catch (LibvirtException e) {
+				e.printStackTrace();
+			}
+			String xml = null;
+			try {
+				xml = d.getXMLDesc(0);
+			} catch (LibvirtException e) {
+				e.printStackTrace();
+			}
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new InputSource(new StringReader(xml)));
+			DocumentBuilder builder = null;
+			try {
+				builder = factory.newDocumentBuilder();
+			} catch (ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+			Document document = null;
+			try {
+				document = builder.parse(new InputSource(new StringReader(xml)));
+			} catch (SAXException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			Element rootElement = document.getDocumentElement();
 			NodeList nl = rootElement.getElementsByTagName("graphics");
 			String vncport = nl.item(0).getAttributes().getNamedItem("port").getNodeValue();
@@ -82,33 +103,29 @@ public class LibvirtServerDAO {
 			info.put("vCpus", Integer.toString(i.nrVirtCpu));
 			info.put("VNCPort", vncport);
 			info.put("MaxMemory", Long.toString(i.maxMem));
-			info.put("MaxCpu", Integer.toString(d.getMaxVcpus()));
+			try {
+				info.put("MaxCpu", Integer.toString(d.getMaxVcpus()));
+			} catch (LibvirtException e) {
+				e.printStackTrace();
+			}
 
 			
 			String id = "stopped";
-			if(d.getID()!=-1){
-				id=Integer.toString(d.getID());
+			try {
+				if(d.getID()!=-1){
+					id=Integer.toString(d.getID());
+				}
+			} catch (LibvirtException e) {
+				e.printStackTrace();
 			}
 			
 			info.put("DomainID", id);
 			
 			return info;
 			
-		} catch (LibvirtException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	
 		
-		return null;
 	}
 
 	protected String getString(String tagName, Element element) {
