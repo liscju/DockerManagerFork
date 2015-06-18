@@ -11,15 +11,16 @@ import org.libvirt.ConnectAuthDefault;
 import org.libvirt.Domain;
 import org.libvirt.LibvirtException;
 import org.libvirt.NodeInfo;
+import org.libvirt.StoragePool;
 import org.springframework.jmx.support.ConnectorServerFactoryBean;
 
 import com.sun.jna.*;
 
 public class LibvirtConnector {
 	
-    ConnectAuth ca;
-    Connect conn;
-    String address;
+    private ConnectAuth ca;
+    private Connect conn;
+    private String address;
 	
 	public LibvirtConnector(String address){
 	  ca = new ConnectAuthDefault();
@@ -149,10 +150,23 @@ public class LibvirtConnector {
 			e.printStackTrace();
 		}
 	}
+	
+	public void createDiskFromXML(String xml){
+
+		StoragePool s;
+		try {
+			s = conn.storagePoolLookupByName("default");
+			s.storageVolCreateXML(xml, 0);
+
+		} catch (LibvirtException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void createDomainFromXML(String domainXml) {
 		try {
 			//conn.domainCreateXML(domainXml,0);
+
 			conn.domainDefineXML(domainXml);
 		} catch (LibvirtException e) {
 			e.printStackTrace();
@@ -169,7 +183,8 @@ public class LibvirtConnector {
 		}
 		return storagePools;
 	}
-	
+
+
 
 
 }

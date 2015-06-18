@@ -79,6 +79,14 @@ public class DomainXMLBuilder {
         return createXML(name,memory,vcpu,emulator,sourceFile);
     }
     
+    public String buildDiskXML(){
+        if (sourceFile == null) {
+            throw new IllegalArgumentException("You must supply source file of the vm");
+        }
+
+        return crerateDiskXML(sourceFile,name);
+    }
+    
     
     public String createXML(String name,String memory,String cpu,String emulator,String source){
     	DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -162,10 +170,14 @@ public class DomainXMLBuilder {
             Element nicsource = doc.createElement("source");
             nicsource.setAttribute("network", "default");
             nic.appendChild(nicsource);
+            
+            
 
             Element vnc = doc.createElement("graphics");
             vnc.setAttribute("type", "vnc");
             vnc.setAttribute("port","-1");
+            vnc.setAttribute("autoport","yes");
+            vnc.setAttribute("listen", "0.0.0.0");
             dev.appendChild(vnc);
 
             TransformerFactory tFact = TransformerFactory.newInstance();
@@ -189,4 +201,56 @@ public class DomainXMLBuilder {
 		
 		return res;
     }
+    
+    public String crerateDiskXML(String source,String name){
+      	DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+    		DocumentBuilder docBuilder;
+    		String res = null;
+    		try {
+    			docBuilder = docFactory.newDocumentBuilder();
+
+                Document doc = docBuilder.newDocument();
+                Element rootElement = doc.createElement("volume");
+                rootElement.setAttribute("type", "file");
+
+                Element vname = doc.createElement("name");
+                vname.appendChild(doc.createTextNode(name+".img"));
+                rootElement.appendChild(vname);
+                
+                Element cap = doc.createElement("capacity");
+                cap.setAttribute("unit", "G");
+                cap.appendChild(doc.createTextNode("8"));
+                rootElement.appendChild(cap);
+                
+                Element tgt = doc.createElement("target");
+                rootElement.appendChild(tgt);
+                
+                Element path = doc.createElement("path");
+                path.appendChild(doc.createTextNode(source));
+                tgt.appendChild(path);
+                
+                
+
+                TransformerFactory tFact = TransformerFactory.newInstance();
+                Transformer trans = tFact.newTransformer();
+
+                StringWriter writer = new StringWriter();
+                StreamResult result = new StreamResult(writer);
+                DOMSource sourcex = new DOMSource(doc);
+                trans.transform(sourcex, result);
+                res=writer.toString();
+
+                
+    		} catch (ParserConfigurationException e) {
+    			e.printStackTrace();
+    		} catch (TransformerConfigurationException e) {
+    			e.printStackTrace();
+    		} catch (TransformerException e) {
+    			e.printStackTrace();
+    		}
+
+    		
+    		return res;
+ 
+    	  }
 }

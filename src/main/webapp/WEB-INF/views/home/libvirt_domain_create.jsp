@@ -56,7 +56,7 @@
                             </div>
                             <div class="row">
                                 <label for="domain_sourcefile">Domain Source File:</label>
-                                <input type="text" class="form-control" id="domain_sourcefile" name="domain_sourcefile"></input>
+                                <input type="text" class="form-control" id="domain_sourcefile" name="domain_sourcefile" value="/var/lib/libvirt/images/"></input>
                                 <br>
                             </div>
 

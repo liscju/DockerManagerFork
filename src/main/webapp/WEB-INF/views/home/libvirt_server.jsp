@@ -78,22 +78,7 @@
         </table>
       </div>
 
-      <div class="row">
-        <table class="table">
-          <thead>
-          <tr>
-            <th>Defined Storage Pools</th>
-          </tr>
-          </thead>
-          <tbody>
-            <c:forEach var="definedStoragePoolName" items="${definedStoragePoolNames}">
-              <tr>
-                <td>${definedStoragePoolName}</td>
-              </tr>
-            </c:forEach>
-          </tbody>
-        </table>
-      </div>
+ 
 
   </div>
   </div>

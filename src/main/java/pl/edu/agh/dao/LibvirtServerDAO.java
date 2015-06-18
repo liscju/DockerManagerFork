@@ -67,6 +67,7 @@ public class LibvirtServerDAO {
 		try {
 			Map<String,String> info = new HashMap<String,String>();
 			Domain d = lc.domainFromName(domain_name);
+			
 			DomainInfo i =d.getInfo();
 			String xml = d.getXMLDesc(0);
 
@@ -127,12 +128,15 @@ public class LibvirtServerDAO {
 		
 		lc.createDomainFromXML(domain_xml);
 	}
+	
+	public void createDiskFromXML(String disk_xml) {
+		
+		lc.createDiskFromXML(disk_xml);
+	}
 
 	public String[] getDefinedStoragePoolNames() {
 		return lc.getDefinedStoragePoolNames();
 	}
 
-	public void createDisk(String domainSourceFile) {
-		
-	}
+
 }

@@ -141,7 +141,7 @@ public class LibvirtController {
 											 @RequestParam("domain_sourcefile") String domainSourceFile
 
 	) {
-		String domainXml;
+		String domainXml,diskXML;
 		try {
 			DomainXMLBuilder domainXMLBuilder = new DomainXMLBuilder();
 
@@ -162,10 +162,12 @@ public class LibvirtController {
 			
 
 			domainXml = domainXMLBuilder.buildXML();
+			diskXML = domainXMLBuilder.buildDiskXML();
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.toString());
 			return "redirect:/home/domains_r/create";
 		}
+		LSD.createDiskFromXML(diskXML);
 		LSD.createDomainFromXML(domainXml);
 		return "redirect:/home/libvirt_server";
 	}
