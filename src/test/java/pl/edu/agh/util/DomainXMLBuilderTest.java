@@ -96,7 +96,27 @@ public class DomainXMLBuilderTest {
                 .withSourceFile("/home/liscju/LibVirtExercises/images/ReactOS.vmdk")
                 .buildXML();
 
-        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><domain type=\"qemu\"><name>ReactOS-on-QEMU</name><uuid/><memory>100000</memory><vcpu>1</vcpu><os><type arch=\"x86_64\" machine=\"pc\">hvm</type></os><devices><emulator>/usr/bin/qemu-system-x86_64</emulator><disk device=\"disk\" type=\"file\"><source file=\"/home/liscju/LibVirtExercises/images/ReactOS.vmdk\"/></disk><interface type=\"network\"><target dev=\"hdc\"/></interface><graphics port=\"-1\" type=\"vnc\"/></devices></domain>",
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
+                        "<domain type=\"qemu\">" +
+                            "<name>ReactOS-on-QEMU</name>" +
+                            "<uuid/>" +
+                            "<memory>100000</memory>" +
+                            "<vcpu>1</vcpu>" +
+                            "<os>" +
+                                "<type arch=\"x86_64\" machine=\"pc\">hvm</type>" +
+                            "</os>" +
+                            "<devices>" +
+                                "<emulator>/usr/bin/qemu-system-x86_64</emulator>" +
+                                "<disk device=\"disk\" type=\"file\">" +
+                                    "<source file=\"/home/liscju/LibVirtExercises/images/ReactOS.vmdkReactOS-on-QEMU.img\"/>" +
+                                    "<target bus=\"ide\" dev=\"hda\"/>" +
+                                "</disk>" +
+                                "<interface type=\"network\">" +
+                                    "<source network=\"default\"/>" +
+                                "</interface>" +
+                                "<graphics autoport=\"yes\" listen=\"0.0.0.0\" port=\"-1\" type=\"vnc\"/>" +
+                            "</devices>" +
+                        "</domain>",
                 domainXML);
     }
 }
